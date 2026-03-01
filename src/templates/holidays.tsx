@@ -1,3 +1,4 @@
+import { Html } from '@elysiajs/html';
 import type { Holiday } from '../types/database.js';
 
 export interface HolidaysPageData {

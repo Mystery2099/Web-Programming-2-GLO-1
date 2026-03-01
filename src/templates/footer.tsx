@@ -1,3 +1,5 @@
+import { Html } from '@elysiajs/html';
+
 export const footer = () => (
 	<footer class="main-footer">
 		<p class="footer-title">&copy; 2026 March Celebration Hub</p>

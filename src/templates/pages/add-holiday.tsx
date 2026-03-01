@@ -1,3 +1,5 @@
+import { Html } from '@elysiajs/html';
+
 export const addHolidayPage = (error = '', fieldName = '') => {
 	const types = [
 		'Cultural',

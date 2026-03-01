@@ -1,3 +1,4 @@
+import { Html } from '@elysiajs/html';
 import type { Plan } from '../../types/database.js';
 
 export interface PlansPageData {

@@ -2,8 +2,9 @@
 	"compilerOptions": {
 		"target": "ES2022",
 		"module": "ESNext",
-		"jsx": "react-jsx",
-		"jsxImportSource": "@kitajs/html",
+		"jsx": "react",
+		"jsxFactory": "Html.createElement",
+		"jsxFragmentFactory": "Html.Fragment",
 		"lib": ["ES2022", "DOM", "DOM.Iterable"],
 		"moduleResolution": "Bundler",
 		"types": ["bun-types", "node"],

@@ -1,3 +1,5 @@
+import { Html } from '@elysiajs/html';
+
 const daffodilsImage = '/static/images/daffodils_wallpaper_gpt.png';
 
 export const homePage = () => (

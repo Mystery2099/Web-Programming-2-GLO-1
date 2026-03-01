@@ -1,3 +1,5 @@
+import { Html } from '@elysiajs/html';
+
 export const settingsPage = () => (
 	<div id="settings" class="page">
 		<div class="settings-header">

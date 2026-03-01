@@ -1,3 +1,4 @@
+import { Html } from '@elysiajs/html';
 import { escapeHtml } from '../styles.js';
 import type { Profile } from '../../types/database.js';
 

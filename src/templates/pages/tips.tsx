@@ -1,3 +1,4 @@
+import { Html } from '@elysiajs/html';
 import type { Tip } from '../../types/database.js';
 
 export interface TipsPageData {

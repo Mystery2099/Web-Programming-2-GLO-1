@@ -1,3 +1,5 @@
+import { Html } from '@elysiajs/html';
+
 export const header = (currentPage = 'home') => (
 	<>
 		<button class="mobile-nav-toggle" aria-label="Toggle navigation menu">
