@@ -5,6 +5,7 @@
 import { Elysia } from 'elysia';
 import { html } from '@elysiajs/html';
 import { staticPlugin } from '@elysiajs/static';
+import { htmx } from '@gtramontina.com/elysia-htmx';
 import { db } from '../db/index.js';
 import {
 	HolidayRepository,
@@ -70,6 +71,7 @@ const profileController = new ProfileController(profileUseCases);
 
 const app = new Elysia()
 	.use(html())
+	.use(htmx())
 	.use(staticPlugin({ assets: 'src/static', prefix: '/static' }))
 	.get('/', () => layout(homePage(), PAGE_TITLES.home, 'home'))
 	.get('/home', () => layout(homePage(), PAGE_TITLES.home, 'home'))

@@ -1,0 +1,11 @@
+{
+	"entryPoints": ["./src"],
+	"out": "./docs",
+	"name": "March Celebration",
+	"includeVersion": true,
+	"excludePrivate": false,
+	"excludeProtected": false,
+	"theme": "default",
+	"plugin": ["typedoc-plugin-markdown"],
+	"markdownEngine": "marked"
+}
