@@ -35,10 +35,13 @@ export const registerHolidayRoutes = ({ app, holidayController }: HolidayRoutesP
 			const result = holidayController.createHoliday(formData);
 
 			if ('error' in result && result.error) {
-				return holidayController.getAddHolidayPage(result.error.message, result.error.field);
+				return holidayController.getAddHolidayPage(
+					result.error.message,
+					result.error.field as 'name' | 'day' | 'type'
+				);
 			}
 
-			if ('redirect' in result) {
+			if ('redirect' in result && result.redirect) {
 				return redirectTo(result.redirect);
 			}
 

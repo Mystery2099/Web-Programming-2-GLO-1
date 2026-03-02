@@ -46,9 +46,15 @@ if (typeof window.marchAppInitialized === 'undefined') {
 		console.log('[CLIENT] theme set to:', window.isDark ? 'dark' : 'light');
 	};
 
-	if (window.isDark) {
+	if (document.body && window.isDark) {
 		document.body.classList.add('dark');
 	}
+
+	document.addEventListener('DOMContentLoaded', () => {
+		if (window.isDark) {
+			document.body.classList.add('dark');
+		}
+	});
 
 	const mobileToggle = document.querySelector('.mobile-nav-toggle');
 	const sidebar = document.querySelector('.sidebar');

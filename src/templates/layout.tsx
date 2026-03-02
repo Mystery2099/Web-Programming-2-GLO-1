@@ -1,5 +1,4 @@
 import { Html } from '@elysiajs/html';
-import { styles } from './styles.js';
 import { head } from './head.js';
 import { header } from './header.js';
 import { footer } from './footer.js';

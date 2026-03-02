@@ -27,7 +27,8 @@ export type Style = (typeof STYLES)[number];
 export type SquadSize = (typeof SQUAD_SIZES)[number];
 export type PatricksOption = (typeof PATRICKS_OPTIONS)[number];
 
-export const DEFAULT_PROFILE: Partial<Profile> = {
+export const DEFAULT_PROFILE: Profile = {
+	id: 0,
 	ambassador_name: 'Mathew Kennedy-Brewer',
 	spring_level: 2,
 	march_motto: 'Roll for initiative, compile your code. Dream about Kotlin',
