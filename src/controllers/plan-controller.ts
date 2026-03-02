@@ -1,53 +1,47 @@
 import type { PlansPageData } from '../templates/pages/plans.js';
 import { plansPage } from '../templates/pages/plans.js';
 import { PlanUseCases, CreatePlanDTO } from '../use-cases/index.js';
+import type { ControllerResult } from '../types/controller.js';
 
-/**
- * Plan Controller
- * Handles HTTP requests for plan-related operations
- * @module controllers/plan-controller
- */
 export class PlanController {
 	constructor(private planUseCases: PlanUseCases) {}
 
-	getPlans() {
+	private buildPlansHtml(): string {
+		const plansData: PlansPageData = { plans: this.planUseCases.getAll() };
+		return plansPage(plansData);
+	}
+
+	getPlans(): PlansPageData {
 		return { plans: this.planUseCases.getAll() };
 	}
 
-	createPlan(formData: Record<string, unknown>) {
-		const dto: CreatePlanDTO = {
-			activity: formData.activity as string
-		};
-
+	createPlan(formData: Record<string, unknown>): ControllerResult {
+		const dto: CreatePlanDTO = { activity: formData.activity as string };
 		const result = this.planUseCases.createPlan(dto);
 
 		if (!result.success) {
-			return { error: result.error };
+			return { error: { message: result.error ?? 'Failed to create plan' } };
 		}
 
-		const plansData: PlansPageData = { plans: this.planUseCases.getAll() };
-		return { content: plansPage(plansData) };
+		return { html: this.buildPlansHtml(), isPartial: true };
 	}
 
-	toggleComplete(id: string) {
+	toggleComplete(id: string): ControllerResult {
 		const numericId = parseInt(id, 10);
 		this.planUseCases.toggleComplete(numericId);
-		const plansData: PlansPageData = { plans: this.planUseCases.getAll() };
-		return { content: plansPage(plansData) };
+		return { html: this.buildPlansHtml(), isPartial: true };
 	}
 
-	togglePin(id: string) {
+	togglePin(id: string): ControllerResult {
 		const numericId = parseInt(id, 10);
 		this.planUseCases.togglePin(numericId);
-		const plansData: PlansPageData = { plans: this.planUseCases.getAll() };
-		return { content: plansPage(plansData) };
+		return { html: this.buildPlansHtml(), isPartial: true };
 	}
 
-	deletePlan(id: string) {
+	deletePlan(id: string): ControllerResult {
 		const numericId = parseInt(id, 10);
 		this.planUseCases.deletePlan(numericId);
-		const plansData: PlansPageData = { plans: this.planUseCases.getAll() };
-		return { content: plansPage(plansData) };
+		return { html: this.buildPlansHtml(), isPartial: true };
 	}
 
 	getAll(includeHidden = false) {

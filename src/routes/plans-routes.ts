@@ -3,7 +3,6 @@ import { PlanController } from '../controllers/index.js';
 import { layout } from '../templates/layout.js';
 import { plansPage } from '../templates/pages/plans.js';
 import { PAGE_TITLES } from '../config/constants.js';
-import { errorMessage } from '../utils/http-helpers.js';
 
 interface PlanRoutesParams {
 	app: Elysia;
@@ -22,24 +21,24 @@ export const registerPlanRoutes = ({ app, planController }: PlanRoutesParams): v
 			const result = planController.createPlan(formData);
 
 			if ('error' in result) {
-				return errorMessage(result.error ?? 'An error occurred');
+				return result.error.message;
 			}
 
-			return result.content;
+			return result.html;
 		})
 		.put('/plans/:id', ({ params }) => {
-			const { id } = params;
-			const { content } = planController.toggleComplete(id);
-			return content;
+			const result = planController.toggleComplete(params.id);
+			if ('error' in result) return result.error.message;
+			return result.html;
 		})
 		.put('/plans/:id/pin', ({ params }) => {
-			const { id } = params;
-			const { content } = planController.togglePin(id);
-			return content;
+			const result = planController.togglePin(params.id);
+			if ('error' in result) return result.error.message;
+			return result.html;
 		})
 		.delete('/plans/:id', ({ params }) => {
-			const { id } = params;
-			const { content } = planController.deletePlan(id);
-			return content;
+			const result = planController.deletePlan(params.id);
+			if ('error' in result) return result.error.message;
+			return result.html;
 		});
 };

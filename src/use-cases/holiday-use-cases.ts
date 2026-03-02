@@ -58,7 +58,7 @@ export class HolidayUseCases {
 			validationErrors.push({ field: 'name', message: 'Holiday name is required' });
 		} else if (name.length < 3 || name.length > 100) {
 			validationErrors.push({ field: 'name', message: 'Holiday name must be 3-100 characters' });
-		if (name && hasSpecialChars(name)) {
+		} else if (hasSpecialChars(name)) {
 			validationErrors.push({
 				field: 'name',
 				message: 'Holiday name cannot contain special characters'

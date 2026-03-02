@@ -6,6 +6,7 @@
 
 import type { Plan } from '../types/database.js';
 import type { IPlanRepository } from '../domain/ports/plan-repository.js';
+import { hasSpecialChars } from '../utils/validation.js';
 
 export interface CreatePlanDTO {
 	activity: string;
@@ -39,7 +40,7 @@ export class PlanUseCases {
 			return { success: false, error: 'Activity must be at least 3 characters' };
 		}
 
-		if (/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/.test(activity)) {
+		if (activity && hasSpecialChars(activity)) {
 			return { success: false, error: 'Activity cannot contain special characters' };
 		}
 

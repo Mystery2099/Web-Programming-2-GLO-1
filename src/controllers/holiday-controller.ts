@@ -3,6 +3,7 @@ import { holidaysPage } from '../templates/holidays.js';
 import { addHolidayPage } from '../templates/pages/add-holiday.js';
 import { layout } from '../templates/layout.js';
 import { HolidayUseCases, CreateHolidayDTO } from '../use-cases/index.js';
+import type { ControllerResult } from '../types/controller.js';
 
 /**
  * Holiday Controller
@@ -66,7 +67,7 @@ export class HolidayController {
 		);
 	}
 
-	createHoliday(formData: Record<string, unknown>) {
+	createHoliday(formData: Record<string, unknown>): ControllerResult {
 		const dto: CreateHolidayDTO = {
 			name: formData.name as string,
 			day: formData.day as string,
@@ -89,7 +90,7 @@ export class HolidayController {
 			return {
 				error: {
 					message: result.error || 'An error occurred',
-					field: 'name' as const
+					field: 'name'
 				}
 			};
 		}
@@ -106,7 +107,7 @@ export class HolidayController {
 		page?: string;
 		itemsPerPage?: string;
 		headers: Headers;
-	}) {
+	}): unknown {
 		const numericId = parseInt(params.id, 10);
 		this.holidayUseCases.deleteHoliday(numericId);
 

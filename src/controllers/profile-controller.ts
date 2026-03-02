@@ -2,12 +2,8 @@ import type { ProfilePageData } from '../templates/pages/profile.js';
 import { profilePage } from '../templates/pages/profile.js';
 import { layout } from '../templates/layout.js';
 import { ProfileUseCases, UpdateProfileDTO } from '../use-cases/index.js';
+import type { ControllerResult } from '../types/controller.js';
 
-/**
- * Profile Controller
- * Handles HTTP requests for profile-related operations
- * @module controllers/profile-controller
- */
 export class ProfileController {
 	constructor(private profileUseCases: ProfileUseCases) {}
 
@@ -17,7 +13,7 @@ export class ProfileController {
 		return layout(content, 'My Journey - March Celebration', 'profile');
 	}
 
-	updateProfile(data: Record<string, unknown>) {
+	updateProfile(data: Record<string, unknown>): ControllerResult {
 		const dto: UpdateProfileDTO = {};
 
 		if (data.ambassador_name) dto.ambassador_name = String(data.ambassador_name);
@@ -30,11 +26,13 @@ export class ProfileController {
 		if (data.squad_size) dto.squad_size = String(data.squad_size);
 		if (data.dream_destination) dto.dream_destination = String(data.dream_destination);
 		if (data.bucket_list_count) dto.bucket_list_count = Number(data.bucket_list_count);
-		if (data.st_patricks_preference)
-			dto.st_patricks_preference = String(data.st_patricks_preference);
+		if (data.st_patricks_preference) dto.st_patricks_preference = String(data.st_patricks_preference);
 		if (data.spring_level) dto.spring_level = Number(data.spring_level);
 
 		const result = this.profileUseCases.updateProfile(dto);
-		return result.success;
+		if (!result.success) {
+			return { error: { message: result.error ?? 'Failed to update profile' } };
+		}
+		return { redirect: '/profile' };
 	}
 }

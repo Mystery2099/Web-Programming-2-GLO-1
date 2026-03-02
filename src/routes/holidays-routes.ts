@@ -45,7 +45,6 @@ export const registerHolidayRoutes = ({ app, holidayController }: HolidayRoutesP
 			return result;
 		})
 		.delete('/holidays/:id', ({ params, query, request }) => {
-			const { id } = params;
 			const queryParams = query as {
 				search?: string;
 				filter?: string;
@@ -54,7 +53,7 @@ export const registerHolidayRoutes = ({ app, holidayController }: HolidayRoutesP
 				message?: string;
 			};
 			return holidayController.deleteHoliday({
-				id,
+				id: params.id,
 				...queryParams,
 				headers: request.headers
 			});

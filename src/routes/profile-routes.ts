@@ -12,7 +12,12 @@ export const registerProfileRoutes = ({ app, profileController }: ProfileRoutesP
 		.get('/profile', () => profileController.getProfile())
 		.post('/profile', ({ body }) => {
 			const formData = body as Record<string, unknown>;
-			profileController.updateProfile(formData);
-			return redirectTo('/profile');
+			const result = profileController.updateProfile(formData);
+
+			if ('error' in result) {
+				return result.error.message;
+			}
+
+			return redirectTo(result.redirect ?? '/profile');
 		});
 };
