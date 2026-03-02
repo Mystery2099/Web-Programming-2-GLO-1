@@ -12,8 +12,7 @@ interface PlanRoutesParams {
 export const registerPlanRoutes = ({ app, planController }: PlanRoutesParams): void => {
 	app
 		.get('/plans', () => {
-			const { plans } = planController.getPlans();
-			return layout(plansPage({ plans }), PAGE_TITLES.plans, 'plans');
+			return layout(planController.getPlans(), PAGE_TITLES.plans, 'plans');
 		})
 		.get('/api/plans', () => planController.getAll(true))
 		.post('/plans', ({ body }) => {

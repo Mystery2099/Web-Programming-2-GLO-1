@@ -5,6 +5,50 @@ export interface PlansPageData {
 	plans: Plan[];
 }
 
+export const plansList = ({ plans }: PlansPageData) => {
+	if (plans.length === 0) {
+		return <p>No plans yet. Add your first March plan above!</p>;
+	}
+	
+	const cards = plans.map((p) => (
+		<div class={`card ${p.is_completed ? 'completed' : ''} card-animate`} id={`card-${p.id}`}>
+			<button
+				class="card-delete"
+				aria-label="Delete plan"
+				hx-delete={`/plans/${p.id}`}
+				hx-target="#plans-list"
+				hx-swap="innerHTML"
+				hx-confirm={`Are you sure you want to delete '${p.activity}'?`}
+			>
+				<i data-lucide="x" aria-hidden="true"></i>
+			</button>
+			<h3>{p.activity as 'safe'}</h3>
+			<p class="date">Status: {p.is_completed ? 'Completed' : 'Pending'}</p>
+			<div class="card-actions">
+				<button
+					class="btn btn-small btn-secondary"
+					hx-put={`/plans/${p.id}`}
+					hx-target="#plans-list"
+					hx-swap="innerHTML"
+				>
+					{p.is_completed ? 'Mark Incomplete' : 'Mark Complete'}
+				</button>
+				<button
+					class={`btn btn-small ${p.is_pinned ? 'btn-pinned' : 'btn-pin'}`}
+					aria-label={p.is_pinned ? 'Unpin plan' : 'Pin plan'}
+					hx-put={`/plans/${p.id}/pin`}
+					hx-target="#plans-list"
+					hx-swap="innerHTML"
+				>
+					<i data-lucide={p.is_pinned ? 'pin-off' : 'pin'} aria-hidden="true"></i>
+				</button>
+			</div>
+		</div>
+	));
+	
+	return cards.join('') as 'safe';
+};
+
 export const plansPage = ({ plans }: PlansPageData) => (
 	<div id="plans" class="page">
 		<h2>
@@ -52,10 +96,10 @@ export const plansPage = ({ plans }: PlansPageData) => (
 						<button
 							class="card-delete"
 							aria-label="Delete plan"
-							htmx-delete={`/plans/${p.id}`}
-							htmx-target="#plans-list"
-							htmx-swap="innerHTML"
-							htmx-confirm={`Are you sure you want to delete '${p.activity}'?`}
+							hx-delete={`/plans/${p.id}`}
+							hx-target="#plans-list"
+							hx-swap="innerHTML"
+							hx-confirm={`Are you sure you want to delete '${p.activity}'?`}
 						>
 							<i data-lucide="x" aria-hidden="true"></i>
 						</button>
@@ -64,18 +108,18 @@ export const plansPage = ({ plans }: PlansPageData) => (
 						<div class="card-actions">
 							<button
 								class="btn btn-small btn-secondary"
-								htmx-put={`/plans/${p.id}`}
-								htmx-target="#plans-list"
-								htmx-swap="innerHTML"
+								hx-put={`/plans/${p.id}`}
+								hx-target="#plans-list"
+								hx-swap="innerHTML"
 							>
 								{p.is_completed ? 'Mark Incomplete' : 'Mark Complete'}
 							</button>
 							<button
 								class={`btn btn-small ${p.is_pinned ? 'btn-pinned' : 'btn-pin'}`}
 								aria-label={p.is_pinned ? 'Unpin plan' : 'Pin plan'}
-								htmx-put={`/plans/${p.id}/pin`}
-								htmx-target="#plans-list"
-								htmx-swap="innerHTML"
+								hx-put={`/plans/${p.id}/pin`}
+								hx-target="#plans-list"
+								hx-swap="innerHTML"
 							>
 								<i data-lucide={p.is_pinned ? 'pin-off' : 'pin'} aria-hidden="true"></i>
 							</button>

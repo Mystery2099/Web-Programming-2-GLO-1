@@ -1,8 +1,37 @@
+(function() {
+	console.log('[CLIENT] March Celebration app initializing...');
+	console.log('[CLIENT] User Agent:', navigator.userAgent);
+	console.log('[CLIENT] Screen:', screen.width, 'x', screen.height);
+	console.log('[CLIENT] Language:', navigator.language);
+	
+	window.onerror = function(msg, url, line, col, error) {
+		console.error('[CLIENT ERROR]', {
+			message: msg,
+			url: url,
+			line: line,
+			column: col,
+			error: error?.stack,
+			timestamp: new Date().toISOString()
+		});
+		return false;
+	};
+	
+	window.onunhandledrejection = function(event) {
+		console.error('[CLIENT UNHANDLED REJECTION]', {
+			reason: event.reason,
+			timestamp: new Date().toISOString()
+		});
+	};
+	
+	console.log('[CLIENT] Global error handlers registered');
+})();
+
 if (typeof window.marchAppInitialized === 'undefined') {
 	window.marchAppInitialized = true;
 
 	window.isDark = localStorage.getItem('theme') === 'dark';
 	window.toggleTheme = function () {
+		console.log('[CLIENT] toggleTheme called, current state:', window.isDark);
 		window.isDark = !window.isDark;
 		document.body.classList.toggle('dark', window.isDark);
 		const btn = document.getElementById('settings-theme-btn');
@@ -14,6 +43,7 @@ if (typeof window.marchAppInitialized === 'undefined') {
 			lucide.createIcons();
 		}
 		localStorage.setItem('theme', window.isDark ? 'dark' : 'light');
+		console.log('[CLIENT] theme set to:', window.isDark ? 'dark' : 'light');
 	};
 
 	if (window.isDark) {
@@ -48,13 +78,33 @@ if (typeof window.marchAppInitialized === 'undefined') {
 	});
 
 	document.addEventListener('DOMContentLoaded', () => {
+		console.log('[CLIENT] DOMContentLoaded fired');
 		window.setupSearch('holiday-search', '#holidays-list', 'tr');
 		window.setupSearch('tip-search', '#tips-list', '.card');
 		window.loadPreferences();
 
-		document.body.addEventListener('htmx:afterSwap', () => {
+		document.body.addEventListener('htmx:beforeSwap', (e) => {
+			console.log('[HTMX] beforeSwap:', e.detail);
+		});
+		
+		document.body.addEventListener('htmx:afterSwap', (e) => {
+			console.log('[HTMX] afterSwap:', e.detail);
 			lucide.createIcons();
 		});
+		
+		document.body.addEventListener('htmx:responseError', (e) => {
+			console.error('[HTMX] responseError:', e.detail);
+		});
+		
+		document.body.addEventListener('htmx:sendError', (e) => {
+			console.error('[HTMX] sendError:', e.detail);
+		});
+		
+		document.body.addEventListener('htmx:xhr:abort', (e) => {
+			console.log('[HTMX] xhr:abort:', e.detail);
+		});
+		
+		console.log('[CLIENT] HTMX event listeners registered');
 	});
 }
 
@@ -106,16 +156,22 @@ window.setupSearch = function (inputId, containerId, itemSelector) {
 };
 
 window.savePreference = function (key, value) {
+	console.log('[CLIENT] savePreference:', key, '=', value);
 	localStorage.setItem('march_' + key, value);
 	if (key === 'itemsPerPage') {
 		const holidaysDiv = document.getElementById('holidays');
 		if (holidaysDiv) {
+			console.log('[CLIENT] Fetching holidays with itemsPerPage:', value);
 			fetch('/holidays?itemsPerPage=' + value)
-				.then((response) => response.text())
+				.then((response) => {
+					console.log('[CLIENT] Fetch response status:', response.status);
+					return response.text();
+				})
 				.then((html) => {
 					holidaysDiv.innerHTML = html;
 					lucide.createIcons();
-				});
+				})
+				.catch((err) => console.error('[CLIENT] Fetch error:', err));
 		}
 	}
 };

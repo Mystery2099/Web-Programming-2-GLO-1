@@ -302,7 +302,7 @@ export const profilePage = ({ profile }: ProfilePageData) => {
 				</div>
 			</form>
 
-			<script safe>{`document.addEventListener('DOMContentLoaded', () => {
+			<script>{`document.addEventListener('DOMContentLoaded', () => {
       const toggleButtons = document.querySelectorAll('[data-action="toggle-edit-mode"]');
       const profileCard = document.querySelector('.profile-card');
       const editForm = document.getElementById('edit-profile-form');
@@ -344,7 +344,7 @@ export const profilePage = ({ profile }: ProfilePageData) => {
       }
     });`}</script>
 
-			<style safe>{`.profile-edit-hidden {
+			<style>{`.profile-edit-hidden {
       display: none;
     }
 

@@ -22,7 +22,7 @@ export const holidaysPage = ({
 	page = 1,
 	itemsPerPage = 10
 }: HolidaysPageData) => {
-	const totalPages = Math.ceil(holidays.length / itemsPerPage);
+	const totalPages = Math.ceil(totalCount / itemsPerPage);
 	const startIndex = (page - 1) * itemsPerPage;
 	const endIndex = startIndex + itemsPerPage;
 	const paginatedHolidays = holidays.slice(startIndex, endIndex);
@@ -117,10 +117,10 @@ export const holidaysPage = ({
 									<button
 										class="btn btn-small holidays-btn-danger"
 										aria-label="Delete holiday"
-										htmx-delete={`/holidays/${h.id}?search=${encodeURIComponent(search || '')}&filter=${encodeURIComponent(filter || '')}&page=${page}&itemsPerPage=${itemsPerPage}`}
-										htmx-target="#holidays"
-										htmx-swap="innerHTML"
-										htmx-confirm={`Are you sure you want to delete '${h.name}'?`}
+										hx-delete={`/holidays/${h.id}?search=${encodeURIComponent(search || '')}&filter=${encodeURIComponent(filter || '')}&page=${page}&itemsPerPage=${itemsPerPage}`}
+										hx-target="#holidays"
+										hx-swap="innerHTML"
+										hx-confirm={`Are you sure you want to delete '${h.name}'?`}
 									>
 										<i data-lucide="trash-2" aria-hidden="true"></i> Delete
 									</button>
@@ -140,9 +140,9 @@ export const holidaysPage = ({
 						<button
 							class="btn btn-small"
 							disabled={page === 1}
-							htmx-get={`/holidays?search=${encodeURIComponent(search)}&filter=${encodeURIComponent(filter)}&page=${page - 1}&itemsPerPage=${itemsPerPage}`}
-							htmx-target="#holidays"
-							htmx-swap="innerHTML"
+							hx-get={`/holidays?search=${encodeURIComponent(search)}&filter=${encodeURIComponent(filter)}&page=${page - 1}&itemsPerPage=${itemsPerPage}`}
+							hx-target="#holidays"
+							hx-swap="innerHTML"
 						>
 							Previous
 						</button>
@@ -152,9 +152,9 @@ export const holidaysPage = ({
 						<button
 							class="btn btn-small"
 							disabled={page === totalPages}
-							htmx-get={`/holidays?search=${encodeURIComponent(search)}&filter=${encodeURIComponent(filter)}&page=${page + 1}&itemsPerPage=${itemsPerPage}`}
-							htmx-target="#holidays"
-							htmx-swap="innerHTML"
+							hx-get={`/holidays?search=${encodeURIComponent(search)}&filter=${encodeURIComponent(filter)}&page=${page + 1}&itemsPerPage=${itemsPerPage}`}
+							hx-target="#holidays"
+							hx-swap="innerHTML"
 						>
 							Next
 						</button>
