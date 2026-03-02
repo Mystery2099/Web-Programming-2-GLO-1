@@ -6,7 +6,8 @@
 
 import type { Plan } from '../types/database.js';
 import type { IPlanRepository } from '../domain/ports/plan-repository.js';
-import { hasSpecialChars } from '../utils/validation.js';
+import { validatePlanActivity } from '../services/validation.js';
+import { sanitizeText } from '../utils/validation.js';
 
 export interface CreatePlanDTO {
 	activity: string;
@@ -30,18 +31,11 @@ export class PlanUseCases {
 	}
 
 	createPlan(dto: CreatePlanDTO): UseCaseResult<Plan> {
-		const activity = dto.activity?.trim() ?? '';
+		const activity = sanitizeText(dto.activity ?? '');
 
-		if (!activity) {
-			return { success: false, error: 'Activity is required' };
-		}
-
-		if (activity.length < 3) {
-			return { success: false, error: 'Activity must be at least 3 characters' };
-		}
-
-		if (activity && hasSpecialChars(activity)) {
-			return { success: false, error: 'Activity cannot contain special characters' };
+		const validationError = validatePlanActivity(activity);
+		if (validationError) {
+			return { success: false, error: validationError.message };
 		}
 
 		const plan = this.planRepo.create(activity);

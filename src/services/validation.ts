@@ -5,6 +5,7 @@
  */
 
 import { HOLIDAY_TYPES, type HolidayType } from '../types/database.js';
+import { sanitizeText, isValidText } from '../utils/validation.js';
 
 export interface ValidationError {
 	field: string;
@@ -16,17 +17,15 @@ export interface ValidationResult {
 	errors: ValidationError[];
 }
 
-const SPECIAL_CHAR_REGEX = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/;
-
 export const validateHolidayName = (name: string): ValidationError | null => {
-	const trimmed = name.trim();
-	if (!trimmed) {
+	const sanitized = sanitizeText(name);
+	if (!sanitized) {
 		return { field: 'name', message: 'Holiday name is required' };
 	}
-	if (trimmed.length < 3 || trimmed.length > 100) {
+	if (sanitized.length < 3 || sanitized.length > 100) {
 		return { field: 'name', message: 'Holiday name must be 3-100 characters' };
 	}
-	if (SPECIAL_CHAR_REGEX.test(trimmed)) {
+	if (!isValidText(name)) {
 		return { field: 'name', message: 'Holiday name cannot contain special characters' };
 	}
 	return null;
@@ -67,15 +66,26 @@ export const validateHoliday = (name: string, day: string, type: string): Valida
 };
 
 export const validatePlanActivity = (activity: string): ValidationError | null => {
-	const trimmed = activity.trim();
-	if (!trimmed) {
+	const sanitized = sanitizeText(activity);
+	if (!sanitized) {
 		return { field: 'activity', message: 'Activity is required' };
 	}
-	if (trimmed.length < 3) {
+	if (sanitized.length < 3) {
 		return { field: 'activity', message: 'Activity must be at least 3 characters' };
 	}
-	if (SPECIAL_CHAR_REGEX.test(trimmed)) {
+	if (!isValidText(activity)) {
 		return { field: 'activity', message: 'Activity cannot contain special characters' };
+	}
+	return null;
+};
+
+export const validateProfileField = (field: string, value: string): ValidationError | null => {
+	const sanitized = sanitizeText(value);
+	if (sanitized.length > 200) {
+		return { field, message: `${field} must be 200 characters or less` };
+	}
+	if (sanitized && !isValidText(value)) {
+		return { field, message: `${field} cannot contain special characters` };
 	}
 	return null;
 };

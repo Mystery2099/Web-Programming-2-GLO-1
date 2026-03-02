@@ -6,7 +6,8 @@
 
 import type { Holiday, HolidayType } from '../types/database.js';
 import type { IHolidayRepository, HolidayFilters } from '../domain/ports/holiday-repository.js';
-import { hasSpecialChars } from '../utils/validation.js';
+import { validateHoliday, type ValidationError } from '../services/validation.js';
+import { sanitizeText } from '../utils/validation.js';
 
 export interface CreateHolidayDTO {
 	name: string;
@@ -47,46 +48,21 @@ export class HolidayUseCases {
 	}
 
 	createHoliday(dto: CreateHolidayDTO): UseCaseResult<Holiday> {
-		const name = dto.name?.trim() ?? '';
+		const name = sanitizeText(dto.name ?? '');
 		const day = dto.day ?? '';
 		const type = dto.type?.trim() ?? '';
-		const description = dto.description?.trim() ?? '';
+		const description = sanitizeText(dto.description ?? '');
 
-		const validationErrors: HolidayValidationError[] = [];
+		const result = validateHoliday(name, day, type);
 
-		if (!name) {
-			validationErrors.push({ field: 'name', message: 'Holiday name is required' });
-		} else if (name.length < 3 || name.length > 100) {
-			validationErrors.push({ field: 'name', message: 'Holiday name must be 3-100 characters' });
-		} else if (hasSpecialChars(name)) {
-			validationErrors.push({
-				field: 'name',
-				message: 'Holiday name cannot contain special characters'
-			});
+		if (!result.valid) {
+			return {
+				success: false,
+				validationErrors: result.errors as HolidayValidationError[]
+			};
 		}
 
 		const parsedDay = parseInt(day, 10);
-		if (!parsedDay || parsedDay < 1 || parsedDay > 31) {
-			validationErrors.push({ field: 'day', message: 'Please select a valid day (1-31)' });
-		}
-
-		const validTypes = [
-			'Cultural',
-			'Global',
-			'Fun',
-			'Astronomical',
-			'Environmental',
-			'Religious',
-			'Awareness'
-		];
-		if (!validTypes.includes(type)) {
-			validationErrors.push({ field: 'type', message: 'Please select a valid holiday type' });
-		}
-
-		if (validationErrors.length > 0) {
-			return { success: false, validationErrors };
-		}
-
 		const holiday = this.holidayRepo.create(name, parsedDay, type as HolidayType, description);
 
 		if (!holiday) {
