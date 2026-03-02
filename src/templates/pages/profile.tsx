@@ -1,6 +1,7 @@
 import { Html } from '@elysiajs/html';
-import { escapeHtml } from '../styles.js';
 import type { Profile } from '../../types/database.js';
+
+const { escapeHtml } = Html;
 
 export interface ProfilePageData {
 	profile: Profile | undefined;

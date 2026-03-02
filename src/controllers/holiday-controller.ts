@@ -1,5 +1,5 @@
-import type { HolidaysPageData } from '../templates/holidays.js';
-import { holidaysPage } from '../templates/holidays.js';
+import type { HolidaysPageData } from '../templates/pages/holidays.js';
+import { holidaysPage } from '../templates/pages/holidays.js';
 import { addHolidayPage } from '../templates/pages/add-holiday.js';
 import { layout } from '../templates/layout.js';
 import { HolidayUseCases, CreateHolidayDTO } from '../use-cases/index.js';

@@ -1,7 +1,8 @@
 import { Html } from '@elysiajs/html';
-import { escapeHtml } from '../styles.js';
 import type { Profile } from '../../types/database.js';
 import { DEFAULT_PROFILE, getRandomPortrait } from './profile-data.js';
+
+const { escapeHtml } = Html;
 
 interface ProfileDisplayProps {
 	profile: Profile | undefined;
