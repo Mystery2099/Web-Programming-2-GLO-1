@@ -6,6 +6,7 @@
 
 import type { Holiday, HolidayType } from '../types/database.js';
 import type { IHolidayRepository, HolidayFilters } from '../domain/ports/holiday-repository.js';
+import { hasSpecialChars } from '../utils/validation.js';
 
 export interface CreateHolidayDTO {
 	name: string;
@@ -57,7 +58,7 @@ export class HolidayUseCases {
 			validationErrors.push({ field: 'name', message: 'Holiday name is required' });
 		} else if (name.length < 3 || name.length > 100) {
 			validationErrors.push({ field: 'name', message: 'Holiday name must be 3-100 characters' });
-		} else if (/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/.test(name)) {
+		if (name && hasSpecialChars(name)) {
 			validationErrors.push({
 				field: 'name',
 				message: 'Holiday name cannot contain special characters'

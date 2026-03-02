@@ -4,7 +4,7 @@ import { head } from './head.js';
 import { header } from './header.js';
 import { footer } from './footer.js';
 
-export const layout = (content: string, title = 'March Celebration Hub', currentPage = 'home') => (
+export const layout = (content: unknown, title = 'March Celebration Hub', currentPage = 'home') => (
 	<>
 		{head(title)}
 		<body>

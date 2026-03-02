@@ -49,7 +49,7 @@ export const addHolidayPage = (error = '', fieldName = '') => {
 						<label for="holiday-day">Day (March 1-31):</label>
 						<select id="holiday-day" name="day" required>
 							{days.map((day) => (
-								<option value={day}>{`March ${day}`}</option>
+								<option value={String(day)}>{`March ${day}`}</option>
 							))}
 						</select>
 						<span
