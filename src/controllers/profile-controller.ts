@@ -26,7 +26,8 @@ export class ProfileController {
 		if (data.squad_size) dto.squad_size = String(data.squad_size);
 		if (data.dream_destination) dto.dream_destination = String(data.dream_destination);
 		if (data.bucket_list_count) dto.bucket_list_count = Number(data.bucket_list_count);
-		if (data.st_patricks_preference) dto.st_patricks_preference = String(data.st_patricks_preference);
+		if (data.st_patricks_preference)
+			dto.st_patricks_preference = String(data.st_patricks_preference);
 		if (data.spring_level) dto.spring_level = Number(data.spring_level);
 
 		const result = this.profileUseCases.updateProfile(dto);

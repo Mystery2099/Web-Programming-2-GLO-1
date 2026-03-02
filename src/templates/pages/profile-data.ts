@@ -8,9 +8,19 @@ export const PORTRAITS = [
 ] as const;
 
 export const MOODS = ['Celebratory', 'Reflective', 'Energetic', 'Cozy', 'Peaceful'] as const;
-export const STYLES = ['Cultural & Outdoor', 'Party & Social', 'Intimate & Quiet', 'Adventure & Active'] as const;
+export const STYLES = [
+	'Cultural & Outdoor',
+	'Party & Social',
+	'Intimate & Quiet',
+	'Adventure & Active'
+] as const;
 export const SQUAD_SIZES = ['Small Group', 'Medium Group', 'Large Group', 'Just me'] as const;
-export const PATRICKS_OPTIONS = ['Family dinner', 'Pub/bar visit', 'Parade/festival', 'Quiet celebration'] as const;
+export const PATRICKS_OPTIONS = [
+	'Family dinner',
+	'Pub/bar visit',
+	'Parade/festival',
+	'Quiet celebration'
+] as const;
 
 export type Mood = (typeof MOODS)[number];
 export type Style = (typeof STYLES)[number];

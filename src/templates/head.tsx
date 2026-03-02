@@ -1,5 +1,4 @@
 import { Html } from '@elysiajs/html';
-import { styles } from './styles.js';
 
 export const head = (title = 'March Celebration Hub') => (
 	<head>
@@ -9,7 +8,7 @@ export const head = (title = 'March Celebration Hub') => (
 		<link rel="preconnect" href="https://unpkg.com" />
 		<script src="https://unpkg.com/htmx.org@2.0.8/dist/htmx.js" />
 		<script src="https://unpkg.com/lucide@latest" />
-		<link rel="icon" type="image/png" href="/static/images/march_hub_favicon_gpt.png" />
-		<style>{styles}</style>
+		<link rel="icon" type="image/png" href="/static/images/favicon/march_hub_favicon_gpt.png" />
+		<link rel="stylesheet" href="/static/css/main.css" />
 	</head>
 );

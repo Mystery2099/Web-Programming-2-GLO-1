@@ -8,10 +8,10 @@ export interface ProfilePageData {
 
 export const profilePage = ({ profile }: ProfilePageData) => {
 	const portraits = [
-		'/static/images/mar_spring.jpg',
-		'/static/images/mar_spring2.jpg',
-		'/static/images/mar_spring3.jpg',
-		'/static/images/mar_spring4.jpg'
+		'/static/images/spring/mar_spring.jpg',
+		'/static/images/spring/mar_spring2.jpg',
+		'/static/images/spring/mar_spring3.jpg',
+		'/static/images/spring/mar_spring4.jpg'
 	];
 	const randomPortrait = portraits[Math.floor(Math.random() * portraits.length)];
 

@@ -14,8 +14,10 @@ export const registerTipRoutes = ({ app, tipController }: TipRoutesParams): void
 	app
 		.get('/tips', ({ query }) => {
 			const search = (query.search as string) || '';
-			const tips = search 
-				? tipController.getAll().filter(t => t.content.toLowerCase().includes(search.toLowerCase()))
+			const tips = search
+				? tipController
+						.getAll()
+						.filter((t) => t.content.toLowerCase().includes(search.toLowerCase()))
 				: tipController.getAll();
 			const tipsData: TipsPageData = { tips, search };
 			return layout(tipsPage(tipsData), PAGE_TITLES.tips, 'tips');

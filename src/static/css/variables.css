@@ -1,0 +1,172 @@
+/* ========================================
+   MARCH CELEBRATION - CSS VARIABLES
+   ========================================
+
+   Overview:
+   - CSS custom properties for theming
+   - Light and dark mode support
+   - Warm earth tones (terracotta, sage, gold)
+
+   Color Philosophy:
+   - Warm earth tones (terracotta, sage, gold)
+   - Soft cream backgrounds in light mode
+   - Deep navy backgrounds in dark mode
+   - High contrast for readability
+
+   ======================================== */
+
+/* ========================================
+   LIGHT MODE THEME
+   ======================================== */
+
+:root {
+	/* Brand Colors - Core identity */
+	--primary: #a95a38; /* Terracotta - Main brand color */
+	--primary-dark: #995028; /* Darker terracotta - Gradients */
+	--secondary: #5b7e68; /* Sage green - Accent */
+	--secondary-dark: #4b7e5b; /* Darker sage - Gradients */
+	--accent: #945a2a; /* Light terracotta - Secondary accent */
+	--gold: #ffd700; /* Gold - Highlights (light mode only) */
+	--gold-dark: #7e5100; /* Dark gold - Gold text/btns (light mode) */
+
+	/* Neutral Colors - Backgrounds & Text */
+	--bg: #faf7f2; /* Cream - Main background */
+	--bg-cream: #fff8f6; /* Light cream - Card tint */
+	--bg-tan: #f0ebe3; /* Light tan - Row tint */
+	--text: #1a3a4d; /* Deep navy - Primary text */
+	--text-muted: #5a5a5a; /* Dark gray - Secondary text */
+
+	/* Card Colors */
+	--card-bg: #ffffff; /* White - Card background */
+	--card-border: #5c4033; /* Brown - Card border */
+	--card-date: var(--text-muted); /* Dark gray - Date labels */
+
+	/* Navigation Colors */
+	--nav-bg: #1a3a4d; /* Deep navy - Nav background */
+	--nav-text: #faf7f2; /* Cream - Nav text */
+	--nav-active: #c97a58; /* Terracotta - Active nav item */
+	--nav-hover: #2a4a5d; /* Medium navy - Nav hover */
+
+	/* UI Element Colors */
+	--border: #6a6660; /* Dark gray - Input borders */
+	--toggle-off: #6a6660; /* Dark gray - Toggle switch off */
+	--danger: #a80f1a; /* Dark red - Danger state */
+	--danger-dark: #900d16; /* Darker red - Danger gradients */
+
+	/* Shadow & Glow Colors */
+	--shadow-sm: rgba(0, 0, 0, 0.06); /* Small shadows */
+	--shadow-md: rgba(0, 0, 0, 0.1); /* Medium shadows */
+	--shadow-lg: rgba(0, 0, 0, 0.15); /* Large shadows */
+	--shadow-overlay: rgba(0, 0, 0, 0.5); /* Overlay */
+	--shadow-nav: rgba(0, 0, 0, 0.3); /* Navigation shadow */
+	--shadow-text: rgba(0, 0, 0, 0.3); /* Text shadow */
+
+	/* Brand Glow - Semi-transparent brand colors */
+	--brand-glow: rgba(201, 122, 88, 0.3); /* Primary glow */
+	--brand-glow-hover: rgba(201, 122, 88, 0.4); /* Hover glow */
+	--brand-focus: rgba(201, 122, 88, 0.2); /* Focus ring */
+
+	/* Hero Overlay Colors */
+	--hero-overlay-start: rgba(201, 122, 88, 0.85); /* Top of hero */
+	--hero-overlay-end: rgba(212, 154, 106, 0.75); /* Bottom of hero */
+
+	/* Pin/Highlight Colors */
+	--pin-glow-light: rgba(126, 81, 0, 0.3); /* Light mode pin */
+	--pin-glow: rgba(126, 81, 0, 0.5); /* Light mode pin hover */
+	--pin-highlight-start: rgba(126, 81, 0, 0.2); /* Table highlight start */
+	--pin-highlight-end: rgba(110, 71, 0, 0.15); /* Table highlight end */
+	--pin-pulse-light: rgba(126, 81, 0, 0.3); /* Light mode pulse mid */
+	--pin-pulse-light-end: rgba(110, 71, 0, 0.25); /* Light mode pulse end */
+
+	/* Secondary Button Shadows */
+	--secondary-glow: rgba(123, 158, 135, 0.3); /* Secondary button hover */
+
+	/* Danger Button Shadows */
+	--danger-glow: rgba(230, 57, 70, 0.4); /* Danger button hover */
+
+	/* March Goals Shadows */
+	--goals-shadow: rgba(201, 122, 88, 0.1); /* March goals shadow */
+
+	/* March Goals Colors */
+	--goals-bg-start: #fff5f0; /* March goals gradient start */
+	--goals-bg-end: #ffe8e0; /* March goals gradient end */
+	--goals-border: rgba(201, 122, 88, 0.2); /* March goals border */
+
+	/* Gold Glow Effects */
+	--gold-glow: rgba(255, 215, 0, 0.3); /* Gold button glow */
+	--gold-hover-light: #8e5b00; /* Gold hover (light end) */
+	--gold-hover-dark: #d8a250; /* Gold hover (dark mode) */
+
+	/* Border Subtles */
+	--border-subtle: rgba(0, 0, 0, 0.05); /* Subtle borders */
+
+	/* White Overlay for Tables */
+	--table-header-hover: rgba(255, 255, 255, 0.1); /* Table header hover */
+
+	/* Functional Variables */
+	--text-size: 16px; /* Base font size */
+	--card-delay: 0s; /* Animation delay for cards */
+
+	/* Color Aliases for Common Use */
+	--surface: #ffffff;
+	--white: #ffffff;
+	--black: #000000;
+}
+
+/* ========================================
+   DARK MODE THEME OVERRIDES
+   ========================================
+
+   Dark mode uses deeper, richer colors
+   with lighter text for contrast.
+   All brand colors adjusted for readability.
+ */
+
+body.dark {
+	/* Neutral Colors - Darker backgrounds, lighter text */
+	--bg: #0d1b2a; /* Very dark navy - Main background */
+	--bg-cream: #151210; /* Very dark - Card tint */
+	--bg-tan: #1c2a38; /* Dark navy - Row tint */
+	--text: #e8e8e8; /* Off-white - Primary text */
+	--text-muted: #bbbbbb; /* Light gray - Secondary text */
+
+	/* Card Colors - Adjusted for dark mode */
+	--card-bg: #1a2633; /* Dark navy - Card background */
+	--card-border: #d8b4a5; /* Light pink - Card border */
+	--card-date: #9b9b9b; /* Light gray - Date labels */
+
+	/* Navigation Colors */
+	--nav-bg: #08151d; /* Very dark navy - Nav background */
+
+	/* Brand Colors - Lighter for dark backgrounds */
+	--primary: #d98068; /* Lighter terracotta */
+	--primary-dark: #c97058; /* Gradient end */
+	--gold-dark: #c89240; /* Lighter gold - Dark mode gold */
+	--danger: #f86f78; /* Lighter red - Dark mode danger */
+	--danger-dark: #e84f58; /* Lighter red - Gradient end */
+
+	/* UI Element Colors - Lighter for contrast */
+	--border: #a0a0a0; /* Light gray - Input borders */
+	--toggle-off: #a0a0a0; /* Light gray - Toggle switch off */
+
+	/* Shadow & Glow Colors - Adjusted for dark mode */
+	--brand-glow: rgba(232, 196, 181, 0.4); /* Warmer glow */
+	--brand-glow-hover: rgba(232, 196, 181, 0.5); /* Hover glow */
+	--shadow-sm: rgba(0, 0, 0, 0.1); /* Darker small shadows */
+	--shadow-md: rgba(0, 0, 0, 0.2); /* Darker medium shadows */
+
+	/* Hero Overlay - Dark mode adjustment */
+	--hero-overlay-start: rgba(217, 128, 104, 0.85);
+	--hero-overlay-end: rgba(232, 196, 181, 0.75);
+
+	/* Pin/Highlight Colors - Dark mode */
+	--pin-glow-light: rgba(200, 146, 64, 0.3); /* Dark mode pin */
+	--pin-glow: rgba(200, 146, 64, 0.5); /* Dark mode pin hover */
+	--pin-highlight-start: rgba(200, 146, 64, 0.2); /* Table highlight start */
+	--pin-highlight-end: rgba(180, 126, 44, 0.15); /* Table highlight end */
+	--pin-pulse-light: rgba(200, 146, 64, 0.3); /* Dark mode pulse mid */
+	--pin-pulse-light-end: rgba(180, 126, 44, 0.25); /* Dark mode pulse end */
+
+	/* Surface Color - Dark mode */
+	--surface: #1a2633;
+}
