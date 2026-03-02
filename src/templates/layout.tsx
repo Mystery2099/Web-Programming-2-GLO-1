@@ -15,9 +15,9 @@ export const layout = (content: unknown, title = 'March Celebration Hub', curren
 				</main>
 			</div>
 			{footer()}
-			<link rel="stylesheet" href="/static/glightbox.css" />
-			<script src="/static/glightbox.min.js"></script>
-			<script src="/static/client.js"></script>
+			<link rel="stylesheet" href="/static/css/glightbox.css" />
+			<script src="/static/js/glightbox.min.js"></script>
+			<script src="/static/js/client.js"></script>
 			<script>
 				{`document.addEventListener('DOMContentLoaded', () => {
 					if (typeof lucide !== 'undefined') {
