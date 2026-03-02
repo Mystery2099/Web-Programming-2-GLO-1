@@ -16,4 +16,6 @@ The user will handle starting and stopping the dev server as needed.
 - HTMX
 - TypeScript
 - elysiajs
+- bun
+
 NO SVELTE
