@@ -1,5 +1,5 @@
 import { Html } from '@elysiajs/html';
-import type { Plan } from '../../types/database.js';
+import type { Plan } from '@/types/database';
 
 export interface PlanCardProps {
 	plan: Plan;
@@ -8,7 +8,7 @@ export interface PlanCardProps {
 export const PlanCard = ({ plan }: PlanCardProps) => (
 	<div class={`card ${plan.is_completed ? 'completed' : ''} card-animate`} id={`card-${plan.id}`}>
 		<button
-			class="card-delete"
+			class="btn btn-danger btn-small card-delete"
 			aria-label="Delete plan"
 			hx-delete={`/plans/${plan.id}`}
 			hx-target="#plans-list"
@@ -43,7 +43,15 @@ export const PlanCard = ({ plan }: PlanCardProps) => (
 
 export const renderPlanCards = (plans: Plan[]): string => {
 	if (plans.length === 0) {
-		return '<p>No plans yet. Add your first March plan above!</p>';
+		return `
+			<div class="empty-state">
+				<div class="empty-state__icon">🗓️</div>
+				<h3 class="empty-state__title">No plans yet</h3>
+				<p class="empty-state__description">
+					Add your first March adventure to start building momentum.
+				</p>
+			</div>
+		`;
 	}
 	
 	return plans.map((plan) => <PlanCard plan={plan} />).join('') as 'safe';

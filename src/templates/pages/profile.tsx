@@ -1,5 +1,5 @@
 import { Html } from '@elysiajs/html';
-import type { Profile } from '../../types/database.js';
+import type { Profile } from '@/types/database';
 import { MOODS, STYLES, SQUAD_SIZES, PATRICKS_OPTIONS, getRandomPortrait } from './profile-data.js';
 
 const { escapeHtml } = Html;
@@ -136,7 +136,7 @@ export const profilePage = ({ profile }: ProfilePageData) => {
 
 			<form
 				id="edit-profile-form"
-				class="edit-form profile-edit-hidden"
+				class="edit-form form profile-edit-hidden"
 				action="/profile"
 				method="post"
 				data-action="validate-profile"
@@ -151,16 +151,23 @@ export const profilePage = ({ profile }: ProfilePageData) => {
 						<input
 							type="text"
 							id="ambassador-name"
-							class="search-input"
+							class="form-input"
 							name="ambassador_name"
 							value={escapeHtml(profile?.ambassador_name ?? 'Mathew Kennedy-Brewer')}
+							maxlength={200}
 							required
 						/>
 					</div>
 
-					<div class="form-group">
+					<div class="form-group form-group-wide">
 						<label for="march-motto">March Motto</label>
-						<textarea id="march-motto" name="march_motto" rows="2">
+						<textarea
+							id="march-motto"
+							name="march_motto"
+							rows="2"
+							class="form-textarea"
+							maxlength={200}
+						>
 							{escapeHtml(
 								profile?.march_motto ?? 'Roll for initiative, compile the code. Dream about Kotlin'
 							)}
@@ -172,9 +179,10 @@ export const profilePage = ({ profile }: ProfilePageData) => {
 						<input
 							type="text"
 							id="favorite-activity"
-							class="search-input"
+							class="form-input"
 							name="favorite_activity"
 							value={escapeHtml(profile?.favorite_activity ?? 'Sleeping')}
+							maxlength={200}
 						/>
 					</div>
 
@@ -183,15 +191,16 @@ export const profilePage = ({ profile }: ProfilePageData) => {
 						<input
 							type="text"
 							id="go-to-tradition"
-							class="search-input"
+							class="form-input"
 							name="go_to_tradition"
 							value={escapeHtml(profile?.go_to_tradition ?? 'Ricing my Desktop')}
+							maxlength={200}
 						/>
 					</div>
 
 					<div class="form-group">
 						<label for="march-mood">March Mood</label>
-						<select id="march-mood" name="march_mood">
+						<select id="march-mood" name="march_mood" class="form-select">
 							{MOODS.map((mood) => (
 								<option value={mood} selected={profile?.march_mood === mood}>
 									{mood as 'safe'}
@@ -202,7 +211,7 @@ export const profilePage = ({ profile }: ProfilePageData) => {
 
 					<div class="form-group">
 						<label for="celebration-style">Celebration Style</label>
-						<select id="celebration-style" name="celebration_style">
+						<select id="celebration-style" name="celebration_style" class="form-select">
 							{STYLES.map((style) => (
 								<option value={style} selected={profile?.celebration_style === style}>
 									{style as 'safe'}
@@ -216,15 +225,16 @@ export const profilePage = ({ profile }: ProfilePageData) => {
 						<input
 							type="text"
 							id="favorite-color"
-							class="search-input"
+							class="form-input"
 							name="favorite_color"
 							value={escapeHtml(profile?.favorite_color ?? 'Teal')}
+							maxlength={200}
 						/>
 					</div>
 
 					<div class="form-group">
 						<label for="squad-size">Celebration Squad</label>
-						<select id="squad-size" name="squad_size">
+						<select id="squad-size" name="squad_size" class="form-select">
 							{SQUAD_SIZES.map((size) => (
 								<option value={size} selected={profile?.squad_size === size}>
 									{size as 'safe'}
@@ -233,14 +243,15 @@ export const profilePage = ({ profile }: ProfilePageData) => {
 						</select>
 					</div>
 
-					<div class="form-group">
+					<div class="form-group form-group-wide">
 						<label for="dream-destination">Dream March Destination</label>
 						<input
 							type="text"
 							id="dream-destination"
-							class="search-input"
+							class="form-input"
 							name="dream_destination"
 							value={escapeHtml(profile?.dream_destination ?? 'Akihabara, Japan')}
+							maxlength={200}
 						/>
 					</div>
 
@@ -249,16 +260,18 @@ export const profilePage = ({ profile }: ProfilePageData) => {
 						<input
 							type="number"
 							id="bucket-list-count"
+							class="form-input"
 							name="bucket_list_count"
 							value={String(profile?.bucket_list_count ?? 0)}
 							min="0"
 							max="100"
+							step="1"
 						/>
 					</div>
 
 					<div class="form-group">
 						<label for="st-patricks">St. Patrick's Day Plan</label>
-						<select id="st-patricks" name="st_patricks_preference">
+						<select id="st-patricks" name="st_patricks_preference" class="form-select">
 							{PATRICKS_OPTIONS.map((option) => (
 								<option value={option} selected={profile?.st_patricks_preference === option}>
 									{option as 'safe'}
@@ -272,6 +285,7 @@ export const profilePage = ({ profile }: ProfilePageData) => {
 						<input
 							type="range"
 							id="spring-level"
+							class="range-slider"
 							name="spring_level"
 							min="1"
 							max="10"

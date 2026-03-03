@@ -45,7 +45,7 @@ export const settingsPage = () => (
 									<i data-lucide="sun" class="icon-sun" aria-hidden="true"></i>
 								</span>
 							</span>
-							<span class="toggle-status" id="settings-theme-status">On</span>
+							<span class="toggle-status" id="settings-theme-status">Light</span>
 						</label>
 					</div>
 					
@@ -95,28 +95,6 @@ export const settingsPage = () => (
 				
 				<div class="settings-card">
 					<div class="setting-row">
-						<div class="setting-info">
-							<div class="setting-icon highlight-icon">
-								<i data-lucide="highlighter" aria-hidden="true"></i>
-							</div>
-							<div class="setting-text">
-								<label class="setting-label">Row Highlighting</label>
-								<span class="setting-description">Highlight rows when clicking in tables</span>
-							</div>
-						</div>
-						<label class="theme-toggle-switch" data-action="toggle-highlight" role="switch" aria-checked="false" id="settings-highlight-toggle">
-							<input type="checkbox" id="settings-highlight-input" />
-							<span class="toggle-track">
-								<span class="toggle-thumb">
-									<i data-lucide="mouse-pointer-off" class="icon-off" aria-hidden="true"></i>
-									<i data-lucide="mouse-pointer" class="icon-on" aria-hidden="true"></i>
-								</span>
-							</span>
-							<span class="toggle-status" id="settings-highlight-status">Off</span>
-						</label>
-					</div>
-					
-					<div class="setting-row setting-row-border">
 						<div class="setting-info">
 							<div class="setting-icon animation-icon">
 								<i data-lucide="wand-2" aria-hidden="true"></i>
@@ -212,23 +190,28 @@ export const settingsPage = () => (
 
 		<script>
 			{`document.addEventListener('DOMContentLoaded', () => {
+				const isStoredFalse = (value) => value === false || value === 'false';
+
 				const toggleThemeInput = document.querySelector('#settings-theme-input');
 				const toggleThemeLabel = document.querySelector('#settings-theme-toggle');
 				const themeStatus = document.querySelector('#settings-theme-status');
+				const applyThemeToggleUi = (mode) => {
+					const isDark = mode === 'dark';
+					if (toggleThemeInput) toggleThemeInput.checked = isDark;
+					if (toggleThemeLabel) toggleThemeLabel.setAttribute('aria-checked', String(isDark));
+					if (themeStatus) themeStatus.textContent = isDark ? 'Dark' : 'Light';
+				};
+
 				if (toggleThemeInput && toggleThemeLabel) {
-					// Initialize status from current state
-					if (themeStatus) {
-						const isDark = document.body.classList.contains('dark');
-						themeStatus.textContent = isDark ? 'On' : 'Off';
-						toggleThemeInput.checked = isDark;
-					}
-					
-					toggleThemeInput.addEventListener('change', (e) => {
-						toggleTheme();
-						toggleThemeLabel.setAttribute('aria-checked', e.target.checked);
-						if (themeStatus) {
-							themeStatus.textContent = e.target.checked ? 'On' : 'Off';
-						}
+					(async () => {
+						const themeMode = await getThemeMode();
+						applyThemeToggleUi(themeMode);
+					})();
+
+					toggleThemeInput.addEventListener('change', async (e) => {
+						const selectedTheme = e.target.checked ? 'dark' : 'light';
+						await setTheme(selectedTheme);
+						applyThemeToggleUi(selectedTheme);
 					});
 				}
 
@@ -244,29 +227,18 @@ export const settingsPage = () => (
 					});
 				}
 
-				const highlightInput = document.querySelector('#settings-highlight-input');
-				const highlightLabel = document.querySelector('#settings-highlight-toggle');
-				const highlightStatus = document.querySelector('#settings-highlight-status');
-				if (highlightInput && highlightLabel && highlightStatus) {
-					// Initialize status from current state
-					const highlightEnabled = localStorage.getItem('march_highlight') === 'true';
-					highlightInput.checked = highlightEnabled;
-					highlightStatus.textContent = highlightEnabled ? 'On' : 'Off';
-					highlightLabel.setAttribute('aria-checked', highlightEnabled);
-					
-					highlightInput.addEventListener('change', (e) => {
-						toggleHighlight();
-						highlightLabel.setAttribute('aria-checked', e.target.checked);
-						highlightStatus.textContent = e.target.checked ? 'On' : 'Off';
-					});
-				}
-
 				const animationsToggle = document.querySelector('#animations-toggle');
 				const animationsStatus = document.querySelector('#settings-animations-status');
 				if (animationsToggle && animationsStatus) {
 					// Initialize status from current state
-					const animationsEnabled = localStorage.getItem('march_animations') !== 'false';
-					animationsStatus.textContent = animationsEnabled ? 'On' : 'Off';
+					(async () => {
+						const animationsEnabled = !isStoredFalse(await localforage.getItem('march_animations'));
+						animationsStatus.textContent = animationsEnabled ? 'On' : 'Off';
+						animationsToggle.checked = animationsEnabled;
+						document
+							.querySelector('#settings-animations-toggle')
+							.setAttribute('aria-checked', String(animationsEnabled));
+					})();
 					
 					animationsToggle.addEventListener('change', (e) => {
 						toggleAnimations(e.target.checked);

@@ -4,7 +4,7 @@ import { header } from './header.js';
 import { footer } from './footer.js';
 
 export const layout = (content: unknown, title = 'March Celebration Hub', currentPage = 'home') => (
-	<>
+	<html lang="en">
 		{head(title)}
 		<body>
 			<div class="app-container">
@@ -16,6 +16,7 @@ export const layout = (content: unknown, title = 'March Celebration Hub', curren
 			{footer()}
 			<link rel="stylesheet" href="/static/css/glightbox.css" />
 			<script src="/static/js/glightbox.min.js"></script>
+			<script src="https://cdn.jsdelivr.net/npm/localforage@1.10.0/dist/localforage.min.js"></script>
 			<script src="/static/js/client.js"></script>
 			<script>
 				{`document.addEventListener('DOMContentLoaded', () => {
@@ -37,5 +38,5 @@ export const layout = (content: unknown, title = 'March Celebration Hub', curren
 				});`}
 			</script>
 		</body>
-	</>
+	</html>
 );

@@ -1,5 +1,5 @@
 import { Html } from '@elysiajs/html';
-import type { Plan } from '../../types/database.js';
+import type { Plan } from '@/types/database';
 import { renderPlanCards } from '../components/plan-card.js';
 
 export interface PlansPageData {

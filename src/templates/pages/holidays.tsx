@@ -1,5 +1,5 @@
 import { Html } from '@elysiajs/html';
-import type { Holiday } from '../../types/database.js';
+import type { Holiday } from '@/types/database';
 import { Toast } from '../components/toast.js';
 
 export interface HolidaysPageData {
@@ -67,11 +67,11 @@ export const holidaysPage = ({
 					</label>
 					<select id="holiday-filter" class="filter-select" name="filter">
 						<option value="">All Types</option>
-						{types.map((t) => (
-							<option value={t as 'safe'} selected={filter === t}>
-								{t as 'safe'}
-							</option>
-						))}
+							{types.map((t) => (
+								<option value={t} selected={filter === t}>
+									{t}
+								</option>
+							))}
 					</select>
 					<button type="submit" class="btn btn-secondary btn-small">
 						Filter
@@ -82,50 +82,56 @@ export const holidaysPage = ({
 			</div>
 
 			<div class="table-container">
-				<table class="data-table">
-					<thead>
-						<tr>
-							<th>Day</th>
-							<th>Holiday</th>
-							<th>Type</th>
-							<th>Description</th>
-							<th>Actions</th>
-						</tr>
-					</thead>
-					<tbody id="holidays-list">
-						{paginatedHolidays.map((h) => (
-							<tr
-								tabindex={0}
-								role="button"
-								aria-label={`Holiday: ${h.name}`}
-								onclick={`if(localStorage.getItem('march_highlightEnabled') === 'true') this.classList.toggle('highlighted')`}
-								onkeydown={`if(event.key === 'Enter' || event.key === ' ') { event.preventDefault(); if(localStorage.getItem('march_highlightEnabled') === 'true') this.classList.toggle('highlighted'); }`}
-								id={`row-${h.id}`}
-							>
-								<td data-label="Date">March {h.day}</td>
-								<td data-label="Holiday">
-									<strong>{h.name as 'safe'}</strong>
-								</td>
-								<td data-label="Type">
-									<span class="tag">{h.type as 'safe'}</span>
-								</td>
-								<td data-label="Description">{h.description as 'safe'}</td>
-								<td data-label="Actions">
-									<button
-										class="btn btn-small holidays-btn-danger"
-										aria-label="Delete holiday"
-										hx-delete={`/holidays/${h.id}?search=${encodeURIComponent(search || '')}&filter=${encodeURIComponent(filter || '')}&page=${page}&itemsPerPage=${itemsPerPage}`}
-										hx-target="#holidays"
-										hx-swap="innerHTML"
-										hx-confirm={`Are you sure you want to delete '${h.name}'?`}
-									>
-										<i data-lucide="trash-2" aria-hidden="true"></i> Delete
-									</button>
-								</td>
+				{paginatedHolidays.length > 0 ? (
+					<table class="data-table">
+						<thead>
+							<tr>
+								<th>Day</th>
+								<th>Holiday</th>
+								<th>Type</th>
+								<th>Description</th>
+								<th>Actions</th>
 							</tr>
-						))}
-					</tbody>
-				</table>
+						</thead>
+						<tbody id="holidays-list">
+							{paginatedHolidays.map((h) => (
+								<tr id={`row-${h.id}`}>
+									<td data-label="Date">March {h.day}</td>
+									<td data-label="Holiday">
+										<strong>{h.name}</strong>
+									</td>
+									<td data-label="Type">
+										<span class="tag">{h.type}</span>
+									</td>
+									<td data-label="Description">{h.description ?? ''}</td>
+									<td data-label="Actions">
+										<button
+											class="btn btn-small btn-danger"
+											aria-label="Delete holiday"
+											hx-delete={`/holidays/${h.id}?search=${encodeURIComponent(search || '')}&filter=${encodeURIComponent(filter || '')}&page=${page}&itemsPerPage=${itemsPerPage}`}
+											hx-target="#holidays"
+											hx-swap="innerHTML"
+											hx-confirm={`Are you sure you want to delete '${h.name}'?`}
+										>
+											<i data-lucide="trash-2" aria-hidden="true"></i> Delete
+										</button>
+									</td>
+								</tr>
+							))}
+						</tbody>
+					</table>
+				) : (
+					<div class="empty-state">
+						<div class="empty-state__icon">📅</div>
+						<h3 class="empty-state__title">No holidays found</h3>
+						<p class="empty-state__description">
+							Try adjusting your search or filters, or add a new holiday to get started.
+						</p>
+						<a href="/holidays/add" class="btn btn-primary empty-state__action">
+							<i data-lucide="plus" aria-hidden="true"></i> Add Holiday
+						</a>
+					</div>
+				)}
 			</div>
 			<div class="holidays-pagination">
 				<span>
@@ -194,13 +200,6 @@ export const holidaysPage = ({
 				.holidays-search-form .search-input,
 				.holidays-search-form .filter-select {
 					flex: 1;
-				}
-				.holidays-btn-danger {
-					background-color: #ef4444;
-					color: white;
-				}
-				.holidays-btn-danger:hover {
-					background-color: #dc2626;
 				}
 				.holidays-toast {
 					padding: 1rem;

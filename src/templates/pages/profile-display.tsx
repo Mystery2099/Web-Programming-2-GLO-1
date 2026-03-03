@@ -1,5 +1,5 @@
 import { Html } from '@elysiajs/html';
-import type { Profile } from '../../types/database.js';
+import type { Profile } from '@/types/database';
 import { DEFAULT_PROFILE, getRandomPortrait } from './profile-data.js';
 
 const { escapeHtml } = Html;

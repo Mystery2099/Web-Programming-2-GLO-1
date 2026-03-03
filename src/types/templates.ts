@@ -18,11 +18,11 @@ export interface PageConfig {
 export interface MarchAppWindow {
 	isDark: boolean;
 	baseSize: number;
-	highlightEnabled: boolean;
 	marchAppInitialized?: boolean;
-	toggleTheme: () => void;
+	toggleTheme: () => Promise<void>;
+	setTheme: (mode: 'light' | 'dark') => Promise<void>;
+	getThemeMode: () => Promise<'light' | 'dark'>;
 	updateTextSize: (size: string | number) => void;
-	toggleHighlight: () => void;
 	validateForm: (form: HTMLFormElement) => boolean;
 	validateHolidayForm: (form: HTMLFormElement) => boolean;
 	setupSearch: (inputId: string, containerId: string, itemSelector: string) => void;

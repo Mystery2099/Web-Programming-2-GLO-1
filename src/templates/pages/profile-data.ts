@@ -1,4 +1,4 @@
-import type { Profile } from '../../types/database.js';
+import type { Profile } from '@/types/database';
 
 export const PORTRAITS = [
 	'/static/images/spring/mar_spring.jpg',
