@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "skills": {
+    "css-architecture": {
+      "source": "aj-geddes/useful-ai-prompts",
+      "sourceType": "github",
+      "computedHash": "f5bf6f89aaf992b405401a0154939b7418e794e45bfc0ec5d0c2acdb7538f8dd"
+    }
+  }
+}
