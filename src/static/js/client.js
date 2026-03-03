@@ -1,8 +1,16 @@
 (function() {
+	'use strict';
+	
 	console.log('[CLIENT] March Celebration app initializing...');
 	console.log('[CLIENT] User Agent:', navigator.userAgent);
 	console.log('[CLIENT] Screen:', screen.width, 'x', screen.height);
 	console.log('[CLIENT] Language:', navigator.language);
+	
+	// Configure localforage
+	localforage.config({
+		name: 'march-celebration',
+		storeName: 'preferences'
+	});
 	
 	window.onerror = function(msg, url, line, col, error) {
 		console.error('[CLIENT ERROR]', {
@@ -29,31 +37,70 @@
 if (typeof window.marchAppInitialized === 'undefined') {
 	window.marchAppInitialized = true;
 
-	window.isDark = localStorage.getItem('theme') === 'dark';
-	window.toggleTheme = function () {
-		console.log('[CLIENT] toggleTheme called, current state:', window.isDark);
-		window.isDark = !window.isDark;
-		document.body.classList.toggle('dark', window.isDark);
-		const btn = document.getElementById('settings-theme-btn');
-		if (btn) {
-			const textSpan = btn.querySelector('span');
-			const icon = btn.querySelector('i');
-			if (textSpan) textSpan.textContent = window.isDark ? 'Disable Dark Mode' : 'Enable Dark Mode';
-			if (icon) icon.setAttribute('data-lucide', window.isDark ? 'sun' : 'moon');
-			lucide.createIcons();
+	window.isDark = false;
+
+	window.migratePreferences = async function () {
+		const storageVersionKey = 'march_storageVersion';
+		const currentVersion = await localforage.getItem(storageVersionKey);
+
+		if (currentVersion === 1 || currentVersion === '1') {
+			return;
 		}
-		localStorage.setItem('theme', window.isDark ? 'dark' : 'light');
-		console.log('[CLIENT] theme set to:', window.isDark ? 'dark' : 'light');
+
+		const boolKeys = ['march_animations'];
+		for (const key of boolKeys) {
+			const value = await localforage.getItem(key);
+			if (value === 'true') {
+				await localforage.setItem(key, true);
+			} else if (value === 'false') {
+				await localforage.setItem(key, false);
+			}
+		}
+
+		const theme = await localforage.getItem('theme');
+		if (theme !== 'dark' && theme !== 'light') {
+			const inferredTheme = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
+			await localforage.setItem('theme', inferredTheme);
+		}
+
+		await localforage.setItem(storageVersionKey, 1);
+		console.log('[CLIENT] preferences migrated to storage version 1');
 	};
 
-	if (document.body && window.isDark) {
-		document.body.classList.add('dark');
-	}
+	window.setTheme = async function (mode) {
+		const nextMode = mode === 'dark' ? 'dark' : 'light';
+		window.isDark = nextMode === 'dark';
+		document.documentElement.classList.toggle('dark', window.isDark);
+		document.body.classList.toggle('dark', window.isDark);
+		await localforage.setItem('theme', nextMode);
+		console.log('[CLIENT] theme set to:', nextMode);
+	};
 
-	document.addEventListener('DOMContentLoaded', () => {
-		if (window.isDark) {
-			document.body.classList.add('dark');
-		}
+	window.getThemeMode = async function () {
+		const savedTheme = await localforage.getItem('theme');
+		if (savedTheme === 'dark' || savedTheme === 'light') return savedTheme;
+
+		return document.documentElement.classList.contains('dark') ? 'dark' : 'light';
+	};
+
+	window.toggleTheme = async function () {
+		const currentTheme = await window.getThemeMode();
+		return window.setTheme(currentTheme === 'dark' ? 'light' : 'dark');
+	};
+
+	(async () => {
+		await window.migratePreferences();
+		const mode = await window.getThemeMode();
+		window.isDark = mode === 'dark';
+		document.documentElement.classList.toggle('dark', window.isDark);
+		document.body.classList.toggle('dark', window.isDark);
+	})();
+
+	document.addEventListener('DOMContentLoaded', async () => {
+		await window.migratePreferences();
+		const theme = await window.getThemeMode();
+		document.documentElement.classList.toggle('dark', theme === 'dark');
+		document.body.classList.toggle('dark', theme === 'dark');
 	});
 
 	const mobileToggle = document.querySelector('.mobile-nav-toggle');
@@ -116,23 +163,21 @@ if (typeof window.marchAppInitialized === 'undefined') {
 
 window.baseSize = 16;
 window.updateTextSize = function (size) {
-	window.baseSize = size;
+	const numericSize = Math.min(24, Math.max(12, Number(size) || 16));
+	window.baseSize = numericSize;
 	const el = document.getElementById('settings-size-value');
-	if (el) el.textContent = size + 'px';
-	document.documentElement.style.setProperty('--text-size', size + 'px');
-	window.savePreference('textSize', size);
+	if (el) el.textContent = numericSize + 'px';
+	document.documentElement.style.setProperty('--text-size', numericSize + 'px');
+	window.savePreference('textSize', numericSize);
 };
 
-window.highlightEnabled = false;
-window.toggleHighlight = function () {
-	window.highlightEnabled = !window.highlightEnabled;
-	const btn = document.getElementById('settings-highlight-btn');
-	if (btn) {
-		const textSpan = btn.querySelector('span');
-		if (textSpan) textSpan.textContent = window.highlightEnabled ? 'Disable' : 'Enable';
-	}
-	window.savePreference('highlightEnabled', window.highlightEnabled);
-};
+function isStoredTrue(value) {
+	return value === true || value === 'true';
+}
+
+function isStoredFalse(value) {
+	return value === false || value === 'false';
+}
 
 window.validateForm = function (form) {
 	const input = form.querySelector('input');
@@ -161,91 +206,76 @@ window.setupSearch = function (inputId, containerId, itemSelector) {
 	});
 };
 
-window.savePreference = function (key, value) {
-	console.log('[CLIENT] savePreference:', key, '=', value);
-	localStorage.setItem('march_' + key, value);
-	if (key === 'itemsPerPage') {
-		const holidaysDiv = document.getElementById('holidays');
-		if (holidaysDiv) {
-			console.log('[CLIENT] Fetching holidays with itemsPerPage:', value);
-			fetch('/holidays?itemsPerPage=' + value)
-				.then((response) => {
-					console.log('[CLIENT] Fetch response status:', response.status);
-					return response.text();
-				})
-				.then((html) => {
-					holidaysDiv.innerHTML = html;
-					lucide.createIcons();
-				})
-				.catch((err) => console.error('[CLIENT] Fetch error:', err));
+	window.savePreference = async function (key, value) {
+		console.log('[CLIENT] savePreference:', key, '=', value);
+		await localforage.setItem('march_' + key, value);
+		if (key === 'itemsPerPage') {
+			const holidaysDiv = document.getElementById('holidays');
+			if (holidaysDiv) {
+				console.log('[CLIENT] Fetching holidays with itemsPerPage:', value);
+				fetch('/holidays?itemsPerPage=' + value)
+					.then((response) => {
+						console.log('[CLIENT] Fetch response status:', response.status);
+						return response.text();
+					})
+					.then((html) => {
+						holidaysDiv.innerHTML = html;
+						lucide.createIcons();
+					})
+					.catch((err) => console.error('[CLIENT] Fetch error:', err));
+			}
 		}
-	}
-};
+	};
 
-window.loadPreferences = function () {
-	const itemsPerPage = localStorage.getItem('march_itemsPerPage');
-	const defaultFilter = localStorage.getItem('march_defaultHolidayFilter');
-	const animations = localStorage.getItem('march_animations');
-	const textSize = localStorage.getItem('march_textSize');
-	const highlight = localStorage.getItem('march_highlightEnabled');
+	window.loadPreferences = async function () {
+		const itemsPerPage = await localforage.getItem('march_itemsPerPage');
+		const defaultFilter = await localforage.getItem('march_defaultHolidayFilter');
+		const animations = await localforage.getItem('march_animations');
+		const textSize = await localforage.getItem('march_textSize');
 
-	if (itemsPerPage) {
-		const el = document.getElementById('items-per-page');
-		if (el) el.value = itemsPerPage;
-	}
-
-	if (defaultFilter) {
-		const el = document.getElementById('default-holiday-filter');
-		if (el) el.value = defaultFilter;
-	}
-
-	if (animations === 'false') {
-		const el = document.getElementById('animations-toggle');
-		if (el) el.checked = false;
-		document.documentElement.setAttribute('data-animations-enabled', 'false');
-	} else {
-		document.documentElement.setAttribute('data-animations-enabled', 'true');
-	}
-
-	if (textSize) {
-		const el = document.getElementById('settings-text-size');
-		if (el) el.value = textSize;
-		window.updateTextSize(textSize);
-	}
-
-	if (highlight === 'true') {
-		window.highlightEnabled = true;
-		const btn = document.getElementById('settings-highlight-btn');
-		if (btn) {
-			const textSpan = btn.querySelector('span');
-			if (textSpan) textSpan.textContent = 'Disable';
+		if (itemsPerPage) {
+			const el = document.getElementById('items-per-page');
+			if (el) el.value = itemsPerPage;
 		}
-	}
 
-	const themeBtn = document.getElementById('settings-theme-btn');
-	if (themeBtn && window.isDark) {
-		const textSpan = themeBtn.querySelector('span');
-		const icon = themeBtn.querySelector('i');
-		if (textSpan) textSpan.textContent = 'Disable Dark Mode';
-		if (icon) icon.setAttribute('data-lucide', 'sun');
-		lucide.createIcons();
-	}
-};
+		if (defaultFilter) {
+			const el = document.getElementById('default-holiday-filter');
+			if (el) el.value = defaultFilter;
+		}
 
-window.resetPreferences = function () {
-	const keys = [
-		'itemsPerPage',
-		'defaultHolidayFilter',
-		'animations',
-		'textSize',
-		'highlightEnabled'
-	];
-	keys.forEach((key) => localStorage.removeItem('march_' + key));
-	localStorage.removeItem('theme');
-	location.reload();
-};
+		if (isStoredFalse(animations)) {
+			const el = document.getElementById('animations-toggle');
+			if (el) el.checked = false;
+			document.documentElement.setAttribute('data-animations-enabled', 'false');
+		} else {
+			document.documentElement.setAttribute('data-animations-enabled', 'true');
+		}
 
-window.toggleAnimations = function (enabled) {
-	localStorage.setItem('march_animations', enabled);
-	document.documentElement.setAttribute('data-animations-enabled', enabled);
-};
+		if (textSize) {
+			const el = document.getElementById('settings-text-size');
+			if (el) el.value = textSize;
+			window.updateTextSize(textSize);
+		}
+
+	};
+
+	window.resetPreferences = async function () {
+		const keys = [
+			'itemsPerPage',
+			'defaultHolidayFilter',
+			'animations',
+			'textSize'
+		];
+		await Promise.all(keys.map((key) => localforage.removeItem('march_' + key)));
+		await localforage.removeItem('theme');
+		location.reload();
+	};
+
+	window.toggleAnimations = async function (enabled) {
+		const animationsEnabled = enabled === true || enabled === 'true';
+		await localforage.setItem('march_animations', animationsEnabled);
+		document.documentElement.setAttribute(
+			'data-animations-enabled',
+			animationsEnabled ? 'true' : 'false'
+		);
+	};
