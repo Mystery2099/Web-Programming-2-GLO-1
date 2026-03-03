@@ -6,9 +6,9 @@ import { Elysia } from 'elysia';
 import { html } from '@elysiajs/html';
 import { staticPlugin } from '@elysiajs/static';
 import { htmx } from '@gtramontina.com/elysia-htmx';
-import { initializeDependencies } from '../config/di-container.js';
-import { registerAllRoutes } from '../routes/index.js';
-import { SERVER_PORT } from '../config/constants.js';
+import { initializeDependencies } from '@/config/di-container';
+import { registerAllRoutes } from '@/routes';
+import { SERVER_PORT } from '@/config/constants';
 
 const app = new Elysia()
 	.use(html())
