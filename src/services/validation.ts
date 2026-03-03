@@ -1,11 +1,7 @@
-/**
- * Validation Service
- * Provides validation functions for form inputs
- * @module services/validation
- */
-
-import { HOLIDAY_TYPES, type HolidayType } from '../types/database.js';
-import { sanitizeText, isValidText } from '../utils/validation.js';
+import { z } from 'zod';
+import { holidaySchema } from '@/schemas/holiday.schema';
+import { planSchema } from '@/schemas/plan.schema';
+import { profileSchema } from '@/schemas/profile.schema';
 
 export interface ValidationError {
 	field: string;
@@ -15,77 +11,90 @@ export interface ValidationError {
 export interface ValidationResult {
 	valid: boolean;
 	errors: ValidationError[];
+	data?: {
+		name: string;
+		day: number;
+		type: string;
+		description?: string;
+	};
+}
+
+function convertZodErrors(error: z.ZodError): ValidationError[] {
+	return error.issues.map((issue) => ({
+		field: issue.path.join('.'),
+		message: issue.message
+	}));
 }
 
 export const validateHolidayName = (name: string): ValidationError | null => {
-	const sanitized = sanitizeText(name);
-	if (!sanitized) {
-		return { field: 'name', message: 'Holiday name is required' };
-	}
-	if (sanitized.length < 3 || sanitized.length > 100) {
-		return { field: 'name', message: 'Holiday name must be 3-100 characters' };
-	}
-	if (!isValidText(name)) {
-		return { field: 'name', message: 'Holiday name cannot contain special characters' };
+	const result = holidaySchema.shape.name.safeParse(name);
+	if (!result.success) {
+		return convertZodErrors(result.error)[0];
 	}
 	return null;
 };
 
 export const validateHolidayDay = (day: string): ValidationError | null => {
-	const parsed = parseInt(day, 10);
-	if (!parsed || parsed < 1 || parsed > 31) {
-		return { field: 'day', message: 'Please select a valid day (1-31)' };
+	const result = holidaySchema.shape.day.safeParse(day);
+	if (!result.success) {
+		return convertZodErrors(result.error)[0];
 	}
 	return null;
 };
 
 export const validateHolidayType = (type: string): ValidationError | null => {
-	const trimmed = type.trim();
-	if (!HOLIDAY_TYPES.includes(trimmed as HolidayType)) {
-		return { field: 'type', message: 'Please select a valid holiday type' };
+	const result = holidaySchema.shape.type.safeParse(type);
+	if (!result.success) {
+		return convertZodErrors(result.error)[0];
 	}
 	return null;
 };
 
-export const validateHoliday = (name: string, day: string, type: string): ValidationResult => {
-	const errors: ValidationError[] = [];
-
-	const nameError = validateHolidayName(name);
-	if (nameError) errors.push(nameError);
-
-	const dayError = validateHolidayDay(day);
-	if (dayError) errors.push(dayError);
-
-	const typeError = validateHolidayType(type);
-	if (typeError) errors.push(typeError);
-
+export const validateHoliday = (
+	name: string,
+	day: string,
+	type: string,
+	description?: string
+): ValidationResult => {
+	const result = holidaySchema.safeParse({ name, day, type, description });
+	
+	if (result.success) {
+		return {
+			valid: true,
+			errors: [],
+			data: {
+				name: result.data.name,
+				day: result.data.day,
+				type: result.data.type,
+				description: result.data.description
+			}
+		};
+	}
+	
 	return {
-		valid: errors.length === 0,
-		errors
+		valid: false,
+		errors: convertZodErrors(result.error)
 	};
 };
 
 export const validatePlanActivity = (activity: string): ValidationError | null => {
-	const sanitized = sanitizeText(activity);
-	if (!sanitized) {
-		return { field: 'activity', message: 'Activity is required' };
-	}
-	if (sanitized.length < 3) {
-		return { field: 'activity', message: 'Activity must be at least 3 characters' };
-	}
-	if (!isValidText(activity)) {
-		return { field: 'activity', message: 'Activity cannot contain special characters' };
+	const result = planSchema.shape.activity.safeParse(activity);
+	if (!result.success) {
+		return convertZodErrors(result.error)[0];
 	}
 	return null;
 };
 
 export const validateProfileField = (field: string, value: string): ValidationError | null => {
-	const sanitized = sanitizeText(value);
-	if (sanitized.length > 200) {
-		return { field, message: `${field} must be 200 characters or less` };
+	const fieldSchema = profileSchema.shape[field as keyof typeof profileSchema.shape];
+	
+	if (!fieldSchema) {
+		return { field, message: 'Invalid field name' };
 	}
-	if (sanitized && !isValidText(value)) {
-		return { field, message: `${field} cannot contain special characters` };
+	
+	const result = fieldSchema.safeParse(value);
+	if (!result.success) {
+		return convertZodErrors(result.error)[0];
 	}
 	return null;
 };

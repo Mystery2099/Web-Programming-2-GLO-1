@@ -1,4 +1,4 @@
-import type { ControllerResult } from '../types/controller.js';
+import type { ControllerResult } from '@/types/controller';
 
 export type HtmlResponse = 
 	| { html: string; isPartial: true }
