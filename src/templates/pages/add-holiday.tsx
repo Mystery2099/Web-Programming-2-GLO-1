@@ -31,6 +31,7 @@ export const addHolidayPage = (error = '', fieldName = '') => {
 						<input
 							type="text"
 							id="holiday-name"
+							class="search-input"
 							name="name"
 							placeholder="e.g., Ice Cream Day"
 							maxlength={100}

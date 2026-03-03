@@ -10,5 +10,8 @@ export const head = (title = 'March Celebration Hub') => (
 		<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js" />
 		<link rel="icon" type="image/png" href="/static/images/favicon/march_hub_favicon_gpt.png" />
 		<link rel="stylesheet" href="/static/css/main.css" />
+		<link rel="stylesheet" href="/static/css/components.css" />
+		<link rel="stylesheet" href="/static/css/home.css" />
+		<link rel="stylesheet" href="/static/css/profile.css" />
 	</head>
 );

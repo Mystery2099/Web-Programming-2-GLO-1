@@ -1,5 +1,6 @@
 import { Html } from '@elysiajs/html';
 import type { Holiday } from '../../types/database.js';
+import { Toast } from '../components/toast.js';
 
 export interface HolidaysPageData {
 	holidays: Holiday[];
@@ -41,11 +42,7 @@ export const holidaysPage = ({
 				</a>
 			</div>
 
-			{message && (
-				<div class="toast toast-success" aria-live="polite" safe>
-					{message}
-				</div>
-			)}
+			{message && <Toast message={message} type="success" />}
 
 			<div class="search-filter">
 				<form

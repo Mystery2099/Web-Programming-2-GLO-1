@@ -1,5 +1,6 @@
 import { Html } from '@elysiajs/html';
 import type { Profile } from '../../types/database.js';
+import { MOODS, STYLES, SQUAD_SIZES, PATRICKS_OPTIONS, getRandomPortrait } from './profile-data.js';
 
 const { escapeHtml } = Html;
 
@@ -8,23 +9,7 @@ export interface ProfilePageData {
 }
 
 export const profilePage = ({ profile }: ProfilePageData) => {
-	const portraits = [
-		'/static/images/spring/mar_spring.jpg',
-		'/static/images/spring/mar_spring2.jpg',
-		'/static/images/spring/mar_spring3.jpg',
-		'/static/images/spring/mar_spring4.jpg'
-	];
-	const randomPortrait = portraits[Math.floor(Math.random() * portraits.length)];
-
-	const moods = ['Celebratory', 'Reflective', 'Energetic', 'Cozy', 'Peaceful'];
-	const styles = ['Cultural & Outdoor', 'Party & Social', 'Intimate & Quiet', 'Adventure & Active'];
-	const squadSizes = ['Small Group', 'Medium Group', 'Large Group', 'Just me'];
-	const patricksOptions = [
-		'Family dinner',
-		'Pub/bar visit',
-		'Parade/festival',
-		'Quiet celebration'
-	];
+	const randomPortrait = getRandomPortrait();
 
 	return (
 		<div id="profile" class="page">
@@ -166,6 +151,7 @@ export const profilePage = ({ profile }: ProfilePageData) => {
 						<input
 							type="text"
 							id="ambassador-name"
+							class="search-input"
 							name="ambassador_name"
 							value={escapeHtml(profile?.ambassador_name ?? 'Mathew Kennedy-Brewer')}
 							required
@@ -186,6 +172,7 @@ export const profilePage = ({ profile }: ProfilePageData) => {
 						<input
 							type="text"
 							id="favorite-activity"
+							class="search-input"
 							name="favorite_activity"
 							value={escapeHtml(profile?.favorite_activity ?? 'Sleeping')}
 						/>
@@ -196,6 +183,7 @@ export const profilePage = ({ profile }: ProfilePageData) => {
 						<input
 							type="text"
 							id="go-to-tradition"
+							class="search-input"
 							name="go_to_tradition"
 							value={escapeHtml(profile?.go_to_tradition ?? 'Ricing my Desktop')}
 						/>
@@ -204,7 +192,7 @@ export const profilePage = ({ profile }: ProfilePageData) => {
 					<div class="form-group">
 						<label for="march-mood">March Mood</label>
 						<select id="march-mood" name="march_mood">
-							{moods.map((mood) => (
+							{MOODS.map((mood) => (
 								<option value={mood} selected={profile?.march_mood === mood}>
 									{mood as 'safe'}
 								</option>
@@ -215,7 +203,7 @@ export const profilePage = ({ profile }: ProfilePageData) => {
 					<div class="form-group">
 						<label for="celebration-style">Celebration Style</label>
 						<select id="celebration-style" name="celebration_style">
-							{styles.map((style) => (
+							{STYLES.map((style) => (
 								<option value={style} selected={profile?.celebration_style === style}>
 									{style as 'safe'}
 								</option>
@@ -228,6 +216,7 @@ export const profilePage = ({ profile }: ProfilePageData) => {
 						<input
 							type="text"
 							id="favorite-color"
+							class="search-input"
 							name="favorite_color"
 							value={escapeHtml(profile?.favorite_color ?? 'Teal')}
 						/>
@@ -236,7 +225,7 @@ export const profilePage = ({ profile }: ProfilePageData) => {
 					<div class="form-group">
 						<label for="squad-size">Celebration Squad</label>
 						<select id="squad-size" name="squad_size">
-							{squadSizes.map((size) => (
+							{SQUAD_SIZES.map((size) => (
 								<option value={size} selected={profile?.squad_size === size}>
 									{size as 'safe'}
 								</option>
@@ -249,6 +238,7 @@ export const profilePage = ({ profile }: ProfilePageData) => {
 						<input
 							type="text"
 							id="dream-destination"
+							class="search-input"
 							name="dream_destination"
 							value={escapeHtml(profile?.dream_destination ?? 'Akihabara, Japan')}
 						/>
@@ -269,7 +259,7 @@ export const profilePage = ({ profile }: ProfilePageData) => {
 					<div class="form-group">
 						<label for="st-patricks">St. Patrick's Day Plan</label>
 						<select id="st-patricks" name="st_patricks_preference">
-							{patricksOptions.map((option) => (
+							{PATRICKS_OPTIONS.map((option) => (
 								<option value={option} selected={profile?.st_patricks_preference === option}>
 									{option as 'safe'}
 								</option>
@@ -344,150 +334,17 @@ export const profilePage = ({ profile }: ProfilePageData) => {
       }
     });`}</script>
 
-			<style>{`.profile-edit-hidden {
-      display: none;
-    }
-
-    .profile-header-actions {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 1rem;
-    }
-
-    .btn-edit-profile {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      background: linear-gradient(135deg, #C97A58, #B86A48);
-      color: white;
-      border: none;
-      padding: 0.75rem 1.5rem;
-      border-radius: 10px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.2s ease;
-    }
-
-    .btn-edit-profile:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(201, 122, 88, 0.3);
-    }
-
-    .edit-form {
-      background: linear-gradient(135deg, #FAF8F5, #F5F2EB);
-      border-radius: 16px;
-      padding: 2rem;
-      margin-top: 1.5rem;
-      border: 2px solid rgba(201, 122, 88, 0.2);
-    }
-
-    .edit-form h3 {
-      margin-bottom: 1.5rem;
-      color: #C97A58;
-    }
-
-    .form-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 1.25rem;
-      margin-bottom: 1.5rem;
-    }
-
-    .form-group {
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-    }
-
-    .form-group label {
-      font-weight: 600;
-      color: #2D3748;
-      font-size: 0.875rem;
-    }
-
-    .form-group input,
-    .form-group select,
-    .form-group textarea {
-      padding: 0.75rem;
-      border: 2px solid #E8E4DD;
-      border-radius: 8px;
-      font-size: 0.95rem;
-      transition: all 0.2s ease;
-      background: white;
-    }
-
-    .form-group input:focus,
-    .form-group select:focus,
-    .form-group textarea:focus {
-      outline: none;
-      border-color: #C97A58;
-      box-shadow: 0 0 0 3px rgba(201, 122, 88, 0.1);
-    }
-
-    .form-group input.invalid {
-      border-color: #E53E3E;
-      animation: shake 0.3s ease;
-    }
-
-    @keyframes shake {
-      0%, 100% { transform: translateX(0); }
-      25% { transform: translateX(-5px); }
-      75% { transform: translateX(5px); }
-    }
-
-    .form-group textarea {
-      resize: vertical;
-      min-height: 60px;
-    }
-
-    .form-actions {
-      display: flex;
-      gap: 0.75rem;
-      justify-content: flex-end;
-      margin-top: 1.5rem;
-      padding-top: 1.5rem;
-      border-top: 2px solid rgba(201, 122, 88, 0.1);
-    }
-
-    .btn-primary,
-    .btn-secondary {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      padding: 0.75rem 1.5rem;
-      border-radius: 10px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      border: none;
-    }
-
-    .btn-primary {
-      background: linear-gradient(135deg, #C97A58, #B86A48);
-      color: white;
-    }
-
-    .btn-primary:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(201, 122, 88, 0.3);
-    }
-
-    .btn-secondary {
-      background: linear-gradient(135deg, #E8E4DD, #D8D4CD);
-      color: #666;
-    }
-
-    .btn-secondary:hover {
-      background: linear-gradient(135deg, #D8D4CD, #C8C4BD);
-      transform: translateY(-2px);
-    }
-
-    #spring-level-value {
-      margin-left: 0.5rem;
-      font-weight: 600;
-      color: #C97A58;
-    }`}</style>
+			<style>{`
+				.profile-edit-hidden {
+					display: none;
+				}
+				
+				@keyframes shake {
+					0%, 100% { transform: translateX(0); }
+					25% { transform: translateX(-5px); }
+					75% { transform: translateX(5px); }
+				}
+			`}</style>
 		</div>
 	);
 };

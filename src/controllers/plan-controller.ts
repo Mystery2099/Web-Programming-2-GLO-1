@@ -4,7 +4,7 @@ import { PlanUseCases, CreatePlanDTO } from '../use-cases/index.js';
 import type { ControllerResult } from '../types/controller.js';
 
 export class PlanController {
-	constructor(public planUseCases: PlanUseCases) {}
+	constructor(private planUseCases: PlanUseCases) {}
 
 	private buildPlansHtml() {
 		const plansData: PlansPageData = { plans: this.planUseCases.getAll() };

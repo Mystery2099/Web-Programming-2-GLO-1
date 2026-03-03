@@ -1,10 +1,10 @@
 import type { Profile } from '../../types/database.js';
 
 export const PORTRAITS = [
-	'/static/images/mar_spring.jpg',
-	'/static/images/mar_spring2.jpg',
-	'/static/images/mar_spring3.jpg',
-	'/static/images/mar_spring4.jpg'
+	'/static/images/spring/mar_spring.jpg',
+	'/static/images/spring/mar_spring2.jpg',
+	'/static/images/spring/mar_spring3.jpg',
+	'/static/images/spring/mar_spring4.jpg'
 ] as const;
 
 export const MOODS = ['Celebratory', 'Reflective', 'Energetic', 'Cozy', 'Peaceful'] as const;
