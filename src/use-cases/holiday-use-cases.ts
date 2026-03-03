@@ -4,10 +4,9 @@
  * @module use-cases/holiday-use-cases
  */
 
-import type { Holiday, HolidayType } from '../types/database.js';
+import type { Holiday, HolidayType } from '@/types/database';
 import type { IHolidayRepository, HolidayFilters } from '../domain/ports/holiday-repository.js';
-import { validateHoliday, type ValidationError } from '../services/validation.js';
-import { sanitizeText } from '../utils/validation.js';
+import { validateHoliday, type ValidationError } from '@/services';
 
 export interface CreateHolidayDTO {
 	name: string;
@@ -48,12 +47,12 @@ export class HolidayUseCases {
 	}
 
 	createHoliday(dto: CreateHolidayDTO): UseCaseResult<Holiday> {
-		const name = sanitizeText(dto.name ?? '');
+		const name = dto.name ?? '';
 		const day = dto.day ?? '';
 		const type = dto.type?.trim() ?? '';
-		const description = sanitizeText(dto.description ?? '');
+		const description = dto.description ?? '';
 
-		const result = validateHoliday(name, day, type);
+		const result = validateHoliday(name, day, type, description);
 
 		if (!result.valid) {
 			return {
@@ -62,8 +61,16 @@ export class HolidayUseCases {
 			};
 		}
 
-		const parsedDay = parseInt(day, 10);
-		const holiday = this.holidayRepo.create(name, parsedDay, type as HolidayType, description);
+		if (!result.data) {
+			return { success: false, error: 'Failed to validate holiday' };
+		}
+
+		const holiday = this.holidayRepo.create(
+			result.data.name,
+			result.data.day,
+			result.data.type as HolidayType,
+			result.data.description ?? ''
+		);
 
 		if (!holiday) {
 			return { success: false, error: 'Failed to create holiday' };

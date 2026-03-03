@@ -4,8 +4,8 @@
  * @module use-cases/tip-use-cases
  */
 
-import type { Tip } from '../types/database.js';
-import type { ITipRepository } from '../domain/ports/tip-repository.js';
+import type { Tip } from '@/types/database';
+import type { ITipRepository } from '@/domain/ports';
 
 export class TipUseCases {
 	constructor(private tipRepo: ITipRepository) {}

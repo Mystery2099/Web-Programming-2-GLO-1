@@ -4,10 +4,9 @@
  * @module use-cases/profile-use-cases
  */
 
-import type { Profile } from '../types/database.js';
-import type { IProfileRepository } from '../domain/ports/profile-repository.js';
-import { validateProfileField, type ValidationError } from '../services/validation.js';
-import { sanitizeText } from '../utils/validation.js';
+import type { Profile } from '@/types/database';
+import type { IProfileRepository } from '@/domain/ports';
+import { validateProfileField, type ValidationError } from '@/services';
 
 export interface UpdateProfileDTO {
 	ambassador_name?: string;
@@ -68,12 +67,12 @@ export class ProfileUseCases {
 			if (!validFields.includes(key as typeof validFields[number]) || value === undefined) continue;
 
 			if (TEXT_FIELDS.includes(key as (typeof TEXT_FIELDS)[number])) {
-				const sanitized = sanitizeText(String(value));
-				const error = validateProfileField(key, sanitized);
+				const textValue = String(value);
+				const error = validateProfileField(key, textValue);
 				if (error) {
 					validationErrors.push(error);
 				} else {
-					(updateData as Record<string, unknown>)[key] = sanitized;
+					(updateData as Record<string, unknown>)[key] = textValue;
 				}
 			} else if (NUMBER_FIELDS.includes(key as (typeof NUMBER_FIELDS)[number])) {
 				const num = Number(value);

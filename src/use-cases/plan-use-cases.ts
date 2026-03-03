@@ -4,10 +4,9 @@
  * @module use-cases/plan-use-cases
  */
 
-import type { Plan } from '../types/database.js';
-import type { IPlanRepository } from '../domain/ports/plan-repository.js';
-import { validatePlanActivity } from '../services/validation.js';
-import { sanitizeText } from '../utils/validation.js';
+import type { Plan } from '@/types/database';
+import type { IPlanRepository } from '@/domain/ports';
+import { validatePlanActivity } from '@/services';
 
 export interface CreatePlanDTO {
 	activity: string;
@@ -31,7 +30,7 @@ export class PlanUseCases {
 	}
 
 	createPlan(dto: CreatePlanDTO): UseCaseResult<Plan> {
-		const activity = sanitizeText(dto.activity ?? '');
+		const activity = dto.activity ?? '';
 
 		const validationError = validatePlanActivity(activity);
 		if (validationError) {
