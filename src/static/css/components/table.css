@@ -1,0 +1,165 @@
+/* ========================================
+   TABLE COMPONENT
+   ======================================== */
+
+.data-table-container,
+.table-container {
+	background: var(--card-bg);
+	border-radius: 16px;
+	padding: 2rem;
+	box-shadow: 0 4px 20px var(--brand-glow);
+	border: 1px solid var(--card-border);
+	overflow-x: auto;
+}
+
+.data-table,
+.table {
+	width: 100%;
+	border-collapse: collapse;
+	font-size: 0.95rem;
+}
+
+.data-table thead,
+.table thead {
+	background: var(--primary);
+	color: var(--white);
+}
+
+.data-table th,
+.table th {
+	padding: 1.125rem 1.5rem;
+	text-align: left;
+	cursor: pointer;
+	user-select: none;
+	font-weight: 700;
+	font-size: 0.875rem;
+	text-transform: uppercase;
+	letter-spacing: 1px;
+	transition: background 0.2s ease;
+}
+
+.data-table th:hover,
+.table th:hover {
+	background: var(--table-header-hover);
+}
+
+.data-table td,
+.table td {
+	padding: 1rem 1.5rem;
+	border-bottom: 1px solid var(--border);
+	transition: background 0.2s ease;
+}
+
+.data-table tbody tr:hover,
+.table tbody tr:hover {
+	background: var(--table-row-hover);
+}
+
+.data-table tbody tr:last-child td,
+.table tbody tr:last-child td {
+	border-bottom: none;
+}
+
+.data-table--striped tbody tr:nth-child(even),
+.table--striped tbody tr:nth-child(even) {
+	background: var(--table-row-striped);
+}
+
+.data-table__actions,
+.table__actions {
+	display: flex;
+	gap: 0.5rem;
+}
+
+.data-table__action,
+.table__action {
+	background: none;
+	border: none;
+	color: var(--primary);
+	cursor: pointer;
+	padding: 0.5rem;
+	border-radius: 8px;
+	transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.data-table__action:hover,
+.table__action:hover {
+	background: var(--bg);
+	transform: scale(1.1);
+}
+
+.data-table__action--danger:hover,
+.table__action--danger:hover {
+	background: #fee2e2;
+	color: #dc2626;
+}
+
+/* Responsive Table */
+@media (max-width: 768px) {
+	.data-table,
+	.table-container table {
+		display: block;
+		overflow-x: visible;
+	}
+
+	.data-table thead,
+	.table-container table thead {
+		display: none;
+	}
+
+	.data-table tbody,
+	.table-container table tbody {
+		display: block;
+	}
+
+	.data-table tr,
+	.table-container table tr {
+		display: block;
+		margin-bottom: 1rem;
+		background: var(--card-bg);
+		border-radius: 12px;
+		padding: 1.25rem;
+		box-shadow: 0 2px 12px var(--shadow-sm);
+		border: 1px solid var(--card-border);
+	}
+
+	.data-table td,
+	.table-container table td {
+		display: block;
+		text-align: right;
+		padding: 0.5rem 0;
+		border-bottom: none;
+	}
+
+	.data-table td::before,
+	.table-container table td::before {
+		content: attr(data-label);
+		float: left;
+		font-weight: 600;
+		color: var(--text-muted);
+		text-transform: uppercase;
+		font-size: 0.8rem;
+		letter-spacing: 1px;
+		margin-right: 0.5rem;
+	}
+
+}
+
+/* Table Actions */
+.table__action--edit {
+	color: var(--accent);
+}
+
+.table__action--edit:hover {
+	background: var(--accent);
+	color: white;
+}
+
+.table__action--delete {
+	color: var(--danger);
+}
+
+.table__action--delete:hover {
+	background: var(--danger);
+	color: white;
+}

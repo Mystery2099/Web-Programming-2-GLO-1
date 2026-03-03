@@ -1,0 +1,198 @@
+/* ========================================
+   BUTTON COMPONENT
+   ======================================== */
+
+.btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 0.5rem;
+	padding: 0.875rem 2rem;
+	border: 1.5px solid var(--border);
+	border-radius: 10px;
+	font-size: 1rem;
+	font-weight: 600;
+	cursor: pointer;
+	transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+	font-family: inherit;
+	text-decoration: none;
+	white-space: nowrap;
+	background: color-mix(in srgb, var(--surface) 88%, var(--bg));
+	color: var(--text);
+}
+
+.btn:focus-visible {
+	outline: 3px solid var(--primary);
+	outline-offset: 2px;
+}
+
+.btn:hover {
+	transform: translateY(-1px);
+	border-color: var(--primary);
+	background: color-mix(in srgb, var(--surface) 76%, var(--bg));
+}
+
+.btn-primary {
+	background: var(--primary);
+	color: var(--white);
+	border-color: transparent;
+	position: relative;
+	overflow: hidden;
+}
+
+.btn-primary:hover {
+	transform: translateY(-2px);
+	box-shadow: 0 8px 30px var(--brand-glow-hover);
+}
+
+.btn-primary:active {
+	transform: translateY(-1px);
+	box-shadow: 0 4px 15px var(--brand-glow);
+}
+
+.btn-secondary {
+	background: var(--secondary);
+	color: var(--white);
+	border-color: transparent;
+}
+
+.btn-secondary:hover {
+	transform: translateY(-2px);
+	box-shadow: 0 6px 20px var(--secondary-glow);
+}
+
+.btn-danger {
+	background: var(--danger);
+	color: var(--white);
+	border-color: transparent;
+	padding: 0.625rem;
+	border-radius: 8px;
+}
+
+.btn-outline {
+	background: transparent;
+	color: var(--primary);
+	border-color: color-mix(in srgb, var(--primary) 60%, var(--border));
+}
+
+.btn-outline:hover {
+	background: color-mix(in srgb, var(--primary) 12%, transparent);
+	border-color: var(--primary);
+	color: var(--primary);
+}
+
+.btn-danger:hover {
+	transform: translateY(-2px);
+	box-shadow: 0 6px 20px var(--danger-glow);
+}
+
+.btn-pin {
+	background: var(--secondary);
+	color: var(--white);
+	border: none;
+	padding: 0.625rem;
+	border-radius: 8px;
+	cursor: pointer;
+	transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.btn-pin:hover {
+	transform: translateY(-2px) rotate(-10deg);
+	box-shadow: 0 6px 20px var(--secondary-glow);
+}
+
+.btn-pin i {
+	transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.btn-pinned {
+	background: var(--gold-dark);
+	color: var(--white);
+	border: none;
+	padding: 0.625rem;
+	border-radius: 8px;
+	cursor: pointer;
+	transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+	animation: pinGlow 2s ease-in-out infinite;
+	position: relative;
+	overflow: hidden;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.btn-pinned::before {
+	content: '';
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background: radial-gradient(circle, var(--gold-glow) 0%, transparent 70%);
+	opacity: 0;
+	transition: opacity 0.3s ease;
+}
+
+.btn-pinned:hover::before {
+	opacity: 1;
+}
+
+.btn-pinned:active::before {
+	opacity: 0.8;
+}
+
+.btn-pinned:hover {
+	transform: translateY(-2px) rotate(10deg) scale(1.05);
+	background: var(--gold-hover-light);
+}
+
+body.dark .btn-pinned:hover {
+	background: var(--gold-hover-dark);
+	box-shadow: 0 6px 20px var(--pin-glow);
+}
+
+@keyframes pinGlow {
+	0%,
+	100% {
+		box-shadow: 0 0 0 0 var(--pin-glow);
+	}
+	50% {
+		box-shadow: 0 0 0 4px var(--pin-glow-light);
+	}
+}
+
+.btn-small {
+	padding: 0.5rem 1rem;
+	font-size: 0.875rem;
+}
+
+.btn-lg {
+	padding: 1rem 2rem;
+	font-size: 1.1rem;
+}
+
+.btn-full {
+	width: 100%;
+}
+
+.btn:disabled,
+.btn-disabled {
+	opacity: 0.5;
+	cursor: not-allowed;
+	pointer-events: none;
+}
+
+.settings-btn-icon {
+	display: inline-block;
+	vertical-align: middle;
+	margin-right: 0.5rem;
+}
+
+@media (max-width: 480px) {
+	.btn {
+		padding: 0.75rem 1.5rem;
+	}
+}

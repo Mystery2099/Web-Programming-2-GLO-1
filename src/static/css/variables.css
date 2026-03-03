@@ -122,6 +122,7 @@
    All brand colors adjusted for readability.
  */
 
+:root.dark,
 body.dark {
 	/* Neutral Colors - Darker backgrounds, lighter text */
 	--bg: #0d1b2a; /* Very dark navy - Main background */
