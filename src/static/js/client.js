@@ -188,12 +188,20 @@ if (typeof window.marchAppInitialized === 'undefined') {
 		});
 	};
 
+	const initializePageScripts = () => {
+		if (typeof window.initHolidaysPage === 'function') window.initHolidaysPage();
+		if (typeof window.initPlansPage === 'function') window.initPlansPage();
+		if (typeof window.initSettingsPage === 'function') window.initSettingsPage();
+		if (typeof window.initAddHolidayPage === 'function') window.initAddHolidayPage();
+	};
+
 	document.addEventListener('DOMContentLoaded', () => {
 		console.log('[CLIENT] DOMContentLoaded fired');
 		window.setupSearch('holiday-search', '#holidays-list', 'tr');
 		window.setupSearch('tip-search', '#tips-list', '.card');
 		window.loadPreferences();
 		scheduleToastDismiss();
+		initializePageScripts();
 
 		document.body.addEventListener('htmx:beforeSwap', (e) => {
 			console.log('[HTMX] beforeSwap:', e.detail);
@@ -203,6 +211,7 @@ if (typeof window.marchAppInitialized === 'undefined') {
 			console.log('[HTMX] afterSwap:', e.detail);
 			lucide.createIcons();
 			scheduleToastDismiss();
+			initializePageScripts();
 		});
 		
 		document.body.addEventListener('htmx:responseError', (e) => {
