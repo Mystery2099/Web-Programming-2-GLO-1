@@ -239,20 +239,6 @@ function isStoredFalse(value) {
 	return value === false || value === 'false';
 }
 
-window.validateForm = function (form) {
-	const input = form.querySelector('input');
-	const group = form.querySelector('.form-group');
-	const value = input.value.trim();
-
-	if (!value || value.length < 3 || /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/.test(value)) {
-		group.classList.add('invalid');
-		return false;
-	}
-
-	group.classList.remove('invalid');
-	return true;
-};
-
 window.setupSearch = function (inputId, containerId, itemSelector) {
 	const input = document.getElementById(inputId);
 	if (!input) return;
