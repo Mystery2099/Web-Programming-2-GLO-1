@@ -27,7 +27,7 @@ export const addHolidayPage = (error = '', fieldName = '') => {
 			</div>
 
 			<div class="add-holiday-form-card">
-				<form class="form add-holiday-form" action="/holidays" method="post" onsubmit="return validateHolidayForm(this)">
+				<form class="form add-holiday-form" action="/holidays" method="post">
 					<div class={`form-group ${fieldName === 'name' ? 'invalid' : ''}`}>
 						<label for="holiday-name">Holiday Name</label>
 						<input
@@ -94,37 +94,6 @@ export const addHolidayPage = (error = '', fieldName = '') => {
 				</form>
 			</div>
 
-			<script>
-				{`function validateHolidayForm(form) {
-					let isValid = true;
-					const nameInput = form.querySelector('#holiday-name');
-					const dayInput = form.querySelector('#holiday-day');
-					const typeInput = form.querySelector('#holiday-type');
-
-					if (!nameInput.value.trim() || nameInput.value.trim().length < 3) {
-						nameInput.closest('.form-group').classList.add('invalid');
-						isValid = false;
-					} else {
-						nameInput.closest('.form-group').classList.remove('invalid');
-					}
-
-					if (!dayInput.value) {
-						dayInput.closest('.form-group').classList.add('invalid');
-						isValid = false;
-					} else {
-						dayInput.closest('.form-group').classList.remove('invalid');
-					}
-
-					if (!typeInput.value) {
-						typeInput.closest('.form-group').classList.add('invalid');
-						isValid = false;
-					} else {
-						typeInput.closest('.form-group').classList.remove('invalid');
-					}
-
-					return isValid;
-				}`}
-			</script>
 		</div>
 	);
 };
