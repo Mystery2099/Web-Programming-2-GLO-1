@@ -4,9 +4,12 @@ export interface ErrorResponse {
 }
 
 export interface HtmlSuccess {
-	html?: unknown;
-	redirect?: string;
+	html: string;
 	isPartial?: boolean;
 }
 
-export type ControllerResult = HtmlSuccess | { error: ErrorResponse };
+export interface RedirectSuccess {
+	redirect: string;
+}
+
+export type ControllerResult = HtmlSuccess | RedirectSuccess | { error: ErrorResponse };
