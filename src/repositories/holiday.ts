@@ -5,7 +5,7 @@
  */
 
 import { Database } from 'bun:sqlite';
-import type { Holiday, HolidayType } from '../types/database.js';
+import type { Holiday, HolidayType } from '@/types/database';
 import type { IHolidayRepository, HolidayFilters } from '../domain/ports/holiday-repository.js';
 
 export class HolidayRepository implements IHolidayRepository {

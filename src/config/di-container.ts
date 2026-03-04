@@ -1,17 +1,17 @@
-import { db } from '../db/index.js';
+import { db } from '@/db';
 import {
 	HolidayRepository,
 	PlanRepository,
 	TipRepository,
 	ProfileRepository
-} from '../repositories/index.js';
-import { HolidayUseCases, PlanUseCases, TipUseCases, ProfileUseCases } from '../use-cases/index.js';
+} from '@/repositories';
+import { HolidayUseCases, PlanUseCases, TipUseCases, ProfileUseCases } from '@/use-cases';
 import {
 	HolidayController,
 	PlanController,
 	TipController,
 	ProfileController
-} from '../controllers/index.js';
+} from '@/controllers';
 
 export interface Controllers {
 	holidayController: HolidayController;

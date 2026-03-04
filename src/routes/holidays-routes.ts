@@ -1,6 +1,6 @@
 import type { Elysia } from 'elysia';
-import { HolidayController } from '../controllers/index.js';
-import { redirectTo } from '../utils/http-helpers.js';
+import { HolidayController } from '@/controllers';
+import { redirectTo } from '@/utils/http-helpers';
 
 interface HolidayRoutesParams {
 	app: Elysia;

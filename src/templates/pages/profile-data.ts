@@ -22,11 +22,6 @@ export const PATRICKS_OPTIONS = [
 	'Quiet celebration'
 ] as const;
 
-export type Mood = (typeof MOODS)[number];
-export type Style = (typeof STYLES)[number];
-export type SquadSize = (typeof SQUAD_SIZES)[number];
-export type PatricksOption = (typeof PATRICKS_OPTIONS)[number];
-
 export const DEFAULT_PROFILE: Profile = {
 	id: 0,
 	ambassador_name: 'Mathew Kennedy-Brewer',

@@ -1,3 +1,5 @@
+import localforage from "localforage";
+
 (function() {
 	'use strict';
 	

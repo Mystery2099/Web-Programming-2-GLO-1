@@ -1,10 +1,10 @@
-import type { ProfilePageData } from '../templates/pages/profile.js';
-import { profilePage } from '../templates/pages/profile.js';
-import type { ProfileEditPageData } from '../templates/pages/profile-edit.js';
-import { profileEditPage } from '../templates/pages/profile-edit.js';
-import { layout } from '../templates/layout.js';
-import { ProfileUseCases, UpdateProfileDTO } from '../use-cases/index.js';
-import type { ControllerResult } from '../types/controller.js';
+import type { ProfilePageData } from '@/templates/pages/profile';
+import { profilePage } from '@/templates/pages';
+import type { ProfileEditPageData } from '@/templates/pages/profile-edit';
+import { profileEditPage } from '@/templates/pages';
+import { layout } from '@/templates/layout';
+import { ProfileUseCases, UpdateProfileDTO } from '@/use-cases';
+import type { ControllerResult } from '@/types/controller';
 
 export class ProfileController {
 	constructor(private profileUseCases: ProfileUseCases) {}

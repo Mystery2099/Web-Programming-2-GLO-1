@@ -33,11 +33,6 @@ export class HolidayUseCases {
 	getAll(filters?: HolidayFilters): Holiday[] {
 		return this.holidayRepo.getAll(filters);
 	}
-
-	getById(id: number): Holiday | undefined {
-		return this.holidayRepo.getById(id);
-	}
-
 	getTypes(): string[] {
 		return this.holidayRepo.getTypes();
 	}

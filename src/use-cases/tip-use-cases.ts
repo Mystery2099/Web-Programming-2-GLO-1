@@ -13,16 +13,7 @@ export class TipUseCases {
 	getAll(): Tip[] {
 		return this.tipRepo.getAll();
 	}
-
-	getById(id: number): Tip | undefined {
-		return this.tipRepo.getById(id);
-	}
-
 	search(query: string): Tip[] {
 		return this.tipRepo.search(query);
-	}
-
-	getByCategory(category: string): Tip[] {
-		return this.tipRepo.getByCategory(category);
 	}
 }

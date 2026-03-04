@@ -5,8 +5,8 @@
  */
 
 import { Database } from 'bun:sqlite';
-import type { Tip } from '../types/database.js';
-import type { ITipRepository } from '../domain/ports/tip-repository.js';
+import type { Tip } from '@/types/database';
+import type { ITipRepository } from '@/domain/ports';
 
 export class TipRepository implements ITipRepository {
 	private db: Database;

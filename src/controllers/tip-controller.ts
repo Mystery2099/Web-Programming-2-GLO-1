@@ -1,6 +1,6 @@
-import type { TipsPageData } from '../templates/pages/tips.js';
-import { tipsPage } from '../templates/pages/tips.js';
-import { TipUseCases } from '../use-cases/index.js';
+import type { TipsPageData } from '@/templates/pages/tips';
+import { tipsPage } from '@/templates/pages';
+import { TipUseCases } from '@/use-cases';
 
 export class TipController {
 	constructor(private tipUseCases: TipUseCases) {}

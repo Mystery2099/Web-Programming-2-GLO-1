@@ -5,8 +5,8 @@
  */
 
 import { Database } from 'bun:sqlite';
-import type { Plan } from '../types/database.js';
-import type { IPlanRepository } from '../domain/ports/plan-repository.js';
+import type { Plan } from '@/types/database';
+import type { IPlanRepository } from '@/domain/ports';
 
 export class PlanRepository implements IPlanRepository {
 	private db: Database;

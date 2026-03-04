@@ -3,10 +3,10 @@ import { registerHolidayRoutes } from './holidays-routes.js';
 import { registerTipRoutes } from './tips-routes.js';
 import { registerProfileRoutes } from './profile-routes.js';
 import type { AnyElysia } from 'elysia';
-import type { Controllers } from '../config/di-container.js';
-import { layout } from '../templates/layout.js';
-import { homePage, htmxErrorFragment, notFoundPage, settingsPage } from '../templates/pages/index.js';
-import { PAGE_TITLES } from '../config/constants.js';
+import type { Controllers } from '@/config/di-container';
+import { layout } from '@/templates/layout';
+import { homePage, htmxErrorFragment, notFoundPage, settingsPage } from '@/templates/pages';
+import { PAGE_TITLES } from '@/config/constants';
 
 export const registerAllRoutes = (app: AnyElysia, controllers: Controllers): void => {
 	app

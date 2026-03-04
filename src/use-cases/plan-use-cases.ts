@@ -24,11 +24,6 @@ export class PlanUseCases {
 	getAll(includeHidden = false): Plan[] {
 		return this.planRepo.getAll(includeHidden);
 	}
-
-	getById(id: number): Plan | undefined {
-		return this.planRepo.getById(id);
-	}
-
 	createPlan(dto: CreatePlanDTO): UseCaseResult<Plan> {
 		const activity = dto.activity ?? '';
 

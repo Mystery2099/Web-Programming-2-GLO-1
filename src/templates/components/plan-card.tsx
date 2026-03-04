@@ -1,5 +1,6 @@
 import { Html } from '@elysiajs/html';
 import type { Plan } from '@/types/database';
+import { escapeHtml } from '@/utils/http-helpers';
 
 export interface PlanCardProps {
 	plan: Plan;
@@ -8,6 +9,10 @@ export interface PlanCardProps {
 export const PlanCard = ({ plan }: PlanCardProps) => {
 	const isCompleted = Number(plan.is_completed) === 1;
 	const isPinned = Number(plan.is_pinned) === 1;
+	const safeActivity = escapeHtml(plan.activity);
+	const confirmMessage = escapeHtml(
+		`Are you sure you want to delete "${plan.activity}"?`
+	).replace(/&quot;/g, '&#34;');
 
 	return (
 	<div
@@ -22,11 +27,11 @@ export const PlanCard = ({ plan }: PlanCardProps) => {
 			hx-delete={`/plans/${plan.id}`}
 			hx-target="#plans-list"
 			hx-swap="innerHTML"
-			hx-confirm={`Are you sure you want to delete '${plan.activity}'?`}
+			hx-confirm={confirmMessage}
 		>
 			<i data-lucide="trash-2" aria-hidden="true"></i>
 		</button>
-		<h3>{plan.activity as 'safe'}</h3>
+		<h3>{safeActivity}</h3>
 		<p class="date">Status: {isCompleted ? 'Completed' : 'Pending'}</p>
 		<div class="card-actions">
 			<button

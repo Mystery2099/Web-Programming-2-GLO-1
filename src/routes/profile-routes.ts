@@ -1,6 +1,6 @@
 import type { Elysia } from 'elysia';
-import { ProfileController } from '../controllers/index.js';
-import { redirectTo } from '../utils/http-helpers.js';
+import { ProfileController } from '@/controllers';
+import { redirectTo } from '@/utils/http-helpers';
 
 interface ProfileRoutesParams {
 	app: Elysia;

@@ -5,8 +5,8 @@
  */
 
 import { Database } from 'bun:sqlite';
-import type { Profile } from '../types/database.js';
-import type { IProfileRepository } from '../domain/ports/profile-repository.js';
+import type { Profile } from '@/types/database';
+import type { IProfileRepository } from '@/domain/ports';
 
 export class ProfileRepository implements IProfileRepository {
 	private db: Database;

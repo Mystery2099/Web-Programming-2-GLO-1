@@ -1,4 +1,5 @@
 import { Html } from '@elysiajs/html';
+import { escapeHtml } from '@/utils/http-helpers';
 
 export interface ToastProps {
 	message: string;
@@ -6,7 +7,7 @@ export interface ToastProps {
 }
 
 export const Toast = ({ message, type = 'success' }: ToastProps) => (
-	<div class={`toast toast-${type}`} aria-live="polite" safe>
-		{message}
+	<div class={`toast toast-${type}`} aria-live="polite">
+		{escapeHtml(message)}
 	</div>
 );

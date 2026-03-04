@@ -9,26 +9,30 @@ const HTML_ENTITIES: Record<string, string> = {
 export const escapeHtml = (str: string): string =>
 	str.replace(/[&<>"']/g, (char) => HTML_ENTITIES[char] || char);
 
-const URL_SAFE_PATTERN = /^[a-zA-Z0-9\-._~:/?#[\]@!$&'()*+,;=%]+$/;
-
 export const sanitizeUrl = (url: string): string => {
 	const trimmed = url.trim();
-	if (!URL_SAFE_PATTERN.test(trimmed)) {
+	if (!trimmed.startsWith('/')) {
 		return '/';
 	}
+
+	if (trimmed.startsWith('//')) {
+		return '/';
+	}
+
+	if (/[\r\n\t]/.test(trimmed)) {
+		return '/';
+	}
+
 	return trimmed;
 };
 
 export const redirectTo = (url: string): string => {
 	const safeUrl = sanitizeUrl(url);
 	return `<!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <meta http-equiv="refresh" content="0;url=${escapeHtml(safeUrl)}">
   </head>
   <body></body>
 </html>`;
 };
-
-export const errorMessage = (message: string): string =>
-	`<p style="color: red;">${escapeHtml(message)}</p>`;

@@ -5,7 +5,7 @@
  */
 
 import { Database } from 'bun:sqlite';
-import type { Holiday, Plan, Tip, Profile } from '../types/database';
+import type { Holiday, Plan, Tip, Profile } from '@/types/database';
 import { createSchema } from './schema.js';
 import { seedDatabase } from './seeds.js';
 

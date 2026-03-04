@@ -1,9 +1,9 @@
 import type { Elysia } from 'elysia';
-import { TipController } from '../controllers/index.js';
-import { layout } from '../templates/layout.js';
-import { tipsList, tipsPage } from '../templates/pages/tips.js';
-import { PAGE_TITLES } from '../config/constants.js';
-import type { TipsPageData } from '../templates/pages/tips.js';
+import { TipController } from '@/controllers';
+import { layout } from '@/templates/layout';
+import { tipsList, tipsPage } from '@/templates/pages/tips';
+import { PAGE_TITLES } from '@/config/constants';
+import type { TipsPageData } from '@/templates/pages/tips';
 
 interface TipRoutesParams {
 	app: Elysia;

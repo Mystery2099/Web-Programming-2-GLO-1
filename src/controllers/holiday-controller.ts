@@ -1,9 +1,9 @@
-import type { HolidaysPageData } from '../templates/pages/holidays.js';
-import { holidaysPage } from '../templates/pages/holidays.js';
-import { addHolidayPage } from '../templates/pages/add-holiday.js';
-import { layout } from '../templates/layout.js';
-import { HolidayUseCases, CreateHolidayDTO } from '../use-cases/index.js';
-import type { ControllerResult } from '../types/controller.js';
+import type { HolidaysPageData } from '@/templates/pages/holidays';
+import { holidaysPage } from '@/templates/pages';
+import { addHolidayPage } from '@/templates/pages';
+import { layout } from '@/templates/layout';
+import { HolidayUseCases, CreateHolidayDTO } from '@/use-cases';
+import type { ControllerResult } from '@/types/controller';
 
 /**
  * Holiday Controller

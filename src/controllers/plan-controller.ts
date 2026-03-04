@@ -1,8 +1,8 @@
-import type { PlansPageData } from '../templates/pages/plans.js';
-import { plansList, plansPage } from '../templates/pages/plans.js';
-import { PlanUseCases, CreatePlanDTO } from '../use-cases/index.js';
-import type { ControllerResult, HtmlSuccess } from '../types/controller.js';
-import type { Plan } from '../types/database.js';
+import type { PlansPageData } from '@/templates/pages/plans';
+import { plansList, plansPage } from '@/templates/pages/plans';
+import { PlanUseCases, CreatePlanDTO } from '@/use-cases';
+import type { ControllerResult, HtmlSuccess } from '@/types/controller';
+import type { Plan } from '@/types/database';
 
 export class PlanController {
 	constructor(private planUseCases: PlanUseCases) {}

@@ -1,18 +1,19 @@
 import type { Elysia } from 'elysia';
-import { PlanController } from '../controllers/index.js';
-import { layout } from '../templates/layout.js';
-import { PAGE_TITLES } from '../config/constants.js';
-import { escapeHtml } from '../utils/http-helpers.js';
+import { PlanController } from '@/controllers';
+import { layout } from '@/templates/layout';
+import { PAGE_TITLES } from '@/config/constants';
+import { escapeHtml } from '@/utils/http-helpers';
 
 interface PlanRoutesParams {
 	app: Elysia;
 	planController: PlanController;
 }
 
-const clearPlansFeedbackOob = '<div id="plans-feedback" hx-swap-oob="innerHTML"></div>';
-
 const plansErrorToastOob = (message: string): string =>
 	`<div id="plans-feedback" hx-swap-oob="innerHTML"><div class="toast toast-error" aria-live="polite">${escapeHtml(message)}</div></div>`;
+
+const plansSuccessToastOob = (message: string): string =>
+	`<div id="plans-feedback" hx-swap-oob="innerHTML"><div class="toast toast-success" aria-live="polite">${escapeHtml(message)}</div></div>`;
 
 export const registerPlanRoutes = ({ app, planController }: PlanRoutesParams): void => {
 	app
@@ -32,7 +33,7 @@ export const registerPlanRoutes = ({ app, planController }: PlanRoutesParams): v
 			}
 
 			const html = 'html' in result ? result.html : '';
-			return `${String(html)}${clearPlansFeedbackOob}`;
+			return `${String(html)}${plansSuccessToastOob('Plan added successfully!')}`;
 		})
 		.put('/plans/:id', ({ params }) => {
 			const result = planController.toggleComplete(params.id);
