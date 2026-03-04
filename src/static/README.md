@@ -13,7 +13,12 @@ css/
 
 js/
   Client-side JavaScript
-  - client.js          - Application client code
+  - client.js          - Shared app bootstrap (theme, sidebar, toast lifecycle, preferences)
+  - pages/             - Page-specific behavior modules
+    - add-holiday-page.js
+    - holidays-page.js
+    - plans-page.js
+    - settings-page.js
   - glightbox.min.js   - Lightbox library (minified)
 
 images/
@@ -31,6 +36,8 @@ CSS Files
 
 JavaScript Files
 - Use kebab-case: client.js
+- Put page-specific behavior in js/pages/
+- Keep client.js focused on shared app initialization
 - Keep minified libraries separate
 
 Images
@@ -43,6 +50,7 @@ Adding New Assets
 
 1. CSS files → css/
 2. JavaScript files → js/
+   - Page-only behavior → js/pages/
 3. Images → images/[category]/
    - Create new category if needed
    - Use existing categories when appropriate
@@ -54,10 +62,12 @@ When adding or moving static assets, update:
 - Template files (src/templates/**/*.tsx)
 - Main CSS file (src/static/css/main.css)
 - Head component (src/templates/head.tsx)
+- Layout script includes (src/templates/layout.tsx)
 
 Performance Notes
 ================
 
 - Images are served via Elysia static plugin
 - CSS is loaded once and cached by browser
+- Page JS modules are loaded once and initialized by client.js
 - Use appropriate image formats (WebP for photos, PNG for graphics)
