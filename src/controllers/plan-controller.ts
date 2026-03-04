@@ -1,7 +1,8 @@
 import type { PlansPageData } from '../templates/pages/plans.js';
 import { plansList, plansPage } from '../templates/pages/plans.js';
 import { PlanUseCases, CreatePlanDTO } from '../use-cases/index.js';
-import type { ControllerResult } from '../types/controller.js';
+import type { ControllerResult, HtmlSuccess } from '../types/controller.js';
+import type { Plan } from '../types/database.js';
 
 export class PlanController {
 	constructor(private planUseCases: PlanUseCases) {}
@@ -16,7 +17,7 @@ export class PlanController {
 		return plansPage(plansData);
 	}
 
-	getAll(asJson = false) {
+	getAll(asJson = false): Plan[] | HtmlSuccess {
 		return asJson
 			? this.planUseCases.getAll()
 			: { html: this.buildPlansHtml(), isPartial: true };

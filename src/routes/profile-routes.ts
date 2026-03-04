@@ -28,6 +28,7 @@ export const registerProfileRoutes = ({ app, profileController }: ProfileRoutesP
 				return redirectTo(`/profile/edit?error=${message}${field}`);
 			}
 
-			return redirectTo(result.redirect ?? '/profile');
+			const redirect = 'redirect' in result ? result.redirect : '/profile';
+			return redirectTo(redirect);
 		});
 };

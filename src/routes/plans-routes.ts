@@ -31,21 +31,22 @@ export const registerPlanRoutes = ({ app, planController }: PlanRoutesParams): v
 				return `${listHtml}${plansErrorToastOob(result.error.message)}`;
 			}
 
-			return `${String(result.html)}${clearPlansFeedbackOob}`;
+			const html = 'html' in result ? result.html : '';
+			return `${String(html)}${clearPlansFeedbackOob}`;
 		})
 		.put('/plans/:id', ({ params }) => {
 			const result = planController.toggleComplete(params.id);
 			if ('error' in result) return result.error.message;
-			return result.html;
+			return 'html' in result ? result.html : '';
 		})
 		.put('/plans/:id/pin', ({ params }) => {
 			const result = planController.togglePin(params.id);
 			if ('error' in result) return result.error.message;
-			return result.html;
+			return 'html' in result ? result.html : '';
 		})
 		.delete('/plans/:id', ({ params }) => {
 			const result = planController.deletePlan(params.id);
 			if ('error' in result) return result.error.message;
-			return result.html;
+			return 'html' in result ? result.html : '';
 		});
 };
