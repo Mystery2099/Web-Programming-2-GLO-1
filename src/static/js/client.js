@@ -171,11 +171,29 @@ if (typeof window.marchAppInitialized === 'undefined') {
 		});
 	});
 
+	const scheduleToastDismiss = (root = document) => {
+		const toasts = root.querySelectorAll('.toast');
+		toasts.forEach((toast) => {
+			if (!(toast instanceof HTMLElement)) return;
+			if (toast.dataset.dismissScheduled === 'true') return;
+
+			toast.dataset.dismissScheduled = 'true';
+			const dismissMs = Number(toast.dataset.dismissMs || 3000);
+			window.setTimeout(() => {
+				toast.classList.add('toast-exit');
+				window.setTimeout(() => {
+					toast.remove();
+				}, 300);
+			}, Number.isFinite(dismissMs) ? dismissMs : 3000);
+		});
+	};
+
 	document.addEventListener('DOMContentLoaded', () => {
 		console.log('[CLIENT] DOMContentLoaded fired');
 		window.setupSearch('holiday-search', '#holidays-list', 'tr');
 		window.setupSearch('tip-search', '#tips-list', '.card');
 		window.loadPreferences();
+		scheduleToastDismiss();
 
 		document.body.addEventListener('htmx:beforeSwap', (e) => {
 			console.log('[HTMX] beforeSwap:', e.detail);
@@ -184,6 +202,7 @@ if (typeof window.marchAppInitialized === 'undefined') {
 		document.body.addEventListener('htmx:afterSwap', (e) => {
 			console.log('[HTMX] afterSwap:', e.detail);
 			lucide.createIcons();
+			scheduleToastDismiss();
 		});
 		
 		document.body.addEventListener('htmx:responseError', (e) => {
@@ -250,34 +269,12 @@ window.setupSearch = function (inputId, containerId, itemSelector) {
 	window.savePreference = async function (key, value) {
 		console.log('[CLIENT] savePreference:', key, '=', value);
 		await localforage.setItem('march_' + key, value);
-		if (key === 'itemsPerPage') {
-			const holidaysDiv = document.getElementById('holidays');
-			if (holidaysDiv) {
-				console.log('[CLIENT] Fetching holidays with itemsPerPage:', value);
-				fetch('/holidays?itemsPerPage=' + value)
-					.then((response) => {
-						console.log('[CLIENT] Fetch response status:', response.status);
-						return response.text();
-					})
-					.then((html) => {
-						holidaysDiv.innerHTML = html;
-						lucide.createIcons();
-					})
-					.catch((err) => console.error('[CLIENT] Fetch error:', err));
-			}
-		}
 	};
 
 	window.loadPreferences = async function () {
-		const itemsPerPage = await localforage.getItem('march_itemsPerPage');
 		const defaultFilter = await localforage.getItem('march_defaultHolidayFilter');
 		const animations = await localforage.getItem('march_animations');
 		const textSize = await localforage.getItem('march_textSize');
-
-		if (itemsPerPage) {
-			const el = document.getElementById('items-per-page');
-			if (el) el.value = itemsPerPage;
-		}
 
 		if (defaultFilter) {
 			const el = document.getElementById('default-holiday-filter');
@@ -302,7 +299,6 @@ window.setupSearch = function (inputId, containerId, itemSelector) {
 
 	window.resetPreferences = async function () {
 		const keys = [
-			'itemsPerPage',
 			'defaultHolidayFilter',
 			'animations',
 			'textSize',
