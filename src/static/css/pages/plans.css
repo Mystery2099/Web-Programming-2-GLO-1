@@ -6,6 +6,17 @@
 	margin-bottom: 1rem;
 }
 
+#plans-feedback {
+	max-width: 46rem;
+	margin: 0 0 0.8rem;
+}
+
+#plans-feedback .toast {
+	margin: 0;
+	border-radius: 12px;
+	box-shadow: 0 8px 22px var(--panel-shadow-22);
+}
+
 .plans-top-grid .form-card {
 	margin: 0;
 }
