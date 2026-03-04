@@ -11,7 +11,7 @@ css/
 ├── glightbox.css       # Third-party library (keep as-is)
 │
 ├── base/               # Foundation styles
-│   ├── reset.css       # CSS reset/normalize
+│   ├── base.css        # Base element defaults and shared layout primitives
 │   ├── typography.css  # Headings, paragraphs, text styles
 │   ├── accessibility.css # A11y helpers, skip links, focus states
 │   └── animations.css  # Keyframes and animation utilities
@@ -38,8 +38,13 @@ css/
 │
 ├── pages/              # Page-specific styles
 │   ├── home.css        # Home page sections
+│   ├── holidays.css    # Holidays page layout and toolbar
+│   ├── add-holiday.css # Add Holiday form page
+│   ├── plans.css       # Plans page + snapshot panel
 │   ├── profile.css     # Profile page
-│   └── settings.css    # Settings page
+│   ├── settings.css    # Settings page
+│   ├── tips.css        # Tips page
+│   └── error.css       # Error pages
 │
 └── utilities/          # Helper classes
     └── helpers.css     # Utility classes (margin, flex, etc.)
@@ -92,11 +97,17 @@ All design tokens are defined in `variables.css`:
 
 Files are imported in this order in `main.css`:
 
-1. **Base** - Reset, typography, accessibility, animations
+1. **Base** - Normalize, base, typography, accessibility, animations
 2. **Layout** - App structure, navigation, footer
 3. **Components** - Reusable UI elements
 4. **Pages** - Page-specific overrides
 5. **Utilities** - Helper classes (loaded last for override capability)
+
+## Current Direction
+
+- Keep page-specific styling out of inline `<style>` blocks in templates.
+- Add or update page styles under `pages/*.css` and import in `main.css`.
+- Keep reusable styles in `components/*.css` to avoid duplication.
 
 ## Adding New Styles
 
@@ -127,10 +138,8 @@ Files are imported in this order in `main.css`:
 |------|-------|---------|
 | variables.css | ~170 | Design tokens |
 | main.css | ~50 | Imports only |
-| base/*.css | ~200 | Foundation |
-| layout/*.css | ~300 | Structure |
-| components/*.css | ~800 | UI elements |
-| pages/*.css | ~400 | Page-specific |
-| utilities/*.css | ~100 | Helpers |
-
-Total: ~2000 lines (down from 3200+ in monolithic structure)
+| base/*.css | foundation | Typography, motion, accessibility |
+| layout/*.css | structure | App shell, sidebar, footer |
+| components/*.css | shared UI | Buttons, forms, tables, toasts, etc. |
+| pages/*.css | page-specific | Home, holidays, plans, profile, tips, settings, errors |
+| utilities/*.css | helpers | Utility classes |
