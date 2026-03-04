@@ -60,7 +60,6 @@ It includes a themed multi-page experience for March holidays, personal plans, s
 ## Screenshots
 
 ![Home (Light)](./screenshots/home-light.png)
-![Home Lightbox Gallery](./screenshots/home-lightbox-gallery.mkv)
 ![Field of Daffodils Spotlight](./screenshots/field-of-daffodils-spotlight.png)
 ![Holidays (URL Sync)](./screenshots/holidays-url-sync.png)
 ![Add Holiday (Validation)](./screenshots/add-holiday-validation.png)
