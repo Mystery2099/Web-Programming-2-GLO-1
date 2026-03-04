@@ -68,6 +68,11 @@
 	transition: color 0.3s ease;
 }
 
+.card .card-delete + h3 {
+	padding-right: 2.75rem;
+	min-height: 2.1rem;
+}
+
 .card.completed .date {
 	color: var(--primary);
 	text-decoration: line-through;

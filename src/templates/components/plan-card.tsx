@@ -5,8 +5,17 @@ export interface PlanCardProps {
 	plan: Plan;
 }
 
-export const PlanCard = ({ plan }: PlanCardProps) => (
-	<div class={`card ${plan.is_completed ? 'completed' : ''} card-animate`} id={`card-${plan.id}`}>
+export const PlanCard = ({ plan }: PlanCardProps) => {
+	const isCompleted = Number(plan.is_completed) === 1;
+	const isPinned = Number(plan.is_pinned) === 1;
+
+	return (
+	<div
+		class={`card ${isCompleted ? 'completed' : ''} card-animate`}
+		id={`card-${plan.id}`}
+		data-completed={isCompleted ? '1' : '0'}
+		data-pinned={isPinned ? '1' : '0'}
+	>
 		<button
 			class="btn btn-danger btn-small card-delete"
 			aria-label="Delete plan"
@@ -15,10 +24,10 @@ export const PlanCard = ({ plan }: PlanCardProps) => (
 			hx-swap="innerHTML"
 			hx-confirm={`Are you sure you want to delete '${plan.activity}'?`}
 		>
-			<i data-lucide="x" aria-hidden="true"></i>
+			<i data-lucide="trash-2" aria-hidden="true"></i>
 		</button>
 		<h3>{plan.activity as 'safe'}</h3>
-		<p class="date">Status: {plan.is_completed ? 'Completed' : 'Pending'}</p>
+		<p class="date">Status: {isCompleted ? 'Completed' : 'Pending'}</p>
 		<div class="card-actions">
 			<button
 				class="btn btn-small btn-secondary"
@@ -26,20 +35,21 @@ export const PlanCard = ({ plan }: PlanCardProps) => (
 				hx-target="#plans-list"
 				hx-swap="innerHTML"
 			>
-				{plan.is_completed ? 'Mark Incomplete' : 'Mark Complete'}
+				{isCompleted ? 'Mark Incomplete' : 'Mark Complete'}
 			</button>
 			<button
-				class={`btn btn-small ${plan.is_pinned ? 'btn-pinned' : 'btn-pin'}`}
-				aria-label={plan.is_pinned ? 'Unpin plan' : 'Pin plan'}
+				class={`btn btn-small ${isPinned ? 'btn-pinned' : 'btn-pin'}`}
+				aria-label={isPinned ? 'Unpin plan' : 'Pin plan'}
 				hx-put={`/plans/${plan.id}/pin`}
 				hx-target="#plans-list"
 				hx-swap="innerHTML"
 			>
-				<i data-lucide={plan.is_pinned ? 'pin-off' : 'pin'} aria-hidden="true"></i>
+				<i data-lucide={isPinned ? 'pin-off' : 'pin'} aria-hidden="true"></i>
 			</button>
 		</div>
 	</div>
-);
+	);
+};
 
 export const renderPlanCards = (plans: Plan[]): string => {
 	if (plans.length === 0) {

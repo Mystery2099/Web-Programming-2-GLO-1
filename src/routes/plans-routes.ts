@@ -1,7 +1,6 @@
 import type { Elysia } from 'elysia';
 import { PlanController } from '../controllers/index.js';
 import { layout } from '../templates/layout.js';
-import { plansPage } from '../templates/pages/plans.js';
 import { PAGE_TITLES } from '../config/constants.js';
 
 interface PlanRoutesParams {

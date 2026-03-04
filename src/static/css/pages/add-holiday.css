@@ -1,0 +1,77 @@
+.add-holiday-page {
+	max-width: 52rem;
+}
+
+.add-holiday-back-link {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.45rem;
+	margin-bottom: 1rem;
+	color: color-mix(in srgb, var(--text) 84%, var(--white) 16%);
+	font-weight: 600;
+	opacity: 0.9;
+	transition: color 0.2s ease, opacity 0.2s ease, transform 0.2s ease;
+}
+
+.add-holiday-back-link:hover {
+	color: var(--primary);
+	opacity: 1;
+	transform: translateX(-2px);
+}
+
+.add-holiday-header {
+	margin-bottom: 1.15rem;
+}
+
+.add-holiday-header h2 {
+	margin-bottom: 0.45rem;
+}
+
+.add-holiday-header p {
+	margin: 0;
+	color: color-mix(in srgb, var(--text-muted) 88%, var(--white) 12%);
+}
+
+.add-holiday-form-card {
+	background: color-mix(in srgb, var(--surface) 90%, var(--white) 10%);
+	border: 1px solid var(--card-border);
+	border-radius: 18px;
+	padding: 1.25rem;
+	box-shadow: 0 12px 28px var(--panel-shadow-16);
+}
+
+.add-holiday-form {
+	max-width: none;
+	background: var(--transparent);
+	border: 0;
+	box-shadow: none;
+	padding: 0;
+}
+
+.add-holiday-form .form-group.invalid .form-input,
+.add-holiday-form .form-group.invalid .form-select,
+.add-holiday-form .form-group.invalid .form-textarea {
+	border-color: color-mix(in srgb, var(--danger) 74%, var(--alert-error-border) 26%);
+}
+
+.add-holiday-form .error-message {
+	display: none;
+}
+
+.add-holiday-form .error-message.is-visible {
+	display: block;
+}
+
+.add-holiday-actions {
+	margin-top: 0.35rem;
+}
+
+@media (max-width: 768px) {
+	.add-holiday-form-card {
+		padding: 1rem;
+	}
+
+	.add-holiday-actions .btn {
+		flex: 1;
+	}
+}

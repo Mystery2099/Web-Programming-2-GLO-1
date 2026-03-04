@@ -107,6 +107,94 @@
 	--text-size: 16px; /* Base font size */
 	--card-delay: 0s; /* Animation delay for cards */
 
+	/* Explicit UI Color Tokens */
+	--transparent: transparent;
+	--ui-white-90: rgba(255, 255, 255, 0.9);
+	--ui-white-98: rgba(255, 255, 255, 0.98);
+	--ui-white-96: rgba(255, 255, 255, 0.96);
+	--ui-white-94: rgba(255, 255, 255, 0.94);
+	--ui-white-70: rgba(255, 255, 255, 0.7);
+	--ui-white-50: rgba(255, 255, 255, 0.5);
+	--ui-white-42: rgba(255, 255, 255, 0.42);
+	--ui-white-30: rgba(255, 255, 255, 0.3);
+	--ui-white-20: rgba(255, 255, 255, 0.2);
+	--ui-white-18: rgba(255, 255, 255, 0.18);
+	--ui-white-10: rgba(255, 255, 255, 0.1);
+	--ui-white-08: rgba(255, 255, 255, 0.08);
+	--ui-white-06: rgba(255, 255, 255, 0.06);
+	--ui-white-05: rgba(255, 255, 255, 0.05);
+
+	--ui-black-08: rgba(0, 0, 0, 0.08);
+	--ui-black-10: rgba(0, 0, 0, 0.1);
+	--ui-black-12: rgba(0, 0, 0, 0.12);
+	--ui-black-15: rgba(0, 0, 0, 0.15);
+	--ui-black-16: rgba(0, 0, 0, 0.16);
+	--ui-black-20: rgba(0, 0, 0, 0.2);
+	--ui-black-24: rgba(0, 0, 0, 0.24);
+	--ui-black-30: rgba(0, 0, 0, 0.3);
+	--ui-black-35: rgba(0, 0, 0, 0.35);
+	--ui-black-40: rgba(0, 0, 0, 0.4);
+	--ui-black-50: rgba(0, 0, 0, 0.5);
+
+	--ui-deep-1: #0a1621;
+	--ui-deep-2: #0f2031;
+	--ui-deep-3: #102131;
+	--ui-deep-4: #15273a;
+	--ui-dark-option-bg: #1d2b38;
+	--ui-dark-option-text: #e8e8e8;
+
+	--hero-overlay-1: rgba(14, 26, 40, 0.52);
+	--hero-overlay-2: rgba(14, 26, 40, 0.42);
+	--hero-overlay-3: rgba(14, 26, 40, 0.34);
+	--hero-overlay-4: rgba(14, 26, 40, 0.38);
+	--hero-surface-1: rgba(9, 23, 36, 0.22);
+	--hero-surface-2: rgba(12, 27, 42, 0.38);
+	--hero-surface-3: rgba(10, 24, 36, 0.28);
+	--hero-surface-4: rgba(10, 24, 36, 0.4);
+	--hero-shadow-1: rgba(5, 16, 26, 0.24);
+	--hero-shadow-2: rgba(13, 29, 44, 0.35);
+
+	--sidebar-brand-tint: #f5d6c9;
+	--sidebar-active-tint: #f0c6b3;
+	--sidebar-nav-tint: #d0dae4;
+
+	--alert-error-base: #b94b4b;
+	--alert-error-light: #ffd9d9;
+	--alert-error-border: #ffb3b3;
+	--alert-success-base: #4f9d66;
+	--alert-success-light: #c9f3d5;
+	--alert-error-soft: #ffd4d4;
+	--accent-soft-1: #f2cab7;
+	--accent-soft-2: #f5d9cd;
+	--accent-soft-3: #f2c3af;
+	--accent-soft-4: #f4d2c3;
+
+	--form-invalid-border: #e53e3e;
+	--table-danger-bg: #fee2e2;
+	--table-danger-text: #dc2626;
+
+	--toast-success-bg: #c6f6d5;
+	--toast-success-text: #22543d;
+	--toast-success-border: #68d391;
+	--toast-error-bg: #fed7d7;
+	--toast-error-text: #742a2a;
+	--toast-error-border: #fc8181;
+	--toast-info-bg: #bee3f8;
+	--toast-info-text: #2a4365;
+	--toast-info-border: #63b3ed;
+	--toast-warning-bg: #fffbeb;
+	--toast-warning-text: #92400e;
+	--toast-warning-border: #f59e0b;
+
+	--brand-shadow-12: rgba(169, 90, 56, 0.12);
+	--brand-shadow-15: rgba(169, 90, 56, 0.15);
+	--brand-shadow-20: rgba(169, 90, 56, 0.2);
+	--brand-shadow-25: rgba(169, 90, 56, 0.25);
+	--brand-shadow-28: rgba(169, 90, 56, 0.28);
+	--panel-shadow-16: rgba(8, 23, 36, 0.16);
+	--panel-shadow-20: rgba(6, 20, 33, 0.2);
+	--panel-shadow-22: rgba(7, 22, 35, 0.22);
+
 	/* Color Aliases for Common Use */
 	--surface: #ffffff;
 	--white: #ffffff;

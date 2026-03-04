@@ -4,8 +4,6 @@
  * @module domain/ports/holiday-repository
  */
 
-import { Database } from 'bun:sqlite';
-
 export interface HolidayFilters {
 	search?: string;
 	type?: string;

@@ -1,0 +1,106 @@
+.plans-top-grid {
+	display: grid;
+	grid-template-columns: minmax(0, 1.95fr) minmax(17rem, 0.95fr);
+	gap: 1rem;
+	align-items: start;
+	margin-bottom: 1rem;
+}
+
+.plans-top-grid .form-card {
+	margin: 0;
+}
+
+.plans-top-grid .form {
+	max-width: none;
+	background: var(--transparent);
+	border: 0;
+	box-shadow: none;
+	padding: 0;
+}
+
+.plans-side-panel {
+	background: color-mix(in srgb, var(--surface) 80%, var(--ui-deep-2) 20%);
+	border: 1px solid color-mix(in srgb, var(--primary) 32%, var(--border) 68%);
+	border-radius: 16px;
+	padding: 0.95rem;
+	box-shadow:
+		0 10px 26px var(--panel-shadow-22),
+		inset 0 1px 0 var(--ui-white-05);
+}
+
+.plans-side-head {
+	margin-bottom: 0.72rem;
+}
+
+.plans-side-panel h3 {
+	font-size: 1.05rem;
+	margin-bottom: 0.25rem;
+	display: inline-flex;
+	align-items: center;
+	gap: 0.45rem;
+}
+
+.plans-side-subtitle {
+	margin: 0;
+	font-size: 0.84rem;
+	color: color-mix(in srgb, var(--text-muted) 86%, var(--white) 14%);
+}
+
+.plans-kpis {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 0.5rem;
+}
+
+.plans-kpi {
+	background: color-mix(in srgb, var(--bg) 36%, var(--transparent));
+	border: 1px solid color-mix(in srgb, var(--border) 40%, var(--transparent));
+	border-radius: 10px;
+	padding: 0.45rem 0.4rem;
+	text-align: center;
+}
+
+.plans-kpi-value {
+	display: block;
+	font-family: 'Playfair Display', serif;
+	font-size: 1.3rem;
+	line-height: 1;
+	color: var(--primary);
+}
+
+.plans-kpi-label {
+	display: block;
+	margin-top: 0.25rem;
+	font-size: 0.68rem;
+	font-weight: 600;
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+	color: color-mix(in srgb, var(--text-muted) 84%, var(--white) 16%);
+}
+
+.plans-progress {
+	margin-top: 0.72rem;
+	height: 0.42rem;
+	border-radius: 999px;
+	background: color-mix(in srgb, var(--bg) 48%, var(--transparent));
+	overflow: hidden;
+}
+
+.plans-progress-fill {
+	height: 100%;
+	border-radius: inherit;
+	background: color-mix(in srgb, var(--primary) 76%, var(--accent-soft-3) 24%);
+	transition: width 0.3s ease;
+}
+
+.plans-kpi-note {
+	margin: 0.62rem 0 0;
+	font-size: 0.88rem;
+	color: color-mix(in srgb, var(--text) 80%, var(--white) 20%);
+}
+
+@media (max-width: 1120px) {
+	.plans-top-grid {
+		grid-template-columns: 1fr;
+	}
+}

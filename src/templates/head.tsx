@@ -8,8 +8,29 @@ export const head = (title = 'March Celebration Hub') => (
 		<script>
 			{`(() => {
 				try {
-					if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+					const cookieMap = Object.fromEntries(
+						document.cookie
+							.split('; ')
+							.filter(Boolean)
+							.map((entry) => {
+								const [key, ...rest] = entry.split('=');
+								return [key, rest.join('=')];
+							})
+					);
+
+					const themeCookie = cookieMap.march_theme;
+					if (themeCookie === 'dark' || themeCookie === 'light') {
+						document.documentElement.classList.toggle('dark', themeCookie === 'dark');
+					} else if (
+						window.matchMedia &&
+						window.matchMedia('(prefers-color-scheme: dark)').matches
+					) {
 						document.documentElement.classList.add('dark');
+					}
+
+					const cookieValue = cookieMap.march_sidebar;
+					if (cookieValue === 'collapsed' || cookieValue === 'expanded') {
+						document.documentElement.setAttribute('data-sidebar', cookieValue);
 					}
 				} catch {}
 			})();`}

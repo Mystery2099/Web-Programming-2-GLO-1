@@ -14,7 +14,7 @@
 	transform: translateX(-50%);
 	width: 200px;
 	height: 2px;
-	background: color-mix(in srgb, var(--accent) 70%, transparent);
+	background: color-mix(in srgb, var(--accent) 70%, var(--transparent));
 }
 
 .main-footer .footer-decoration:last-child {
@@ -57,8 +57,7 @@
 
 .footer-tagline {
 	font-size: 0.95rem;
-	color: var(--text);
-	opacity: 0.75;
+	color: color-mix(in srgb, var(--text) 82%, var(--white) 18%);
 	font-style: italic;
 	margin: 0;
 }
@@ -66,7 +65,7 @@
 .footer-divider {
 	width: 1px;
 	height: 80px;
-	background: color-mix(in srgb, var(--border) 60%, transparent);
+	background: color-mix(in srgb, var(--border) 60%, var(--transparent));
 }
 
 .footer-info {
@@ -78,8 +77,7 @@
 
 .footer-year {
 	font-size: 0.85rem;
-	color: var(--text);
-	opacity: 0.6;
+	color: color-mix(in srgb, var(--text-muted) 86%, var(--white) 14%);
 	margin: 0;
 }
 
@@ -93,27 +91,27 @@
 .tech-badge {
 	font-family: 'DM Sans', sans-serif;
 	font-size: 0.75rem;
-	font-weight: 600;
+	font-weight: 500;
 	padding: 0.4rem 0.75rem;
-	background: var(--surface);
-	border: 1px solid var(--border);
+	background: color-mix(in srgb, var(--surface) 74%, var(--transparent));
+	border: 1px solid color-mix(in srgb, var(--border) 52%, var(--transparent));
 	border-radius: 20px;
-	color: var(--text);
-	transition: all 0.3s ease;
+	color: color-mix(in srgb, var(--text-muted) 78%, var(--text) 22%);
+	transition: none;
 	cursor: default;
+	user-select: none;
 }
 
 .tech-badge:hover {
-	background: var(--primary);
-	color: white;
-	transform: translateY(-2px);
-	box-shadow: 0 4px 12px rgba(169, 90, 56, 0.2);
+	background: color-mix(in srgb, var(--surface) 74%, var(--transparent));
+	color: color-mix(in srgb, var(--text-muted) 78%, var(--text) 22%);
+	transform: none;
+	box-shadow: none;
 }
 
 .footer-course {
 	font-size: 0.8rem;
-	color: var(--secondary);
-	opacity: 0.7;
+	color: color-mix(in srgb, var(--text-muted) 78%, var(--primary) 22%);
 	margin: 0;
 }
 

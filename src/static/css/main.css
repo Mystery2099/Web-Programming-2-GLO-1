@@ -35,8 +35,12 @@
 
 /* Pages - Page-specific styles */
 @import './pages/home.css';
+@import './pages/error.css';
+@import './pages/add-holiday.css';
+@import './pages/plans.css';
 @import './pages/profile.css';
 @import './pages/settings.css';
+@import './pages/tips.css';
 
 /* Utilities - Helper classes */
 @import './utilities/helpers.css';

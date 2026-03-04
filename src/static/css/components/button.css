@@ -35,7 +35,7 @@
 .btn-primary {
 	background: var(--primary);
 	color: var(--white);
-	border-color: transparent;
+	border-color: var(--transparent);
 	position: relative;
 	overflow: hidden;
 }
@@ -53,7 +53,7 @@
 .btn-secondary {
 	background: var(--secondary);
 	color: var(--white);
-	border-color: transparent;
+	border-color: var(--transparent);
 }
 
 .btn-secondary:hover {
@@ -64,19 +64,19 @@
 .btn-danger {
 	background: var(--danger);
 	color: var(--white);
-	border-color: transparent;
+	border-color: var(--transparent);
 	padding: 0.625rem;
 	border-radius: 8px;
 }
 
 .btn-outline {
-	background: transparent;
+	background: var(--transparent);
 	color: var(--primary);
 	border-color: color-mix(in srgb, var(--primary) 60%, var(--border));
 }
 
 .btn-outline:hover {
-	background: color-mix(in srgb, var(--primary) 12%, transparent);
+	background: color-mix(in srgb, var(--primary) 12%, var(--transparent));
 	border-color: var(--primary);
 	color: var(--primary);
 }
@@ -131,7 +131,7 @@
 	left: 0;
 	right: 0;
 	bottom: 0;
-	background: radial-gradient(circle, var(--gold-glow) 0%, transparent 70%);
+	background: radial-gradient(circle, var(--gold-glow) 0%, var(--transparent) 70%);
 	opacity: 0;
 	transition: opacity 0.3s ease;
 }
@@ -167,6 +167,13 @@ body.dark .btn-pinned:hover {
 .btn-small {
 	padding: 0.5rem 1rem;
 	font-size: 0.875rem;
+}
+
+.btn-icon-only {
+	padding: 0.5rem;
+	min-width: 2.2rem;
+	justify-content: center;
+	gap: 0;
 }
 
 .btn-lg {

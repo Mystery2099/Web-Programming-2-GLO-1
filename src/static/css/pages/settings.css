@@ -53,7 +53,7 @@
 	align-items: center;
 	justify-content: center;
 	border-radius: 10px;
-	background: color-mix(in srgb, var(--primary) 16%, transparent);
+	background: color-mix(in srgb, var(--primary) 16%, var(--transparent));
 	color: var(--primary);
 	flex-shrink: 0;
 }
@@ -93,7 +93,7 @@
 	align-items: center;
 	justify-content: center;
 	border-radius: 10px;
-	background: color-mix(in srgb, var(--secondary) 14%, transparent);
+	background: color-mix(in srgb, var(--secondary) 14%, var(--transparent));
 	color: var(--text);
 	flex-shrink: 0;
 }
@@ -169,8 +169,8 @@
 	font-weight: 600;
 	line-height: 1.3;
 	background-image:
-		linear-gradient(45deg, transparent 50%, var(--text-muted) 50%),
-		linear-gradient(135deg, var(--text-muted) 50%, transparent 50%);
+		linear-gradient(45deg, var(--transparent) 50%, var(--text-muted) 50%),
+		linear-gradient(135deg, var(--text-muted) 50%, var(--transparent) 50%);
 	background-position:
 		calc(100% - 16px) calc(50% - 2px),
 		calc(100% - 10px) calc(50% - 2px);
@@ -217,7 +217,7 @@
 	align-items: center;
 	justify-content: center;
 	border-radius: 10px;
-	background: color-mix(in srgb, var(--primary) 16%, transparent);
+	background: color-mix(in srgb, var(--primary) 16%, var(--transparent));
 	color: var(--primary);
 }
 
@@ -249,16 +249,16 @@
 
 body.dark .setting-select-enhanced {
 	color-scheme: dark;
-	background-color: color-mix(in srgb, var(--surface) 92%, #0a1621);
+	background-color: color-mix(in srgb, var(--surface) 92%, var(--ui-deep-1));
 }
 
 body.dark .setting-select-enhanced:hover {
-	background-color: color-mix(in srgb, var(--surface) 82%, #0a1621);
+	background-color: color-mix(in srgb, var(--surface) 82%, var(--ui-deep-1));
 }
 
 body.dark .setting-select-enhanced option {
-	background: #1d2b38;
-	color: #e8e8e8;
+	background: var(--ui-dark-option-bg);
+	color: var(--ui-dark-option-text);
 }
 
 @media (max-width: 900px) {

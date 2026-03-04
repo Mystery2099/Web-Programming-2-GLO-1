@@ -106,14 +106,14 @@ export const holidaysPage = ({
 									<td data-label="Description">{h.description ?? ''}</td>
 									<td data-label="Actions">
 										<button
-											class="btn btn-small btn-danger"
+											class="btn btn-small btn-danger btn-icon-only"
 											aria-label="Delete holiday"
 											hx-delete={`/holidays/${h.id}?search=${encodeURIComponent(search || '')}&filter=${encodeURIComponent(filter || '')}&page=${page}&itemsPerPage=${itemsPerPage}`}
 											hx-target="#holidays"
 											hx-swap="innerHTML"
 											hx-confirm={`Are you sure you want to delete '${h.name}'?`}
 										>
-											<i data-lucide="trash-2" aria-hidden="true"></i> Delete
+											<i data-lucide="trash-2" aria-hidden="true"></i>
 										</button>
 									</td>
 								</tr>
@@ -208,8 +208,8 @@ export const holidaysPage = ({
 					animation: slideIn 0.3s ease-out;
 				}
 				.holidays-toast-success {
-					background-color: #10b981;
-					color: white;
+					background-color: var(--toast-success-border);
+					color: var(--white);
 				}
 				@keyframes slideIn {
 					from {

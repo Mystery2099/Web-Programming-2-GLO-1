@@ -35,10 +35,10 @@
 	width: 22px;
 	left: 2px;
 	bottom: 2px;
-	background-color: white;
+	background-color: var(--white);
 	transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 	border-radius: 50%;
-	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+	box-shadow: 0 2px 8px var(--ui-black-20);
 }
 
 .toggle-switch input:checked + .toggle-slider {
@@ -51,7 +51,7 @@
 }
 
 .toggle-switch input:focus + .toggle-slider {
-	box-shadow: 0 0 0 4px rgba(169, 90, 56, 0.1);
+	box-shadow: 0 0 0 4px var(--brand-focus);
 }
 
 .toggle-label {
@@ -99,13 +99,13 @@
 	left: 2px;
 	width: 22px;
 	height: 22px;
-	background-color: white;
+	background-color: var(--white);
 	border-radius: 50%;
 	transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+	box-shadow: 0 2px 8px var(--ui-black-20);
 }
 
 .toggle-thumb svg {
@@ -145,7 +145,7 @@
 }
 
 .theme-toggle-switch input:focus + .toggle-track {
-	box-shadow: 0 0 0 4px rgba(169, 90, 56, 0.1);
+	box-shadow: 0 0 0 4px var(--brand-focus);
 }
 
 .toggle-status {

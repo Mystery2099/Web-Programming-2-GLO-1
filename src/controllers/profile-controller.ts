@@ -1,5 +1,7 @@
 import type { ProfilePageData } from '../templates/pages/profile.js';
 import { profilePage } from '../templates/pages/profile.js';
+import type { ProfileEditPageData } from '../templates/pages/profile-edit.js';
+import { profileEditPage } from '../templates/pages/profile-edit.js';
 import { layout } from '../templates/layout.js';
 import { ProfileUseCases, UpdateProfileDTO } from '../use-cases/index.js';
 import type { ControllerResult } from '../types/controller.js';
@@ -7,10 +9,23 @@ import type { ControllerResult } from '../types/controller.js';
 export class ProfileController {
 	constructor(private profileUseCases: ProfileUseCases) {}
 
-	getProfile() {
-		const profileData: ProfilePageData = { profile: this.profileUseCases.getProfile() };
+	getProfile(message = '') {
+		const profileData: ProfilePageData = {
+			profile: this.profileUseCases.getProfile(),
+			message
+		};
 		const content = profilePage(profileData);
 		return layout(content, 'My Journey - March Celebration', 'profile');
+	}
+
+	getEditProfile(error = '', field = '') {
+		const data: ProfileEditPageData = {
+			profile: this.profileUseCases.getProfile(),
+			error,
+			field
+		};
+		const content = profileEditPage(data);
+		return layout(content, 'Edit Profile - March Celebration', 'profile');
 	}
 
 	updateProfile(data: Record<string, unknown>): ControllerResult {
@@ -33,8 +48,14 @@ export class ProfileController {
 
 		const result = this.profileUseCases.updateProfile(dto);
 		if (!result.success) {
-			return { error: { message: result.error ?? 'Failed to update profile' } };
+			const firstValidationError = result.validationErrors?.[0];
+			return {
+				error: {
+					message: firstValidationError?.message ?? result.error ?? 'Failed to update profile',
+					field: firstValidationError?.field
+				}
+			};
 		}
-		return { redirect: '/profile' };
+		return { redirect: '/profile?message=Profile updated successfully' };
 	}
 }

@@ -6,7 +6,7 @@
 
 import type { Holiday, HolidayType } from '@/types/database';
 import type { IHolidayRepository, HolidayFilters } from '../domain/ports/holiday-repository.js';
-import { validateHoliday, type ValidationError } from '@/services';
+import { validateHoliday } from '@/services';
 
 export interface CreateHolidayDTO {
 	name: string;

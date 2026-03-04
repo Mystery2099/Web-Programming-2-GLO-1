@@ -8,7 +8,7 @@ export const homePage = () => (
 		<div class="hero-parallax home-hero">
 			<div class="hero-parallax-bg"></div>
 			<div class="hero-content">
-				<div class="hero-badge" style="backdrop-filter: blur(12px); box-shadow: 0 4px 20px rgba(201, 122, 88, 0.15);">
+				<div class="hero-badge">
 					<i data-lucide="sparkles" class="icon-small"></i>
 					<span>Spring 2026</span>
 				</div>
@@ -110,7 +110,7 @@ export const homePage = () => (
 			</div>
 		</div>
 
-		<div class="home-quote" style="box-shadow: 0 8px 30px rgba(201, 122, 88, 0.12);">
+		<div class="home-quote">
 			<blockquote>
 				<i data-lucide="quote" class="quote-icon-left"></i>
 				<p class="quote-text">March is the month of expectation.</p>

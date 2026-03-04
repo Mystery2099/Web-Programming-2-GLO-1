@@ -34,6 +34,10 @@
 	console.log('[CLIENT] Global error handlers registered');
 })();
 
+function writeThemeCookie(mode) {
+	document.cookie = `march_theme=${mode}; path=/; max-age=31536000; samesite=lax`;
+}
+
 if (typeof window.marchAppInitialized === 'undefined') {
 	window.marchAppInitialized = true;
 
@@ -47,7 +51,7 @@ if (typeof window.marchAppInitialized === 'undefined') {
 			return;
 		}
 
-		const boolKeys = ['march_animations'];
+		const boolKeys = ['march_animations', 'march_sidebarCollapsed'];
 		for (const key of boolKeys) {
 			const value = await localforage.getItem(key);
 			if (value === 'true') {
@@ -73,6 +77,7 @@ if (typeof window.marchAppInitialized === 'undefined') {
 		document.documentElement.classList.toggle('dark', window.isDark);
 		document.body.classList.toggle('dark', window.isDark);
 		await localforage.setItem('theme', nextMode);
+		writeThemeCookie(nextMode);
 		console.log('[CLIENT] theme set to:', nextMode);
 	};
 
@@ -94,6 +99,7 @@ if (typeof window.marchAppInitialized === 'undefined') {
 		window.isDark = mode === 'dark';
 		document.documentElement.classList.toggle('dark', window.isDark);
 		document.body.classList.toggle('dark', window.isDark);
+		writeThemeCookie(mode);
 	})();
 
 	document.addEventListener('DOMContentLoaded', async () => {
@@ -101,11 +107,30 @@ if (typeof window.marchAppInitialized === 'undefined') {
 		const theme = await window.getThemeMode();
 		document.documentElement.classList.toggle('dark', theme === 'dark');
 		document.body.classList.toggle('dark', theme === 'dark');
+		writeThemeCookie(theme);
 	});
 
 	const mobileToggle = document.querySelector('.mobile-nav-toggle');
+	const desktopSidebarToggle = document.querySelector('.desktop-sidebar-toggle');
 	const sidebar = document.querySelector('.sidebar');
 	const overlay = document.querySelector('.sidebar-overlay');
+
+	const applySidebarCollapsedState = (collapsed) => {
+		document.documentElement.setAttribute('data-sidebar', collapsed ? 'collapsed' : 'expanded');
+		if (desktopSidebarToggle) {
+			desktopSidebarToggle.setAttribute('aria-pressed', String(collapsed));
+			desktopSidebarToggle.setAttribute(
+				'aria-label',
+				collapsed ? 'Expand sidebar' : 'Collapse sidebar'
+			);
+			desktopSidebarToggle.innerHTML = `<i data-lucide="${
+				collapsed ? 'chevrons-right' : 'chevrons-left'
+			}" aria-hidden="true"></i>`;
+		}
+		if (typeof lucide !== 'undefined') {
+			lucide.createIcons();
+		}
+	};
 
 	if (mobileToggle) {
 		mobileToggle.addEventListener('click', () => {
@@ -118,6 +143,22 @@ if (typeof window.marchAppInitialized === 'undefined') {
 		overlay.addEventListener('click', () => {
 			sidebar.classList.remove('open');
 			overlay.classList.remove('open');
+		});
+	}
+
+	(async () => {
+		const sidebarCollapsed = await localforage.getItem('march_sidebarCollapsed');
+		const collapsed = isStoredTrue(sidebarCollapsed);
+		applySidebarCollapsedState(collapsed);
+		document.cookie = `march_sidebar=${collapsed ? 'collapsed' : 'expanded'}; path=/; max-age=31536000; samesite=lax`;
+	})();
+
+	if (desktopSidebarToggle) {
+		desktopSidebarToggle.addEventListener('click', async () => {
+			const collapsed = document.documentElement.getAttribute('data-sidebar') !== 'collapsed';
+			applySidebarCollapsedState(collapsed);
+			await localforage.setItem('march_sidebarCollapsed', collapsed);
+			document.cookie = `march_sidebar=${collapsed ? 'collapsed' : 'expanded'}; path=/; max-age=31536000; samesite=lax`;
 		});
 	}
 
@@ -264,10 +305,13 @@ window.setupSearch = function (inputId, containerId, itemSelector) {
 			'itemsPerPage',
 			'defaultHolidayFilter',
 			'animations',
-			'textSize'
+			'textSize',
+			'sidebarCollapsed'
 		];
 		await Promise.all(keys.map((key) => localforage.removeItem('march_' + key)));
 		await localforage.removeItem('theme');
+		document.cookie = 'march_theme=; path=/; max-age=0; samesite=lax';
+		document.cookie = 'march_sidebar=; path=/; max-age=0; samesite=lax';
 		location.reload();
 	};
 

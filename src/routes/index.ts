@@ -2,20 +2,29 @@ import { registerPlanRoutes } from './plans-routes.js';
 import { registerHolidayRoutes } from './holidays-routes.js';
 import { registerTipRoutes } from './tips-routes.js';
 import { registerProfileRoutes } from './profile-routes.js';
+import type { AnyElysia } from 'elysia';
 import type { Controllers } from '../config/di-container.js';
 import { layout } from '../templates/layout.js';
-import { homePage, settingsPage } from '../templates/pages/index.js';
+import { homePage, htmxErrorFragment, notFoundPage, settingsPage } from '../templates/pages/index.js';
 import { PAGE_TITLES } from '../config/constants.js';
 
-export const registerAllRoutes = (app: any, controllers: Controllers): void => {
+export const registerAllRoutes = (app: AnyElysia, controllers: Controllers): void => {
 	app
 		.get('/', () => layout(homePage(), PAGE_TITLES.home, 'home'))
 		.get('/home', () => layout(homePage(), PAGE_TITLES.home, 'home'))
-		.get('/settings', () => layout(settingsPage(), PAGE_TITLES.settings, 'settings'))
-		.get('/*', () => layout(homePage(), PAGE_TITLES.home, 'home'));
+		.get('/settings', () => layout(settingsPage(), PAGE_TITLES.settings, 'settings'));
 
 	registerPlanRoutes({ app, planController: controllers.planController });
 	registerHolidayRoutes({ app, holidayController: controllers.holidayController });
 	registerTipRoutes({ app, tipController: controllers.tipController });
 	registerProfileRoutes({ app, profileController: controllers.profileController });
+
+	app.all('/*', ({ request, set }) => {
+		set.status = 404;
+		const isHtmx = request.headers.get('HX-Request') === 'true';
+		if (isHtmx) {
+			return htmxErrorFragment(404, 'Resource not found.');
+		}
+		return layout(notFoundPage(), '404 - Page Not Found', 'home');
+	});
 };

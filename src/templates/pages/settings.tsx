@@ -118,57 +118,6 @@ export const settingsPage = () => (
 				</div>
 			</section>
 
-			<section class="settings-section">
-				<div class="section-header">
-					<div class="section-icon-wrapper data-icon">
-						<i data-lucide="layout-grid" aria-hidden="true"></i>
-					</div>
-					<div class="section-title">
-						<h2>Data Display</h2>
-						<p>Configure how data is presented</p>
-					</div>
-				</div>
-				
-				<div class="settings-card">
-					<div class="setting-row">
-						<div class="setting-info">
-							<div class="setting-icon items-icon">
-								<i data-lucide="list" aria-hidden="true"></i>
-							</div>
-							<div class="setting-text">
-								<label class="setting-label">Items Per Page</label>
-								<span class="setting-description">Control how many items show at once</span>
-							</div>
-						</div>
-						<select id="items-per-page" class="setting-select-enhanced" data-pref="itemsPerPage">
-							<option value="5">5 items</option>
-							<option value="10" selected>10 items</option>
-							<option value="25">25 items</option>
-							<option value="0">Show all</option>
-						</select>
-					</div>
-					
-					<div class="setting-row setting-row-border">
-						<div class="setting-info">
-							<div class="setting-icon filter-icon">
-								<i data-lucide="filter" aria-hidden="true"></i>
-							</div>
-							<div class="setting-text">
-								<label class="setting-label">Default Holiday Filter</label>
-								<span class="setting-description">Pre-select holiday type filter</span>
-							</div>
-						</div>
-						<select id="default-holiday-filter" class="setting-select-enhanced" data-pref="defaultHolidayFilter">
-							<option value="">All Types</option>
-							<option value="Cultural">Cultural</option>
-							<option value="Global">Global</option>
-							<option value="Fun">Fun</option>
-							<option value="Environmental">Environmental</option>
-						</select>
-					</div>
-				</div>
-			</section>
-
 			<section class="settings-section settings-actions">
 				<div class="settings-card settings-card-actions">
 					<div class="actions-content">
@@ -220,10 +169,14 @@ export const settingsPage = () => (
 				const textSizePreview = document.getElementById('settings-size-preview');
 				if (textSizeInput && textSizeValue) {
 					textSizeInput.addEventListener('input', (e) => {
-						updateTextSize(e.target.value);
+						const nextSize = e.target.value;
+						textSizeValue.textContent = nextSize + 'px';
 						if (textSizePreview) {
-							textSizePreview.style.fontSize = e.target.value + 'px';
+							textSizePreview.style.fontSize = nextSize + 'px';
 						}
+					});
+					textSizeInput.addEventListener('change', (e) => {
+						updateTextSize(e.target.value);
 					});
 				}
 
@@ -245,16 +198,6 @@ export const settingsPage = () => (
 						animationsStatus.textContent = e.target.checked ? 'On' : 'Off';
 						document.querySelector('#settings-animations-toggle').setAttribute('aria-checked', e.target.checked);
 					});
-				}
-
-				const itemsPerPageSelect = document.getElementById('items-per-page');
-				if (itemsPerPageSelect) {
-					itemsPerPageSelect.addEventListener('change', (e) => savePreference('itemsPerPage', e.target.value));
-				}
-
-				const defaultHolidayFilter = document.getElementById('default-holiday-filter');
-				if (defaultHolidayFilter) {
-					defaultHolidayFilter.addEventListener('change', (e) => savePreference('defaultHolidayFilter', e.target.value));
 				}
 
 				const resetBtn = document.querySelector('[data-action="reset-preferences"]');

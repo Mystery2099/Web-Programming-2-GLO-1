@@ -90,8 +90,8 @@
 
 .data-table__action--danger:hover,
 .table__action--danger:hover {
-	background: #fee2e2;
-	color: #dc2626;
+	background: var(--table-danger-bg);
+	color: var(--table-danger-text);
 }
 
 /* Responsive Table */
@@ -152,7 +152,7 @@
 
 .table__action--edit:hover {
 	background: var(--accent);
-	color: white;
+	color: var(--white);
 }
 
 .table__action--delete {
@@ -161,5 +161,5 @@
 
 .table__action--delete:hover {
 	background: var(--danger);
-	color: white;
+	color: var(--white);
 }

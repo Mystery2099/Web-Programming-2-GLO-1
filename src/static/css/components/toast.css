@@ -16,27 +16,27 @@
 }
 
 .toast-success {
-	background: #c6f6d5;
-	color: #22543d;
-	border: 1px solid #68d391;
+	background: var(--toast-success-bg);
+	color: var(--toast-success-text);
+	border: 1px solid var(--toast-success-border);
 }
 
 .toast-error {
-	background: #fed7d7;
-	color: #742a2a;
-	border: 1px solid #fc8181;
+	background: var(--toast-error-bg);
+	color: var(--toast-error-text);
+	border: 1px solid var(--toast-error-border);
 }
 
 .toast-info {
-	background: #bee3f8;
-	color: #2a4365;
-	border: 1px solid #63b3ed;
+	background: var(--toast-info-bg);
+	color: var(--toast-info-text);
+	border: 1px solid var(--toast-info-border);
 }
 
 .toast-warning {
-	background: #fffbeb;
-	color: #92400e;
-	border: 1px solid #f59e0b;
+	background: var(--toast-warning-bg);
+	color: var(--toast-warning-text);
+	border: 1px solid var(--toast-warning-border);
 }
 
 .toast__icon {
@@ -137,7 +137,7 @@
 	gap: 0.5rem;
 	margin-top: 0.5rem;
 	padding-top: 0.5rem;
-	border-top: 1px solid rgba(255, 255, 255, 0.2);
+	border-top: 1px solid var(--ui-white-20);
 }
 
 .toast-actions .btn {
@@ -147,12 +147,12 @@
 }
 
 .toast-actions .btn:first-child {
-	background: transparent;
+	background: var(--transparent);
 	color: inherit;
-	border: 1px solid rgba(255, 255, 255, 0.3);
+	border: 1px solid var(--ui-white-30);
 }
 
 .toast-actions .btn:last-child {
 	background: var(--primary);
-	color: white;
+	color: var(--white);
 }
