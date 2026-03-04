@@ -21,7 +21,11 @@ export const layout = (content: unknown, title = 'March Celebration Hub', curren
 				<link rel="stylesheet" href="/static/css/glightbox.css" />
 				<script src="/static/js/glightbox.min.js"></script>
 				<script src="https://cdn.jsdelivr.net/npm/localforage@1.10.0/dist/localforage.min.js"></script>
-				<script src="/static/js/client.js"></script>
+				<script src="/static/js/pages/holidays-page.js"></script>
+				<script src="/static/js/pages/plans-page.js"></script>
+					<script src="/static/js/pages/settings-page.js"></script>
+					<script src="/static/js/pages/add-holiday-page.js"></script>
+					<script src="/static/js/client.js"></script>
 				<script>
 					{`document.addEventListener('DOMContentLoaded', () => {
 						if (typeof lucide !== 'undefined') {
