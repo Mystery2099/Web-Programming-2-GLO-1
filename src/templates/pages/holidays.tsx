@@ -85,7 +85,7 @@ export const holidaysPage = ({
 								id="items-per-page"
 								class="filter-select holidays-items-select"
 								name="itemsPerPage"
-								onchange="const pageInput = this.form.querySelector('input[name=page]'); if (pageInput) pageInput.value = '1'; this.form.requestSubmit();"
+								data-action="change-items-per-page"
 							>
 								<option value="5" selected={itemsPerPage === 5}>
 									5
@@ -134,9 +134,10 @@ export const holidaysPage = ({
 									<td data-label="Description">{h.description ?? ''}</td>
 									<td data-label="Actions">
 										<form
+											class="holidays-delete-form"
 											method="post"
 											action={`/holidays/${h.id}/delete?search=${encodeURIComponent(search || '')}&filter=${encodeURIComponent(filter || '')}&page=${page}&itemsPerPage=${itemsPerPage}`}
-											onsubmit={`return confirm("Are you sure you want to delete '${String(h.name).replace(/'/g, "\\'")}'?")`}
+											data-confirm-message="Are you sure you want to delete this holiday?"
 										>
 											<button
 												type="submit"
