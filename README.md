@@ -57,6 +57,18 @@ It includes a themed multi-page experience for March holidays, personal plans, s
 - Mobile-friendly responsive layout
 - Error pages present and styled
 
+## Screenshots
+
+![Home (Light)](./screenshots/home-light.png)
+![Holidays (URL Sync)](./screenshots/holidays-url-sync.png)
+![Add Holiday (Validation)](./screenshots/add-holiday-validation.png)
+![Plans (Snapshot)](./screenshots/plans-snapshot.png)
+![Plans (Error Toast)](./screenshots/plans-error-toast.png)
+![Profile Display](./screenshots/profile-display.png)
+![Profile Edit](./screenshots/profile-edit.png)
+![Tips](./screenshots/tips.png)
+![Settings](./screenshots/settings.png)
+
 ## Assignment Coverage (CISY_7203_GLO_1_S26.md)
 
 - Strict site structure with navigation and index entry page
