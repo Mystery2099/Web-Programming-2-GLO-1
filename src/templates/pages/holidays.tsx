@@ -49,35 +49,63 @@ export const holidaysPage = ({
 					hx-get="/holidays"
 					hx-target="#holidays"
 					hx-swap="innerHTML"
+					hx-push-url="true"
 					class="holidays-search-form"
 				>
-					<label for="holiday-search" class="sr-only">
-						Search holidays
-					</label>
-					<input
-						type="search"
-						id="holiday-search"
-						class="search-input"
-						placeholder="Search holidays..."
-						value={search}
-						name="search"
-					/>
-					<label for="holiday-filter" class="sr-only">
-						Filter by type
-					</label>
-					<select id="holiday-filter" class="filter-select" name="filter">
-						<option value="">All Types</option>
-							{types.map((t) => (
-								<option value={t} selected={filter === t}>
-									{t}
+					<div class="holidays-filter-main">
+						<label for="holiday-search" class="sr-only">
+							Search holidays
+						</label>
+						<input
+							type="search"
+							id="holiday-search"
+							class="search-input"
+							placeholder="Search holidays..."
+							value={search}
+							name="search"
+						/>
+						<label for="holiday-filter" class="sr-only">
+							Filter by type
+						</label>
+						<select id="holiday-filter" class="filter-select" name="filter">
+							<option value="">All Types</option>
+								{types.map((t) => (
+									<option value={t} selected={filter === t}>
+										{t}
+									</option>
+								))}
+						</select>
+					</div>
+					<div class="holidays-filter-meta">
+						<div class="holidays-items-group">
+							<label for="items-per-page" class="holidays-items-label">
+								Items per page
+							</label>
+							<select
+								id="items-per-page"
+								class="filter-select holidays-items-select"
+								name="itemsPerPage"
+								onchange="const pageInput = this.form.querySelector('input[name=page]'); if (pageInput) pageInput.value = '1'; this.form.requestSubmit();"
+							>
+								<option value="5" selected={itemsPerPage === 5}>
+									5
 								</option>
-							))}
-					</select>
-					<button type="submit" class="btn btn-secondary btn-small">
-						Filter
-					</button>
+								<option value="10" selected={itemsPerPage === 10}>
+									10
+								</option>
+								<option value="25" selected={itemsPerPage === 25}>
+									25
+								</option>
+								<option value="50" selected={itemsPerPage === 50}>
+									50
+								</option>
+							</select>
+						</div>
+						<button type="submit" class="btn btn-primary btn-small holidays-apply-btn">
+							Apply
+						</button>
+					</div>
 					<input type="hidden" name="page" value={String(page)} />
-					<input type="hidden" name="itemsPerPage" value={String(itemsPerPage)} />
 				</form>
 			</div>
 
@@ -105,16 +133,19 @@ export const holidaysPage = ({
 									</td>
 									<td data-label="Description">{h.description ?? ''}</td>
 									<td data-label="Actions">
-										<button
-											class="btn btn-small btn-danger btn-icon-only"
-											aria-label="Delete holiday"
-											hx-delete={`/holidays/${h.id}?search=${encodeURIComponent(search || '')}&filter=${encodeURIComponent(filter || '')}&page=${page}&itemsPerPage=${itemsPerPage}`}
-											hx-target="#holidays"
-											hx-swap="innerHTML"
-											hx-confirm={`Are you sure you want to delete '${h.name}'?`}
+										<form
+											method="post"
+											action={`/holidays/${h.id}/delete?search=${encodeURIComponent(search || '')}&filter=${encodeURIComponent(filter || '')}&page=${page}&itemsPerPage=${itemsPerPage}`}
+											onsubmit={`return confirm("Are you sure you want to delete '${String(h.name).replace(/'/g, "\\'")}'?")`}
 										>
-											<i data-lucide="trash-2" aria-hidden="true"></i>
-										</button>
+											<button
+												type="submit"
+												class="btn btn-small btn-danger btn-icon-only"
+												aria-label="Delete holiday"
+											>
+												<i data-lucide="trash-2" aria-hidden="true"></i>
+											</button>
+										</form>
 									</td>
 								</tr>
 							))}
@@ -146,6 +177,7 @@ export const holidaysPage = ({
 							hx-get={`/holidays?search=${encodeURIComponent(search)}&filter=${encodeURIComponent(filter)}&page=${page - 1}&itemsPerPage=${itemsPerPage}`}
 							hx-target="#holidays"
 							hx-swap="innerHTML"
+							hx-push-url="true"
 						>
 							Previous
 						</button>
@@ -158,97 +190,13 @@ export const holidaysPage = ({
 							hx-get={`/holidays?search=${encodeURIComponent(search)}&filter=${encodeURIComponent(filter)}&page=${page + 1}&itemsPerPage=${itemsPerPage}`}
 							hx-target="#holidays"
 							hx-swap="innerHTML"
+							hx-push-url="true"
 						>
 							Next
 						</button>
 					</div>
 				)}
 			</div>
-
-			<script>
-				{`(() => {
-					const toast = document.querySelector('.toast');
-					if (toast) {
-						setTimeout(() => {
-							toast.style.animation = 'fadeOut 0.3s ease-out forwards';
-							setTimeout(() => {
-								toast.remove();
-							}, 300);
-						}, 3000);
-					}
-				})();`}
-			</script>
-
-			<style>
-				{`.holidays-page-header {
-					display: flex;
-					justify-content: space-between;
-					align-items: flex-start;
-					margin-bottom: 1.5rem;
-				}
-				.holidays-page-header h2 {
-					margin: 0;
-				}
-				.holidays-page-header p {
-					margin: 0.5rem 0 0;
-				}
-				.holidays-search-form {
-					display: flex;
-					gap: 0.5rem;
-					align-items: center;
-				}
-				.holidays-search-form .search-input,
-				.holidays-search-form .filter-select {
-					flex: 1;
-				}
-				.holidays-toast {
-					padding: 1rem;
-					margin-bottom: 1rem;
-					border-radius: 0.5rem;
-					animation: slideIn 0.3s ease-out;
-				}
-				.holidays-toast-success {
-					background-color: var(--toast-success-border);
-					color: var(--white);
-				}
-				@keyframes slideIn {
-					from {
-						opacity: 0;
-						transform: translateY(-10px);
-					}
-					to {
-						opacity: 1;
-						transform: translateY(0);
-					}
-				}
-				@keyframes fadeOut {
-					from {
-						opacity: 1;
-						transform: translateY(0);
-					}
-					to {
-						opacity: 0;
-						transform: translateY(-10px);
-					}
-				}
-				.holidays-pagination {
-					display: flex;
-					justify-content: space-between;
-					align-items: center;
-					padding: 1rem 0;
-					flex-wrap: wrap;
-					gap: 1rem;
-				}
-				.holidays-pagination-controls {
-					display: flex;
-					align-items: center;
-					gap: 1rem;
-				}
-				.holidays-pagination-controls button:disabled {
-					opacity: 0.5;
-					cursor: not-allowed;
-				}`}
-			</style>
 		</div>
 	);
 };
