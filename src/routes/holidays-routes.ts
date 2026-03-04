@@ -64,19 +64,5 @@ export const registerHolidayRoutes = ({ app, holidayController }: HolidayRoutesP
 			return redirectTo(
 				`/holidays?search=${search}&filter=${filter}&page=${page}&itemsPerPage=${itemsPerPage}&message=${message}`
 			);
-		})
-		.delete('/holidays/:id', ({ params, query, request }) => {
-			const queryParams = query as {
-				search?: string;
-				filter?: string;
-				page?: string;
-				itemsPerPage?: string;
-				message?: string;
-			};
-			return holidayController.deleteHoliday({
-				id: params.id,
-				...queryParams,
-				headers: request.headers
-			});
 		});
 };

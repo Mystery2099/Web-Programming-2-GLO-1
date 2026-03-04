@@ -100,20 +100,6 @@ export class HolidayController {
 		};
 	}
 
-	deleteHoliday(params: {
-		id: string;
-		search?: string;
-		filter?: string;
-		page?: string;
-		itemsPerPage?: string;
-		headers: Headers;
-	}): unknown {
-		const numericId = parseInt(params.id, 10);
-		this.holidayUseCases.deleteHoliday(numericId);
-
-		return this.buildHolidaysPageData(params, 'Holiday deleted successfully!');
-	}
-
 	deleteHolidayById(id: string): void {
 		const numericId = parseInt(id, 10);
 		this.holidayUseCases.deleteHoliday(numericId);
