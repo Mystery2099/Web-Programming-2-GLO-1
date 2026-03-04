@@ -56,6 +56,6 @@ export class ProfileController {
 				}
 			};
 		}
-		return { redirect: '/profile?message=Profile updated successfully' };
+		return { redirect: `/profile?message=${encodeURIComponent('Profile updated successfully')}` };
 	}
 }

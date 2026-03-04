@@ -96,7 +96,7 @@ export class HolidayController {
 		}
 
 		return {
-			redirect: '/holidays?message=Holiday added successfully!'
+			redirect: `/holidays?message=${encodeURIComponent('Holiday added successfully!')}`
 		};
 	}
 
@@ -112,6 +112,11 @@ export class HolidayController {
 		this.holidayUseCases.deleteHoliday(numericId);
 
 		return this.buildHolidaysPageData(params, 'Holiday deleted successfully!');
+	}
+
+	deleteHolidayById(id: string): void {
+		const numericId = parseInt(id, 10);
+		this.holidayUseCases.deleteHoliday(numericId);
 	}
 
 	getAll() {
