@@ -1,7 +1,9 @@
 # March Celebration Hub
 
-March Celebration Hub is a Bun + Elysia + HTMX app built for CISY 7203 GLO #1.
-It includes a themed multi-page experience for March holidays, personal plans, safety tips, profile customization, and settings.
+March Celebration Hub is a Bun + Elysia + HTMX web application built for **CISY 7203 GLO #1**.
+It presents March holidays, personal planning tools, safety tips, and profile customization in a single themed product.
+
+Repository: https://github.com/Mystery2099/Web-Programming-2-GLO-1
 
 ## Stack
 
@@ -11,56 +13,66 @@ It includes a themed multi-page experience for March holidays, personal plans, s
 - SQLite (`bun:sqlite`)
 - HTMX
 - Lucide icons
-- localForage (preference persistence)
+- localForage (client preference persistence)
+
+## Architecture (How It Works)
+
+Core request flow:
+
+`route -> controller -> use-case -> repository -> template`
+
+Responsibilities:
+
+- `routes/`: HTTP endpoints, query/body extraction, redirect decisions.
+- `controllers/`: transport orchestration (full page vs partial fragment).
+- `use-cases/`: business rules, validation coordination, domain decisions.
+- `repositories/`: parameterized SQL data access.
+- `templates/`: server-rendered JSX UI output.
+
+## Why Key Decisions Were Made
+
+- **URL-based toasts for redirect flows** (Holidays/Profile): keeps success/error state shareable and refresh-safe.
+- **HTMX OOB toasts for in-place plans actions**: updates list and feedback area in one response without full reload.
+- **localForage + cookie bootstrapping**: cookie sets initial paint theme/sidebar, localForage stores longer-term preferences.
+- **Page-specific JS modules** (`src/static/js/pages/*`): keeps templates declarative and reduces large inline scripts.
 
 ## Current Features
 
 ### Home
 - Hero section with spring wallpaper
-- Navigation into all feature areas
-- Quote, goals, and intro cards
+- Intro cards and navigation to all sections
 
 ### Holidays
 - Data-backed holidays table (seeded with 12 records)
-- Search and type filtering
+- Search + type filtering
 - Pagination with URL sync (`hx-push-url`)
-- Adjustable `itemsPerPage` control on-page
-- Add holiday page with client + server validation
-- Delete holiday with confirm flow and URL success toast
+- Adjustable `itemsPerPage`
+- Add holiday with validation
+- Delete holiday with confirmation + URL success toast
 
 ### My Journey (Profile)
-- Profile display card
-- Dedicated edit page (`/profile/edit`)
+- Profile display and dedicated edit page (`/profile/edit`)
 - URL-based success/error messaging
-- Server-side validation via use-cases/schemas
+- Server-side validation and persistence
 
 ### My Plans
 - Add, delete, complete/incomplete, pin/unpin
-- Live "Plan Snapshot" stats panel (total/completed/pinned/rate)
-- Error feedback toast area with auto-dismiss
+- Live "Plan Snapshot" panel (total/completed/pinned/rate)
+- Success/error feedback via toasts
 
 ### Tips
-- Data-backed tips cards (seeded with 10 records)
-- Search/filter interactions
-- Focus panel for seasonal guidance
+- Data-backed tip cards (seeded with 10 records)
+- Search interactions and focus panel
 
 ### Settings
 - Theme toggle (light/dark)
 - Text size slider (applies on release)
 - Animation toggle
-- Preference reset
-- Preferences persisted with localForage + cookie bootstrap for first paint
-
-### Shared UX
-- Toast auto-dismiss centralized in `client.js`
-- Sidebar collapse/expand with persisted state
-- Mobile-friendly responsive layout
-- Error pages present and styled
+- Reset preferences
 
 ## Screenshots
 
 ![Home (Light)](./screenshots/home-light.png)
-![Field of Daffodils Spotlight](./screenshots/field-of-daffodils-spotlight.png)
 ![Holidays (URL Sync)](./screenshots/holidays-url-sync.png)
 ![Add Holiday (Validation)](./screenshots/add-holiday-validation.png)
 ![Plans (Snapshot)](./screenshots/plans-snapshot.png)
@@ -70,16 +82,49 @@ It includes a themed multi-page experience for March holidays, personal plans, s
 ![Tips](./screenshots/tips.png)
 ![Settings](./screenshots/settings.png)
 
-## Assignment Coverage (CISY_7203_GLO_1_S26.md)
+## CISY Requirement Mapping
 
-- Strict site structure with navigation and index entry page
-- HTML structure usage (tables, headings, forms, semantic sections)
-- Images + text-rich content pages
-- CSS coverage including inline/internal/external styles
-- JavaScript interactive processing (validation, input management, UI state changes)
-- Data binding for profile, holidays, plans, and safety tips
-- At least 10 records in bound datasets
-- Responsive and accessibility-oriented design practices
+### 1) Site structure, CSS, JavaScript interaction
+- Multi-page structure + navigation + index entry:
+  - `src/templates/layout.tsx`
+  - `src/templates/header.tsx`
+  - `src/routes/index.ts`
+- HTML structural elements (tables/headings/forms/images):
+  - `src/templates/pages/holidays.tsx`
+  - `src/templates/pages/home.tsx`
+  - `src/templates/pages/profile-edit.tsx`
+- CSS requirements (inline/internal/external, backgrounds/margins/floats/borders/fonts):
+  - External: `src/static/css/main.css` (+ modular files)
+  - Internal: `src/templates/pages/home.tsx` (embedded style section)
+  - Inline: `src/templates/pages/plans.tsx` (`style=width:...` progress)
+  - Float example: `src/static/css/components/table.css`
+- JavaScript interactivity (validation/input handling/formatting changes):
+  - `src/static/js/client.js`
+  - `src/static/js/pages/add-holiday-page.js`
+  - `src/static/js/pages/settings-page.js`
+  - `src/static/js/pages/plans-page.js`
+
+### 2) Data binding for profile/holidays/plans/tips (10+ records)
+- Schema + seed data:
+  - `src/db/schema.ts`
+  - `src/db/seeds.ts`
+- Data-backed pages:
+  - `src/controllers/*.ts`
+  - `src/repositories/*.ts`
+  - `src/templates/pages/*.tsx`
+- Seed counts:
+  - holidays: 12
+  - tips: 10
+  - plans: 12
+  - profile: 1
+
+### 3) Design/accessibility/mobile
+- Responsive layout and page modules:
+  - `src/static/css/layout/*.css`
+  - `src/static/css/pages/*.css`
+- Accessibility helpers and semantic labels:
+  - `src/static/css/base/accessibility.css`
+  - `src/templates/pages/*.tsx` (labels, ARIA attributes)
 
 ## Project Structure
 
@@ -120,180 +165,18 @@ bun run typecheck
 bun run lint
 bun run lint:fix
 bun run format
-bun run docs
+bun run docs      # generate markdown API docs into ./docs/api
 bun run docs:serve
 ```
 
-## Database Seed Counts
+## Documentation
 
-- `holidays`: 12
-- `tips`: 10
-- `plans`: 12
-- `profile`: 1
+- API docs are generated in Markdown using TypeDoc + `typedoc-plugin-markdown`.
+- Config: `typedoc.json`
+- Output: `docs/api/`
 
 ## Notes for Contributors
 
 - Keep template files mostly declarative; page behavior should live in `src/static/js/pages/`.
 - Keep page styles in `src/static/css/pages/` and import through `src/static/css/main.css`.
 - Prefer URL state for filters/pagination where it improves shareability and consistency.
-
-- **Repository Pattern**: Data access abstraction
-- **Dependency Injection**: Loose coupling between components
-- **MVC Architecture**: Clear separation of concerns
-- **Server-Side Rendering**: JSX templates rendered on the server
-- **Hypermedia-Driven UI**: HTMX for dynamic interactions
-
----
-
-## 🎨 Design System
-
-### Color Palette
-
-#### Light Mode
-| Color | Hex | Usage |
-|-------|-----|-------|
-| Primary (Terracotta) | `#A95A38` | Buttons, accents |
-| Secondary (Sage) | `#5B7E68` | Secondary buttons |
-| Background | `#FAF7F2` | Page background |
-| Nav Background | `#1A3A4D` | Sidebar |
-| Gold | `#FFD700` | Highlights |
-
-#### Dark Mode
-| Color | Hex | Usage |
-|-------|-----|-------|
-| Primary | `#D98068` | Buttons, accents |
-| Background | `#0D1B2A` | Page background |
-| Nav Background | `#08151D` | Sidebar |
-| Card Background | `#1A2633` | Cards |
-
-### Typography
-
-- **Headings**: Playfair Display (serif)
-- **Body**: DM Sans (sans-serif)
-- **Code**: DejaVu Sans Mono
-
----
-
-## 🌐 API Endpoints
-
-### Holidays
-
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | `/holidays` | List all holidays |
-| POST | `/holidays` | Create new holiday |
-| PUT | `/holidays/:id` | Update holiday |
-| DELETE | `/holidays/:id` | Delete holiday |
-
-### Plans
-
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | `/plans` | List all plans |
-| POST | `/plans` | Create new plan |
-| PUT | `/plans/:id/toggle` | Toggle completion |
-| DELETE | `/plans/:id` | Delete plan |
-
-### Profile
-
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | `/profile` | Get user profile |
-| PUT | `/profile` | Update profile |
-
-### Tips
-
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | `/tips` | List all tips |
-
----
-
-## 🔒 Accessibility
-
-This application follows **WCAG 2.1 AA** guidelines:
-
-- ✅ Semantic HTML structure
-- ✅ ARIA labels for interactive elements
-- ✅ Keyboard navigation support
-- ✅ High contrast color ratios
-- ✅ Screen reader compatible
-- ✅ Responsive design for all devices
-- ✅ Focus indicators for all interactive elements
-
----
-
-## 📝 Data Seeded
-
-### March Holidays (12 records)
-
-| Holiday | Date | Type |
-|---------|------|------|
-| St. David's Day | March 1 | Cultural |
-| International Women's Day | March 8 | Global |
-| Pi Day | March 14 | Fun |
-| St. Patrick's Day | March 17 | Cultural |
-| First Day of Spring | March 19 | Astronomical |
-| World Forestry Day | March 21 | Environmental |
-| World Water Day | March 22 | Environmental |
-| International Day for Elimination of Racial Discrimination | March 21 | Global |
-| National Cookie Day | March 24 | Fun |
-| National Single Parent Day | March 26 | Awareness |
-| World Theatre Day | March 27 | Cultural |
-| Easter Sunday | March 31 | Religious |
-
-### Safety Tips (10 records)
-
-Categories: Weather, Health, Outdoor, Safety
-
----
-
-## 🤝 Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
----
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-Copyright (c) 2026 Mathew Kennedy-Brewer
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-
----
-
-## 👤 Author
-
-**Mathew Kennedy-Brewer** ([@Mystery2099](https://github.com/Mystery2099))
-
----
-
-<div align="center">
-
-**Made with ❤️ for CISY 7203 - Web Programming 2**
-
-</div>

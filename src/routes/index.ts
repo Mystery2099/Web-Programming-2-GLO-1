@@ -8,6 +8,12 @@ import { layout } from '@/templates/layout';
 import { homePage, htmxErrorFragment, notFoundPage, settingsPage } from '@/templates/pages';
 import { PAGE_TITLES } from '@/config/constants';
 
+/**
+ * Registers all route groups and shared top-level pages.
+ *
+ * Request flow in this project:
+ * `route -> controller -> use-case -> repository -> template`.
+ */
 export const registerAllRoutes = (app: AnyElysia, controllers: Controllers): void => {
 	app
 		.get('/', () => layout(homePage(), PAGE_TITLES.home, 'home'))

@@ -52,6 +52,13 @@ export class ProfileUseCases {
 		return this.profileRepo.get();
 	}
 
+	/**
+	 * Validates and normalizes profile updates.
+	 *
+	 * Why this exists:
+	 * - Controllers should map transport data only.
+	 * - Repositories should persist trusted, normalized fields only.
+	 */
 	updateProfile(dto: UpdateProfileDTO): UseCaseResult<Profile> {
 		const profile = this.profileRepo.get();
 

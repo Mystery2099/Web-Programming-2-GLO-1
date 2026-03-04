@@ -1,11 +1,12 @@
 {
 	"entryPoints": ["./src"],
-	"out": "./docs",
-	"name": "March Celebration",
+	"entryPointStrategy": "expand",
+	"exclude": ["**/*.js", "**/*.min.js"],
+	"out": "./docs/api",
+	"name": "March Celebration API",
 	"includeVersion": true,
 	"excludePrivate": false,
 	"excludeProtected": false,
-	"theme": "default",
-	"plugin": ["typedoc-plugin-markdown"],
-	"markdownEngine": "marked"
+	"readme": "none",
+	"plugin": ["typedoc-plugin-markdown"]
 }

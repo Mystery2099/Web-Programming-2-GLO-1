@@ -4,7 +4,7 @@ import { DEFAULT_PROFILE, getRandomPortrait } from './profile-data.js';
 
 const { escapeHtml } = Html;
 
-interface ProfileDisplayProps {
+export interface ProfileDisplayProps {
 	profile: Profile | undefined;
 }
 

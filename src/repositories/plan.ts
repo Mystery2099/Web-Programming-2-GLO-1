@@ -15,6 +15,7 @@ export class PlanRepository implements IPlanRepository {
 		this.db = db;
 	}
 
+	/** Returns plans sorted with pinned items first, optionally including hidden rows. */
 	getAll(includeHidden = false): Plan[] {
 		const query = includeHidden
 			? 'SELECT * FROM plans ORDER BY is_pinned DESC, created_at DESC'
@@ -22,17 +23,20 @@ export class PlanRepository implements IPlanRepository {
 		return this.db.query(query).all() as Plan[];
 	}
 
+	/** Returns one visible plan by ID. */
 	getById(id: number): Plan | undefined {
 		return this.db.query('SELECT * FROM plans WHERE id = ? AND is_hidden = 0').get(id) as
 			| Plan
 			| undefined;
 	}
 
+	/** Inserts a new plan activity and returns the created row. */
 	create(activity: string): Plan | undefined {
 		const result = this.db.query('INSERT INTO plans (activity) VALUES (?)').run(activity);
 		return this.getById(Number(result.lastInsertRowid));
 	}
 
+	/** Toggles completion status for a plan; false means target row was not found. */
 	toggleComplete(id: number): boolean {
 		const existing = this.db.query('SELECT is_completed FROM plans WHERE id = ?').get(id) as
 			| { is_completed: number }
@@ -46,6 +50,7 @@ export class PlanRepository implements IPlanRepository {
 		return false;
 	}
 
+	/** Toggles pinned status for a plan; false means target row was not found. */
 	togglePin(id: number): boolean {
 		const existing = this.db.query('SELECT is_pinned FROM plans WHERE id = ?').get(id) as
 			| { is_pinned: number }
@@ -59,6 +64,7 @@ export class PlanRepository implements IPlanRepository {
 		return false;
 	}
 
+	/** Soft-deletes a plan by marking it hidden; returns whether a row existed. */
 	hide(id: number): boolean {
 		const existing = this.db.query('SELECT id FROM plans WHERE id = ?').get(id) as
 			| { id: number }

@@ -5,7 +5,7 @@ import { tipsList, tipsPage } from '@/templates/pages/tips';
 import { PAGE_TITLES } from '@/config/constants';
 import type { TipsPageData } from '@/templates/pages/tips';
 
-interface TipRoutesParams {
+export interface TipRoutesParams {
 	app: Elysia;
 	tipController: TipController;
 }

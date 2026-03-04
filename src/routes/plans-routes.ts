@@ -4,7 +4,7 @@ import { layout } from '@/templates/layout';
 import { PAGE_TITLES } from '@/config/constants';
 import { escapeHtml } from '@/utils/http-helpers';
 
-interface PlanRoutesParams {
+export interface PlanRoutesParams {
 	app: Elysia;
 	planController: PlanController;
 }
@@ -15,6 +15,14 @@ const plansErrorToastOob = (message: string): string =>
 const plansSuccessToastOob = (message: string): string =>
 	`<div id="plans-feedback" hx-swap-oob="innerHTML"><div class="toast toast-success" aria-live="polite">${escapeHtml(message)}</div></div>`;
 
+/**
+ * Plans route group.
+ *
+ * Design note:
+ * - Plans are edited in-place with HTMX.
+ * - Feedback toasts are returned as out-of-band (OOB) fragments so the list
+ *   and feedback area can update in one response without full-page navigation.
+ */
 export const registerPlanRoutes = ({ app, planController }: PlanRoutesParams): void => {
 	app
 		.get('/plans', () => {

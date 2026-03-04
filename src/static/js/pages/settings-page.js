@@ -1,5 +1,3 @@
-import localforage from "localforage";
-
 window.initSettingsPage = function initSettingsPage() {
 	const root = document.getElementById('settings');
 	if (!root || root.dataset.jsBound === 'true') return;

@@ -15,6 +15,7 @@ export class HolidayRepository implements IHolidayRepository {
 		this.db = db;
 	}
 
+	/** Returns visible holidays, optionally filtered by type and text query. */
 	getAll(filters: HolidayFilters = {}): Holiday[] {
 		let query = 'SELECT * FROM holidays WHERE is_hidden = 0';
 		const params: string[] = [];
@@ -39,18 +40,21 @@ export class HolidayRepository implements IHolidayRepository {
 		return holidays;
 	}
 
+	/** Returns a visible holiday by numeric ID. */
 	getById(id: number): Holiday | undefined {
 		return this.db.query('SELECT * FROM holidays WHERE id = ? AND is_hidden = 0').get(id) as
 			| Holiday
 			| undefined;
 	}
 
+	/** Returns a visible holiday scheduled on a specific March day. */
 	getByDay(day: number): Holiday | undefined {
 		return this.db.query('SELECT * FROM holidays WHERE day = ? AND is_hidden = 0').get(day) as
 			| Holiday
 			| undefined;
 	}
 
+	/** Creates a holiday record and returns the inserted row when successful. */
 	create(name: string, day: number, type: HolidayType, description: string): Holiday | undefined {
 		const result = this.db
 			.query('INSERT INTO holidays (name, day, type, description) VALUES (?, ?, ?, ?)')
@@ -58,6 +62,7 @@ export class HolidayRepository implements IHolidayRepository {
 		return this.getById(Number(result.lastInsertRowid));
 	}
 
+	/** Soft-deletes a holiday by marking it hidden; returns whether a row existed. */
 	hide(id: number): boolean {
 		const existing = this.db.query('SELECT name FROM holidays WHERE id = ?').get(id) as
 			| { name: string }
@@ -69,6 +74,7 @@ export class HolidayRepository implements IHolidayRepository {
 		return false;
 	}
 
+	/** Lists distinct holiday type values from visible holiday rows. */
 	getTypes(): string[] {
 		const results = this.db
 			.query('SELECT DISTINCT type FROM holidays WHERE is_hidden = 0')
@@ -76,6 +82,7 @@ export class HolidayRepository implements IHolidayRepository {
 		return results.map((r) => r.type);
 	}
 
+	/** Returns the number of visible holiday rows. */
 	getCount(): number {
 		const result = this.db
 			.query('SELECT COUNT(*) as count FROM holidays WHERE is_hidden = 0')

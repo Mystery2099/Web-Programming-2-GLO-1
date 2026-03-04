@@ -2,11 +2,19 @@ import type { Elysia } from 'elysia';
 import { HolidayController } from '@/controllers';
 import { redirectTo } from '@/utils/http-helpers';
 
-interface HolidayRoutesParams {
+export interface HolidayRoutesParams {
 	app: Elysia;
 	holidayController: HolidayController;
 }
 
+/**
+ * Holidays route group.
+ *
+ * Design note:
+ * - Successful create/delete operations redirect with URL message params
+ *   so toast state is shareable and consistent with profile flows.
+ * - Table filtering/pagination stays HTMX-driven for responsiveness.
+ */
 export const registerHolidayRoutes = ({ app, holidayController }: HolidayRoutesParams): void => {
 	app
 		.get('/holidays', ({ query, request }) => {

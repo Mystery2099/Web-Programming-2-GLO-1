@@ -7,6 +7,10 @@ import type { Plan } from '@/types/database';
 export class PlanController {
 	constructor(private planUseCases: PlanUseCases) {}
 
+	/**
+	 * Builds only the plan card list fragment.
+	 * Returned for HTMX partial swaps after list mutations.
+	 */
 	private buildPlansHtml() {
 		const plansData: PlansPageData = { plans: this.planUseCases.getAll() };
 		return plansList(plansData);

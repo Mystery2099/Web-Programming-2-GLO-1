@@ -13,6 +13,11 @@ import type { ControllerResult } from '@/types/controller';
 export class HolidayController {
 	constructor(private holidayUseCases: HolidayUseCases) {}
 
+	/**
+	 * Composes holiday page data and returns either:
+	 * - full layout (normal request), or
+	 * - partial page fragment (HTMX request).
+	 */
 	private buildHolidaysPageData(
 		params: {
 			search?: string;

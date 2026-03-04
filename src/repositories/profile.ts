@@ -15,10 +15,12 @@ export class ProfileRepository implements IProfileRepository {
 		this.db = db;
 	}
 
+	/** Returns the single persisted profile row, if present. */
 	get(): Profile | undefined {
 		return this.db.query('SELECT * FROM profile LIMIT 1').get() as Profile | undefined;
 	}
 
+	/** Updates allowed profile fields on the single profile row. */
 	update(data: Partial<Profile>): boolean {
 		const profile = this.get();
 		if (!profile) return false;
