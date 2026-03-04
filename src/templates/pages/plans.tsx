@@ -22,6 +22,7 @@ export const plansPage = ({ plans }: PlansPageData) => {
 			<i data-lucide="list-todo" aria-hidden="true"></i> My March Plans
 		</h2>
 		<p>Plan and track your March activities!</p>
+		<div id="plans-feedback" aria-live="polite"></div>
 
 		<div class="plans-top-grid">
 			<div class="form-card">
@@ -31,7 +32,6 @@ export const plansPage = ({ plans }: PlansPageData) => {
 					hx-post="/plans"
 					hx-target="#plans-list"
 					hx-swap="innerHTML"
-					onsubmit="return validateForm(this)"
 				>
 					<div class="form-group">
 						<label for="plan-input">Activity</label>
@@ -44,9 +44,6 @@ export const plansPage = ({ plans }: PlansPageData) => {
 							maxlength={100}
 							aria-label="Activity name"
 						/>
-						<span class="error-message">
-							Please enter a valid activity (3-100 characters, no special characters)
-						</span>
 					</div>
 					<button type="submit" class="btn btn-primary">
 						<span class="htmx-indicator">
