@@ -1,6 +1,7 @@
 import { Html } from '@elysiajs/html';
 import type { Profile } from '@/types/database';
 import { ProfileDisplay } from './profile-display.js';
+import { Toast } from '../components/toast.js';
 
 export interface ProfilePageData {
 	profile: Profile | undefined;
@@ -21,10 +22,7 @@ export const profilePage = ({ profile, message = '' }: ProfilePageData) => (
 		<p>Your personal celebration identity and March adventures!</p>
 
 		{message && (
-			<div class="profile-notice" role="status" aria-live="polite">
-				<i data-lucide="check-circle" aria-hidden="true"></i>
-				<span>{message}</span>
-			</div>
+			<Toast message={message} type="success" />
 		)}
 
 		<ProfileDisplay profile={profile} />

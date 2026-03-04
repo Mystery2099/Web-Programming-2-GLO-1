@@ -78,19 +78,6 @@
 	flex-shrink: 0;
 }
 
-.profile-notice {
-	display: inline-flex;
-	align-items: center;
-	gap: 0.5rem;
-	padding: 0.55rem 0.8rem;
-	margin: 0.75rem 0 1rem;
-	border-radius: 10px;
-	border: 1px solid color-mix(in srgb, var(--alert-success-base) 45%, var(--border) 55%);
-	background: color-mix(in srgb, var(--alert-success-base) 14%, var(--surface) 86%);
-	color: color-mix(in srgb, var(--alert-success-light) 62%, var(--text) 38%);
-	font-size: 0.92rem;
-}
-
 .profile-edit-page {
 	max-width: 72rem;
 }
