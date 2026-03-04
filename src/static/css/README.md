@@ -46,8 +46,6 @@ css/
 │   ├── tips.css        # Tips page
 │   └── error.css       # Error pages
 │
-└── utilities/          # Helper classes
-    └── helpers.css     # Utility classes (margin, flex, etc.)
 ```
 
 ## Naming Convention (BEM)
@@ -101,13 +99,13 @@ Files are imported in this order in `main.css`:
 2. **Layout** - App structure, navigation, footer
 3. **Components** - Reusable UI elements
 4. **Pages** - Page-specific overrides
-5. **Utilities** - Helper classes (loaded last for override capability)
 
 ## Current Direction
 
 - Keep page-specific styling out of inline `<style>` blocks in templates.
 - Add or update page styles under `pages/*.css` and import in `main.css`.
 - Keep reusable styles in `components/*.css` to avoid duplication.
+- Utility helpers are intentionally omitted unless they provide clear reuse value.
 
 ## Adding New Styles
 
@@ -142,4 +140,3 @@ Files are imported in this order in `main.css`:
 | layout/*.css | structure | App shell, sidebar, footer |
 | components/*.css | shared UI | Buttons, forms, tables, toasts, etc. |
 | pages/*.css | page-specific | Home, holidays, plans, profile, tips, settings, errors |
-| utilities/*.css | helpers | Utility classes |

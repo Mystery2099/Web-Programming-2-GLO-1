@@ -42,6 +42,3 @@
 @import './pages/profile.css';
 @import './pages/settings.css';
 @import './pages/tips.css';
-
-/* Utilities - Helper classes */
-@import './utilities/helpers.css';
