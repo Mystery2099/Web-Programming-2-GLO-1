@@ -47,6 +47,24 @@ export const registerHolidayRoutes = ({ app, holidayController }: HolidayRoutesP
 
 			return result;
 		})
+		.post('/holidays/:id/delete', ({ params, query }) => {
+			const queryParams = query as {
+				search?: string;
+				filter?: string;
+				page?: string;
+				itemsPerPage?: string;
+			};
+			holidayController.deleteHolidayById(params.id);
+
+			const search = encodeURIComponent(queryParams.search ?? '');
+			const filter = encodeURIComponent(queryParams.filter ?? '');
+			const page = encodeURIComponent(queryParams.page ?? '1');
+			const itemsPerPage = encodeURIComponent(queryParams.itemsPerPage ?? '10');
+			const message = encodeURIComponent('Holiday deleted successfully!');
+			return redirectTo(
+				`/holidays?search=${search}&filter=${filter}&page=${page}&itemsPerPage=${itemsPerPage}&message=${message}`
+			);
+		})
 		.delete('/holidays/:id', ({ params, query, request }) => {
 			const queryParams = query as {
 				search?: string;
